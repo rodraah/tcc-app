@@ -1,0 +1,298 @@
+"""Gesture→action mapping editor + settings editor."""
+
+import json
+from pathlib import Path
+
+import customtkinter as ctk
+
+from gui.widgets.wizard import SetupWizard, _probe_cameras, _probe_mics
+
+# Path to the gesture→action mapping file
+MAPPING_PATH = Path(__file__).resolve().parent.parent.parent / "mapeamento.json"
+
+
+class GestureMapPage(ctk.CTkScrollableFrame):
+    """Page for editing gesture-to-action bindings and app settings."""
+
+    def __init__(self, master, on_settings_changed=None, **kwargs):
+        super().__init__(master, **kwargs)
+        self.on_settings_changed = on_settings_changed
+
+        # --- Gesture→Action Mapping Section ---
+        ctk.CTkLabel(
+            self,
+            text="Mapeamento Gesto → Ação",
+            font=ctk.CTkFont(size=20, weight="bold"),
+            anchor="w",
+        ).pack(anchor="w", padx=10, pady=(10, 5))
+
+        self.mapping_frame = ctk.CTkFrame(self)
+        self.mapping_frame.pack(fill="x", padx=10, pady=5)
+
+        self._mapping_entries: list[dict] = []
+        self._load_mapping()
+
+        # Add new binding row
+        add_row = ctk.CTkFrame(self.mapping_frame, fg_color="transparent")
+        add_row.pack(fill="x", padx=10, pady=(5, 10))
+
+        self.new_gesture = ctk.CTkEntry(add_row, placeholder_text="Nome do gesto", width=180)
+        self.new_gesture.pack(side="left", padx=(0, 5))
+
+        ctk.CTkLabel(add_row, text="→").pack(side="left")
+
+        self.new_action = ctk.CTkEntry(add_row, placeholder_text="Nome da ação", width=180)
+        self.new_action.pack(side="left", padx=(5, 5))
+
+        ctk.CTkButton(
+            add_row, text="Adicionar", width=60, command=self._add_binding
+        ).pack(side="left", padx=5)
+
+        # --- Settings Section ---
+        ctk.CTkLabel(
+            self,
+            text="Configurações",
+            font=ctk.CTkFont(size=20, weight="bold"),
+            anchor="w",
+        ).pack(anchor="w", padx=10, pady=(20, 5))
+
+        self.settings_frame = ctk.CTkFrame(self)
+        self.settings_frame.pack(fill="x", padx=10, pady=5)
+
+        self._settings_widgets: dict[str, ctk.CTkEntry] = {}
+        self._build_settings()
+
+        # --- Devices Section (camera + microphone selection) ---
+        self._build_devices()
+
+    # --- Mapping ---
+
+    def _load_mapping(self):
+        """Load gesture→action mapping from JSON file."""
+        try:
+            with open(MAPPING_PATH, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            data = {}
+
+        # Support both old flat format and new nested format with "gesto_para_acao"
+        mapping = data.get("gesto_para_acao", data)
+
+        for gesture, action in mapping.items():
+            self._add_mapping_row(gesture, action)
+
+    def _add_mapping_row(self, gesture: str, action: str):
+        """Add a single mapping row to the UI."""
+        row = ctk.CTkFrame(self.mapping_frame, fg_color="transparent")
+        row.pack(fill="x", padx=10, pady=2)
+
+        gesture_label = ctk.CTkLabel(row, text=gesture, width=180, anchor="w")
+        gesture_label.pack(side="left")
+
+        ctk.CTkLabel(row, text="→").pack(side="left", padx=5)
+
+        action_label = ctk.CTkLabel(row, text=action, width=180, anchor="w")
+        action_label.pack(side="left")
+
+        remove_btn = ctk.CTkButton(
+            row,
+            text="×",
+            width=30,
+            fg_color="red",
+            hover_color="darkred",
+            command=lambda g=gesture: self._remove_binding(g),
+        )
+        remove_btn.pack(side="right")
+
+        self._mapping_entries.append(
+            {"gesture": gesture, "action": action, "row": row}
+        )
+
+    def _add_binding(self):
+        """Add a new gesture→action binding."""
+        gesture = self.new_gesture.get().strip()
+        action = self.new_action.get().strip()
+        if not gesture or not action:
+            return
+        self._add_mapping_row(gesture, action)
+        self.new_gesture.delete(0, "end")
+        self.new_action.delete(0, "end")
+        self._save_mapping()
+
+    def _remove_binding(self, gesture: str):
+        """Remove a gesture→action binding."""
+        # Find and destroy the row widget
+        for entry in self._mapping_entries:
+            if entry["gesture"] == gesture:
+                entry["row"].destroy()
+                break
+        # Update internal list
+        self._mapping_entries = [
+            e for e in self._mapping_entries if e["gesture"] != gesture
+        ]
+        self._save_mapping()
+
+    def _save_mapping(self):
+        """Persist the current mapping to JSON."""
+        mapping = {e["gesture"]: e["action"] for e in self._mapping_entries}
+        # Save in nested format with schema version
+        data = {"schema": 1, "gesto_para_acao": mapping}
+        with open(MAPPING_PATH, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+
+    # --- Settings ---
+
+    def _build_settings(self):
+        """Build the settings editor fields."""
+        settings = [
+            ("Duração do Hold (s)", "DURACAO_HOLD_SEGUNDOS", "3.0"),
+            ("Confiança Mínima", "CONFIANCA_MINIMA_GESTO_PRONTO", "0.6"),
+            ("Tolerância de Gap (frames)", "TOLERANCIA_GAP_FRAMES", "3"),
+            ("Limiar da Pinça", "LIMIAR_PINCA", "0.04"),
+            ("Índice da Câmera", "CAMERA_INDEX", "0"),
+        ]
+
+        for label, key, default in settings:
+            row = ctk.CTkFrame(self.settings_frame, fg_color="transparent")
+            row.pack(fill="x", padx=10, pady=3)
+
+            ctk.CTkLabel(row, text=label, width=200, anchor="w").pack(side="left")
+
+            entry = ctk.CTkEntry(row, width=100)
+            entry.insert(0, default)
+            entry.pack(side="left", padx=(10, 0))
+
+            self._settings_widgets[key] = entry
+
+        ctk.CTkButton(
+            self.settings_frame,
+            text="Aplicar Configurações",
+            command=self._apply_settings,
+        ).pack(padx=10, pady=10)
+
+    def _apply_settings(self):
+        """Apply settings (placeholder — will update config singleton later)."""
+        for key, entry in self._settings_widgets.items():
+            value = entry.get()
+            print(f"[Configurações] {key} = {value}")  # TODO: update config singleton
+
+    # --- Devices (camera + microphone) ---
+
+    def _build_devices(self):
+        """Build the camera and microphone selectors.
+
+        Pre-populated from ``config/app_state.json``.  Changing a selection
+        persists it and notifies the app (via ``on_settings_changed``) so the
+        running recognition threads are restarted with the new device.
+        """
+        ctk.CTkLabel(
+            self,
+            text="Dispositivos",
+            font=ctk.CTkFont(size=20, weight="bold"),
+            anchor="w",
+        ).pack(anchor="w", padx=10, pady=(20, 5))
+
+        self.devices_frame = ctk.CTkFrame(self)
+        self.devices_frame.pack(fill="x", padx=10, pady=5)
+
+        settings = SetupWizard.load_settings()
+        current_camera = settings.get("camera_index", 0)
+        current_mic = settings.get("mic_device_id")
+
+        # --- Camera selector ---
+        cam_row = ctk.CTkFrame(self.devices_frame, fg_color="transparent")
+        cam_row.pack(fill="x", padx=10, pady=3)
+        ctk.CTkLabel(cam_row, text="Câmera", width=200, anchor="w").pack(
+            side="left"
+        )
+
+        self._cameras = _probe_cameras()
+        if self._cameras:
+            # Ensure the persisted camera is selectable even if it wasn't
+            # detected this time (it may be temporarily unavailable).
+            if current_camera not in self._cameras:
+                self._cameras.append(current_camera)
+                self._cameras.sort()
+            cam_labels = [f"Câmera {i}" for i in self._cameras]
+            self._camera_menu = ctk.CTkOptionMenu(
+                cam_row,
+                values=cam_labels,
+                width=200,
+                command=self._on_camera_change,
+            )
+            self._camera_menu.set(f"Câmera {current_camera}")
+            self._camera_menu.pack(side="left", padx=(10, 0))
+        else:
+            ctk.CTkLabel(
+                cam_row,
+                text="Nenhuma câmera detectada",
+                text_color="orange",
+            ).pack(side="left", padx=(10, 0))
+            self._camera_menu = None
+
+        # --- Microphone selector ---
+        mic_row = ctk.CTkFrame(self.devices_frame, fg_color="transparent")
+        mic_row.pack(fill="x", padx=10, pady=3)
+        ctk.CTkLabel(mic_row, text="Microfone", width=200, anchor="w").pack(
+            side="left"
+        )
+
+        self._mics = _probe_mics()
+        if self._mics:
+            mic_labels = [name for _, name in self._mics]
+            self._mic_menu = ctk.CTkOptionMenu(
+                mic_row,
+                values=mic_labels,
+                width=200,
+                command=self._on_mic_change,
+            )
+            # Select the persisted mic if it's still present.
+            current_mic_name = None
+            for dev_id, name in self._mics:
+                if dev_id == current_mic:
+                    current_mic_name = name
+                    break
+            if current_mic_name:
+                self._mic_menu.set(current_mic_name)
+            self._mic_menu.pack(side="left", padx=(10, 0))
+        else:
+            ctk.CTkLabel(
+                mic_row,
+                text="Nenhum microfone detectado",
+                text_color="orange",
+            ).pack(side="left", padx=(10, 0))
+            self._mic_menu = None
+
+    def _on_camera_change(self, choice: str):
+        """Handle camera dropdown selection."""
+        idx = int(choice.split()[-1])
+        self._save_devices(camera_index=idx)
+
+    def _on_mic_change(self, choice: str):
+        """Handle microphone dropdown selection."""
+        mic_id = None
+        for dev_id, name in self._mics:
+            if name == choice:
+                mic_id = dev_id
+                break
+        self._save_devices(mic_device_id=mic_id)
+
+    def _save_devices(self, camera_index=None, mic_device_id=None):
+        """Persist the device selection and notify the app to restart threads.
+
+        Only the provided keys are updated; the rest of the settings are
+        preserved.  ``on_settings_changed`` is invoked with the full current
+        camera/mic values so ``main.py`` can recreate the recognition threads.
+        """
+        settings = SetupWizard.load_settings()
+        if camera_index is not None:
+            settings["camera_index"] = camera_index
+        if mic_device_id is not None:
+            settings["mic_device_id"] = mic_device_id
+        SetupWizard.save_settings(settings)
+
+        if self.on_settings_changed:
+            self.on_settings_changed(
+                settings.get("camera_index", 0),
+                settings.get("mic_device_id"),
+            )

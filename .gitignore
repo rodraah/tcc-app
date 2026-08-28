@@ -1,0 +1,9 @@
+__pycache__
+
+config/app_state.json
+
+# Modelos de IA
+*.task
+
+# Logs e transcripts
+*.log

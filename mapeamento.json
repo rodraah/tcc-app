@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "gesto_para_acao": {
+    "Closed_Fist": "minimizar",
+    "Pinça": "lupa"
+  }
+}

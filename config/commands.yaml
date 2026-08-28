@@ -1,0 +1,452 @@
+wake_word: assistente
+wake_word_required: false
+fuzzy_threshold: 70
+verb_fuzzy_threshold: 70
+cooldown_seconds: 0.5
+cooldown_exempt:
+  - hotkey
+  - press_key
+  - browser_scroll
+  - volume
+  - switch_window
+  - window_action
+  - browser_zoom
+  - browser_switch_tab
+  - browser_youtube
+
+audio:
+  sample_rate: 16000
+  ambient_noise_duration: 1.5
+  dynamic_energy_threshold: true
+  energy_threshold: 300
+  # Frases de 2+ palavras (ex.: "selecionar tudo"): se cortar o 2º termo, suba para ~1.0
+  pause_threshold: 0.95
+  non_speaking_duration: 0.5
+  phrase_time_limit: 12
+  listen_timeout: 10
+  recalibrate_every: 30
+
+stt:
+  engine: google
+  language: pt-BR
+  vosk_model_path: models/vosk-model-pt-fb-v0.1.1-pruned
+  vosk_use_grammar: false
+  # Offline preferido quando Google falha (senão Vosk).
+  whisper_model: base
+  whisper_device: cpu
+  whisper_compute_type: int8
+  # "holly para baixo"≈"role para baixo" ~84 — 80 cobre STT ruim sem abrir demais.
+  soft_correct_threshold: 80
+
+tts:
+  enabled: true
+
+verbs:
+  - abrir
+  - abre
+  - abre o
+  - iniciar
+  - navegar
+  - digitar
+  - escrever
+  - digite
+  - digita
+  - focar
+  - foca
+  - foco
+
+verb_aliases:
+  abril: abrir
+  abri: abrir
+  abre: abrir
+  abra: abrir
+  navega: navegar
+  digita: digitar
+  digite: digitar
+  escreve: escrever
+  escreva: escrever
+  inicia: iniciar
+  foca: focar
+  foque: focar
+
+apps:
+  bloco de notas: notepad
+  bloco: notepad
+  notas: notepad
+  notepad: notepad
+  calculadora: calc
+  calc: calc
+  navegador: browser
+  explorador: explorer
+  explorer: explorer
+  arquivos: explorer
+  configuracoes: "start ms-settings:"
+  settings: "start ms-settings:"
+  prompt: cmd
+  terminal: cmd
+  paint: mspaint
+
+close_verbs:
+  - fechar
+  - fecha
+  - encerrar
+
+close_verb_aliases:
+  fecha: fechar
+  encerra: encerrar
+  fechae: fechar
+
+app_close:
+  notepad:
+    process: notepad.exe
+    titles:
+      - bloco de notas
+      - notepad
+  calc:
+    titles:
+      - calculadora
+      - calculator
+  browser:
+    titles:
+      - chrome
+      - edge
+      - firefox
+  explorer:
+    titles:
+      - explorador de arquivos
+      - file explorer
+      - explorador
+  cmd:
+    titles:
+      - prompt de comando
+      - cmd.exe
+      - comando
+  mspaint:
+    titles:
+      - paint
+
+type_prefixes:
+  - digitar
+  - digita
+  - digite
+  - escrever
+  - escreva
+
+dialog_choices:
+  save:
+    - salvar
+    - save
+    - sim
+  discard:
+    - nao salvar
+    - nao
+    - descartar
+  cancel:
+    - cancelar
+    - cancel
+
+save:
+  default_dir: ~/Documents/VoiceAssistant
+  filename_pattern: "nota_{timestamp}.txt"
+
+browser:
+  # auto | chrome | msedge | chromium — auto escolhe Edge/Chrome instalado.
+  channel: auto
+  # Anexar a Chrome/Edge já aberto com --remote-debugging-port=9222 (ex.: http://127.0.0.1:9222).
+  # Vazio = lança o channel acima. Preferível para cookies/sessão e menos desafio.
+  cdp_url: ""
+  # Perfil persistente local (só se cdp_url vazio). Reduz CAPTCHA entre sessões.
+  user_data_dir: ".browser-profile"
+  headless: false
+  default_url: https://www.bing.com
+  search_url: "https://www.bing.com/search?q={query}"
+  # Usado só se Bing bloquear (CAPTCHA / desafio).
+  fallback_search_url: "https://duckduckgo.com/?q={query}"
+  # Se a aba atual for YouTube, "pesquisar X" usa isto em vez do Bing.
+  youtube_search_url: "https://www.youtube.com/results?search_query={query}"
+  scroll_amount: 600
+  scroll_steps: 1
+  scroll_step_ms: 0
+  click_fuzzy_threshold: 75
+  link_selectors:
+    duckduckgo: "li.b_algo h2 a"
+    generic: "main a[href], article a[href]"
+
+folders:
+  downloads: "shell:Downloads"
+  download: "shell:Downloads"
+  documentos: "shell:Personal"
+  documento: "shell:Personal"
+  docs: "shell:Personal"
+  imagens: "shell:My Pictures"
+  fotos: "shell:My Pictures"
+  area de trabalho: "shell:Desktop"
+  desktop: "shell:Desktop"
+  musica: "shell:My Music"
+  videos: "shell:My Video"
+
+folder_prefixes:
+  - abrir pasta
+  - abre pasta
+  - abrir a pasta
+
+windows_search_prefixes:
+  - pesquisar no windows
+  - pesquisa no windows
+  - buscar no windows
+  - busca no windows
+  - pesquisar no sistema
+  - busca windows
+
+goto_prefixes:
+  - ir para
+  - vai para
+  - navegar para
+  - abrir endereco
+  - barra de endereco
+  - endereco
+
+find_page_prefixes:
+  - encontrar na pagina
+  - achar na pagina
+  - buscar na pagina
+  - procura na pagina
+  - procurar na pagina
+
+tab_switch:
+  proxima aba: next
+  aba seguinte: next
+  aba anterior: prev
+  voltar aba: prev
+
+youtube_actions:
+  pausar video: play_pause
+  pausar o video: play_pause
+  play video: play_pause
+  reproduzir video: play_pause
+  continuar video: play_pause
+  despausar video: play_pause
+  avancar video: forward
+  pular video: forward
+  pular 10 segundos: forward
+  retroceder video: rewind
+  voltar video: rewind
+  voltar 10 segundos: rewind
+  mudo video: mute
+  tela cheia: fullscreen
+  fullscreen: fullscreen
+
+# Só quando a aba atual é YouTube (evita roubar "avancar"/"mudo" do sistema).
+youtube_short_actions:
+  pausar: play_pause
+  pause: play_pause
+  despausar: play_pause
+  continuar: play_pause
+  play: play_pause
+  reproduzir: play_pause
+  avancar: forward
+  avance: forward
+  pular: forward
+  retroceder: rewind
+  aumentar som: volume_up
+  som mais: volume_up
+  volume do video: volume_up
+  diminuir som: volume_down
+  abaixar som: volume_down
+  som menos: volume_down
+  mudo: mute
+  silenciar: mute
+  tirar mudo: mute
+  tela cheia: fullscreen
+
+search_prefixes:
+  - pesquisar
+  - pesquisa
+  - pesquise
+  - buscar
+  - busca
+  - procure
+  - procurar
+
+click_verbs:
+  - clique
+  - clica
+  - clicar
+
+back_verbs:
+  - voltar
+  - volte
+  - retornar
+  - retorne
+
+forward_verbs:
+  - avancar
+  - avance
+  - frente
+
+refresh_phrases:
+  - atualizar a pagina
+  - atualizar pagina
+  - atualizar
+  - recarregar a pagina
+  - recarregar pagina
+  - recarregar
+  - refresh
+
+new_tab_phrases:
+  - nova aba
+  - abrir aba
+
+close_tab_phrases:
+  - fechar aba
+  - fecha aba
+
+zoom_in_phrases:
+  - aumentar zoom
+  - zoom mais
+  - aproximar
+
+zoom_out_phrases:
+  - diminuir zoom
+  - zoom menos
+  - afastar
+
+scroll_verbs:
+  - role
+  - rola
+  - rolar
+  - scroll
+
+scroll_down:
+  - baixo
+  - desce
+  - descer
+
+scroll_up:
+  - cima
+  - sobe
+  - subir
+
+hotkeys:
+  copiar: [ctrl, c]
+  colar: [ctrl, v]
+  recortar: [ctrl, x]
+  desfazer: [ctrl, z]
+  selecionar tudo: [ctrl, a]
+  selecione tudo: [ctrl, a]
+  seleciona tudo: [ctrl, a]
+  selecionar todo: [ctrl, a]
+  selecione todo: [ctrl, a]
+  selecionar o texto: [ctrl, a]
+  selecione o texto: [ctrl, a]
+  marcar tudo: [ctrl, a]
+  control a: [ctrl, a]
+  ctrl a: [ctrl, a]
+  salvar: [ctrl, s]
+
+press_keys:
+  enter: enter
+  escape: escape
+  esc: escape
+  tab: tab
+  seta baixo: down
+  seta cima: up
+  seta esquerda: left
+  seta direita: right
+  espaco: space
+  backspace: backspace
+  delete: delete
+  apagar: delete
+  apaga: delete
+  excluir: delete
+  exclui: delete
+window_actions:
+  minimizar: minimize
+  maximizar: maximize
+  restaurar: restore
+  fechar janela: close
+
+switch_window:
+  proxima janela: next
+  janela seguinte: next
+  janela anterior: prev
+  voltar janela: prev
+
+focus_prefixes:
+  - focar
+  - foca
+  - foque
+  - foco em
+  - focar em
+
+help_phrases:
+  - ajuda
+  - o que posso falar
+  - comandos
+  - o que posso dizer
+
+repeat_phrases:
+  - repetir
+  - de novo
+  - novamente
+
+cancel_phrases:
+  - cancelar
+  - cancela
+  - pare
+  - para tudo
+  - esquece
+
+volume:
+  aumentar volume: up
+  volume mais: up
+  diminuir volume: down
+  abaixar volume: down
+  baixar volume: down
+  volume menos: down
+  mudo: mute
+  silenciar: mute
+  tirar mudo: unmute
+
+a11y_apps:
+  lupa: magnify
+  narrador: narrator
+
+show_desktop_phrases:
+  - mostrar area de trabalho
+  - area de trabalho
+  - mostrar desktop
+
+lock_phrases:
+  - bloquear computador
+  - bloquear pc
+  - bloquear windows
+  - travar computador
+
+lock_confirm_phrases:
+  - confirmar
+  - confirma
+  - sim bloquear
+
+run_prefixes:
+  - executar
+  - rode
+  - rodar
+
+urls:
+  google: https://www.google.com
+  youtube: https://www.youtube.com
+
+url_patterns:
+  - abrir site {url}
+  - navegar para {url}
+  - abrir {url}
+
+app_patterns:
+  - abrir {app}
+  - abre o {app}
+  - iniciar {app}
+
+type_patterns:
+  - digitar {text}
+  - escrever {text}
