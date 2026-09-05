@@ -10,7 +10,7 @@ class StatusBar(ctk.CTkFrame):
     """
 
     def __init__(self, master, on_start=None, on_stop=None, **kwargs):
-        super().__init__(master, height=50, corner_radius=0, **kwargs)
+        super().__init__(master, height=56, corner_radius=0, **kwargs)
         self.grid_propagate(False)
 
         # Gesture status label
@@ -18,9 +18,9 @@ class StatusBar(ctk.CTkFrame):
             self,
             text="Nenhum gesto",
             anchor="w",
-            font=ctk.CTkFont(size=14),
+            font=ctk.CTkFont(size=14, weight="bold"),
         )
-        self.gesture_label.grid(row=0, column=0, padx=15, pady=10, sticky="w")
+        self.gesture_label.grid(row=0, column=0, padx=16, pady=10, sticky="w")
 
         # Confidence label
         self.confidence_label = ctk.CTkLabel(
@@ -28,33 +28,37 @@ class StatusBar(ctk.CTkFrame):
             text="",
             anchor="w",
             font=ctk.CTkFont(size=12),
-            text_color="gray60",
+            text_color=("gray40", "gray60"),
         )
-        self.confidence_label.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+        self.confidence_label.grid(row=0, column=1, padx=8, pady=10, sticky="w")
 
-        # Start button
+        # Start button (primary action — soft teal/green)
         self.start_btn = ctk.CTkButton(
             self,
             text="Iniciar",
-            width=80,
-            height=30,
-            fg_color="green",
-            hover_color="darkgreen",
+            width=96,
+            height=34,
+            fg_color=("#2e8b57", "#2f9e63"),
+            hover_color=("#256f46", "#268a55"),
+            text_color=("white", "white"),
+            corner_radius=6,
             command=on_start,
         )
-        self.start_btn.grid(row=0, column=2, padx=5, pady=10, sticky="e")
+        self.start_btn.grid(row=0, column=2, padx=(0, 6), pady=10, sticky="e")
 
-        # Stop button
+        # Stop button (stop action — soft terracotta/red)
         self.stop_btn = ctk.CTkButton(
             self,
             text="Parar",
-            width=80,
-            height=30,
-            fg_color="red",
-            hover_color="darkred",
+            width=96,
+            height=34,
+            fg_color=("#c0563f", "#c95f47"),
+            hover_color=("#a34834", "#b04f39"),
+            text_color=("white", "white"),
+            corner_radius=6,
             command=on_stop,
         )
-        self.stop_btn.grid(row=0, column=3, padx=5, pady=10, sticky="e")
+        self.stop_btn.grid(row=0, column=3, padx=(6, 16), pady=10, sticky="e")
 
         self.columnconfigure(1, weight=1)
 

@@ -8,8 +8,20 @@ from gui.widgets.video_feed import VideoFeed
 class CameraPage(ctk.CTkFrame):
     """Page displaying the live camera feed with gesture and voice status."""
 
+    # Shared visual constants (light, dark) for the status cards and video
+    _CARD_BG = ("gray95", "gray18")
+    _CARD_BORDER = ("gray80", "gray30")
+    _TRANSCRIPT_BG = ("gray90", "gray22")
+    _TRANSCRIPT_BORDER = ("gray75", "gray30")
+    _TITLE_COLOR = ("gray40", "gray65")
+    _SECONDARY_COLOR = ("gray45", "gray60")
+    _PLACEHOLDER_COLOR = ("gray50", "gray55")
+    _ACTIVE_TEXT_COLOR = ("gray15", "gray85")
+
     def __init__(self, master, **kwargs):
         super().__init__(master, fg_color="transparent", **kwargs)
+        # Vertical distribution: the video row absorbs the extra space while
+        # the cards keep their natural height.
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
 
@@ -17,69 +29,114 @@ class CameraPage(ctk.CTkFrame):
         header = ctk.CTkLabel(
             self,
             text="Câmera e Reconhecimento",
-            font=ctk.CTkFont(size=20, weight="bold"),
+            font=ctk.CTkFont(size=23, weight="bold"),
             anchor="w",
         )
-        header.grid(row=0, column=0, padx=20, pady=(15, 5), sticky="w")
+        header.grid(row=0, column=0, padx=24, pady=(10, 4), sticky="w")
 
-        # --- Video feed ---
-        self.video_feed = VideoFeed(self, width=640, height=480)
-        self.video_feed.grid(row=1, column=0, padx=20, pady=10, sticky="nsew")
-
-        # --- Status overlays ---
-        overlay = ctk.CTkFrame(self, fg_color="transparent")
-        overlay.grid(row=2, column=0, padx=20, pady=(0, 15), sticky="ew")
-
-        # Gesture status
-        self.gesture_frame = ctk.CTkFrame(overlay)
-        self.gesture_frame.pack(side="left", padx=(0, 10), fill="x", expand=True)
-        ctk.CTkLabel(
-            self.gesture_frame, text="Gesto", font=ctk.CTkFont(weight="bold")
-        ).pack(anchor="w", padx=10, pady=(5, 0))
-        self.gesture_name = ctk.CTkLabel(
-            self.gesture_frame, text="--", font=ctk.CTkFont(size=16)
+        # --- Video feed (inside a padded, rounded container) ---
+        video_container = ctk.CTkFrame(
+            self,
+            fg_color=self._CARD_BG,
+            border_width=1,
+            border_color=self._CARD_BORDER,
+            corner_radius=12,
         )
-        self.gesture_name.pack(anchor="w", padx=10, pady=(0, 5))
+        video_container.grid(row=1, column=0, padx=24, pady=(4, 14), sticky="nsew")
+        video_container.grid_columnconfigure(0, weight=1)
+        video_container.grid_rowconfigure(0, weight=1)
+
+        self.video_feed = VideoFeed(video_container, width=640, height=480)
+        self.video_feed.grid(row=0, column=0, padx=12, pady=12, sticky="nsew")
+
+        # --- Status cards (Gesto | Voz) ---
+        cards = ctk.CTkFrame(self, fg_color="transparent")
+        cards.grid(row=2, column=0, padx=24, pady=(0, 16), sticky="ew")
+        cards.grid_columnconfigure(0, weight=1)
+        cards.grid_columnconfigure(1, weight=1)
+
+        # Gesture card
+        self.gesture_frame = ctk.CTkFrame(
+            cards,
+            fg_color=self._CARD_BG,
+            border_width=1,
+            border_color=self._CARD_BORDER,
+            corner_radius=12,
+        )
+        self.gesture_frame.grid(row=0, column=0, padx=(0, 8), sticky="nsew")
+        self.gesture_frame.grid_columnconfigure(0, weight=1)
+        ctk.CTkLabel(
+            self.gesture_frame,
+            text="Gesto",
+            font=ctk.CTkFont(size=12, weight="bold"),
+            text_color=self._TITLE_COLOR,
+            anchor="w",
+        ).grid(row=0, column=0, padx=16, pady=(14, 2), sticky="w")
+        self.gesture_name = ctk.CTkLabel(
+            self.gesture_frame,
+            text="--",
+            font=ctk.CTkFont(size=19, weight="bold"),
+        )
+        self.gesture_name.grid(row=1, column=0, padx=16, pady=(2, 2), sticky="w")
         self.gesture_origin = ctk.CTkLabel(
             self.gesture_frame,
             text="",
             font=ctk.CTkFont(size=11),
-            text_color="gray60",
+            text_color=self._SECONDARY_COLOR,
         )
-        self.gesture_origin.pack(anchor="w", padx=10, pady=(0, 5))
+        self.gesture_origin.grid(row=2, column=0, padx=16, pady=(2, 14), sticky="w")
 
-        # Voice status (placeholder)
-        self.voice_frame = ctk.CTkFrame(overlay)
-        self.voice_frame.pack(side="left", fill="x", expand=True)
-        ctk.CTkLabel(
-            self.voice_frame, text="Voz", font=ctk.CTkFont(weight="bold")
-        ).pack(anchor="w", padx=10, pady=(5, 0))
-        self.voice_status = ctk.CTkLabel(
-            self.voice_frame, text="Não conectado", font=ctk.CTkFont(size=14)
+        # Voice card
+        self.voice_frame = ctk.CTkFrame(
+            cards,
+            fg_color=self._CARD_BG,
+            border_width=1,
+            border_color=self._CARD_BORDER,
+            corner_radius=12,
         )
-        self.voice_status.pack(anchor="w", padx=10, pady=(0, 5))
+        self.voice_frame.grid(row=0, column=1, padx=(8, 0), sticky="nsew")
+        self.voice_frame.grid_columnconfigure(0, weight=1)
+        ctk.CTkLabel(
+            self.voice_frame,
+            text="Voz",
+            font=ctk.CTkFont(size=12, weight="bold"),
+            text_color=self._TITLE_COLOR,
+            anchor="w",
+        ).grid(row=0, column=0, padx=16, pady=(14, 2), sticky="w")
+        self.voice_status = ctk.CTkLabel(
+            self.voice_frame,
+            text="Não conectado",
+            font=ctk.CTkFont(size=19, weight="bold"),
+        )
+        self.voice_status.grid(row=1, column=0, padx=16, pady=(2, 2), sticky="w")
         self.voice_command = ctk.CTkLabel(
             self.voice_frame,
             text="",
             font=ctk.CTkFont(size=11),
-            text_color="gray60",
+            text_color=self._SECONDARY_COLOR,
         )
-        self.voice_command.pack(anchor="w", padx=10, pady=(0, 5))
+        self.voice_command.grid(row=2, column=0, padx=16, pady=(2, 2), sticky="w")
 
-        # Recognized speech transcript — single-line field, distinct styling
+        # Recognized speech transcript — inner block of the voice card
         self.voice_transcript_frame = ctk.CTkFrame(
-            self.voice_frame, border_width=1, border_color="gray40"
+            self.voice_frame,
+            fg_color=self._TRANSCRIPT_BG,
+            border_width=1,
+            border_color=self._TRANSCRIPT_BORDER,
+            corner_radius=8,
         )
-        self.voice_transcript_frame.pack(
-            anchor="w", padx=10, pady=(0, 5), fill="x"
+        self.voice_transcript_frame.grid(
+            row=3, column=0, padx=16, pady=(6, 14), sticky="ew"
         )
+        self.voice_transcript_frame.grid_columnconfigure(0, weight=1)
         self.voice_transcript = ctk.CTkLabel(
             self.voice_transcript_frame,
             text="Aguardando fala...",
-            font=ctk.CTkFont(size=15),
+            font=ctk.CTkFont(size=14),
+            text_color=self._PLACEHOLDER_COLOR,
             anchor="w",
         )
-        self.voice_transcript.pack(fill="x", padx=8, pady=4)
+        self.voice_transcript.grid(row=0, column=0, padx=10, pady=5, sticky="ew")
 
     # --- Public update methods (called from main thread via after()) ---
 
@@ -98,7 +155,14 @@ class CameraPage(ctk.CTkFrame):
 
     def update_voice_transcript(self, text: str):
         """Update the recognized-speech transcript display."""
-        self.voice_transcript.configure(text=text if text else "Aguardando fala...")
+        if text:
+            self.voice_transcript.configure(
+                text=text, text_color=self._ACTIVE_TEXT_COLOR
+            )
+        else:
+            self.voice_transcript.configure(
+                text="Aguardando fala...", text_color=self._PLACEHOLDER_COLOR
+            )
 
     def push_frame(self, frame):
         """Push a BGR frame to the video feed (thread-safe)."""

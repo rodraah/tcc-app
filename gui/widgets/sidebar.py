@@ -13,12 +13,30 @@ class Sidebar(ctk.CTkFrame):
         sidebar.set_active("Camera")
     """
 
-    BUTTON_WIDTH = 140
+    BUTTON_WIDTH = 120
     BUTTON_HEIGHT = 40
-    PADDING = 10
+    PADDING = 8
+
+    # Accent palette for the active item (light, dark)
+    _ACCENT_FG = ("#2E86C1", "#1F6AA5")
+    _ACCENT_HOVER = ("#2E86C1", "#1F6AA5")
+    _ACCENT_BORDER = ("#2471A3", "#144870")
+    _ACCENT_TEXT = ("white", "white")
+
+    # Idle button palette (light, dark)
+    _IDLE_FG = ("gray90", "gray20")
+    _IDLE_HOVER = ("gray85", "gray25")
+    _IDLE_BORDER = ("gray80", "gray28")
+    _IDLE_TEXT = ("gray10", "gray90")
 
     def __init__(self, master, **kwargs):
-        super().__init__(master, width=self.BUTTON_WIDTH, corner_radius=0, **kwargs)
+        super().__init__(
+            master,
+            width=self.BUTTON_WIDTH,
+            corner_radius=0,
+            fg_color=("gray92", "gray16"),
+            **kwargs,
+        )
         self.grid_propagate(False)
         self._buttons: dict[str, ctk.CTkButton] = {}
         self._active_button: str | None = None
@@ -31,11 +49,15 @@ class Sidebar(ctk.CTkFrame):
             text=label,
             width=self.BUTTON_WIDTH,
             height=self.BUTTON_HEIGHT,
-            corner_radius=4,
+            corner_radius=8,
+            border_width=1,
+            border_color=self._IDLE_BORDER,
+            fg_color=self._IDLE_FG,
+            hover_color=self._IDLE_HOVER,
+            text_color=self._IDLE_TEXT,
             command=command,
-            text_color=("gray10", "gray90"),
         )
-        btn.grid(row=self._row, column=0, padx=self.PADDING, pady=4)
+        btn.grid(row=self._row, column=0, padx=self.PADDING, pady=8)
         self._buttons[label] = btn
         self._row += 1
         return btn
@@ -45,9 +67,19 @@ class Sidebar(ctk.CTkFrame):
         self._active_button = label
         for name, btn in self._buttons.items():
             if name == label:
-                btn.configure(fg_color=("gray75", "gray30"), text_color=("gray10", "gray90"))
+                btn.configure(
+                    fg_color=self._ACCENT_FG,
+                    hover_color=self._ACCENT_HOVER,
+                    border_color=self._ACCENT_BORDER,
+                    text_color=self._ACCENT_TEXT,
+                )
             else:
-                btn.configure(fg_color=("gray90", "gray20"), text_color=("gray10", "gray90"))
+                btn.configure(
+                    fg_color=self._IDLE_FG,
+                    hover_color=self._IDLE_HOVER,
+                    border_color=self._IDLE_BORDER,
+                    text_color=self._IDLE_TEXT,
+                )
 
     def add_spacer(self):
         """Add an expanding spacer to push subsequent buttons to the bottom."""

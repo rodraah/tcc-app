@@ -14,27 +14,90 @@ MAPPING_PATH = Path(__file__).resolve().parent.parent.parent / "mapeamento.json"
 class GestureMapPage(ctk.CTkScrollableFrame):
     """Page for editing gesture-to-action bindings and app settings."""
 
+    # Shared visual constants (light, dark) matching the camera page design
+    _CARD_BG = ("gray95", "gray18")
+    _CARD_BORDER = ("gray80", "gray30")
+    _SECTION_TITLE_COLOR = ("gray25", "gray85")
+    _SECONDARY_COLOR = ("gray45", "gray60")
+    _ROW_BG = "transparent"
+
+    # Button palettes
+    _ADD_BTN = {
+        "fg_color": ("#2E86C1", "#1F6AA5"),
+        "hover_color": ("#2471A3", "#144870"),
+        "text_color": ("white", "white"),
+    }
+    _REMOVE_BTN = {
+        "fg_color": ("#c0563f", "#c95f47"),
+        "hover_color": ("#a34834", "#b04f39"),
+        "text_color": ("white", "white"),
+    }
+    _APPLY_BTN = {
+        "fg_color": ("#2e8b57", "#2f9e63"),
+        "hover_color": ("#256f46", "#268a55"),
+        "text_color": ("white", "white"),
+    }
+
     def __init__(self, master, on_settings_changed=None, **kwargs):
         super().__init__(master, **kwargs)
         self.on_settings_changed = on_settings_changed
 
-        # --- Gesture→Action Mapping Section ---
+        # --- Page title ---
         ctk.CTkLabel(
             self,
-            text="Mapeamento Gesto → Ação",
-            font=ctk.CTkFont(size=20, weight="bold"),
+            text="Configurações",
+            font=ctk.CTkFont(size=23, weight="bold"),
             anchor="w",
-        ).pack(anchor="w", padx=10, pady=(10, 5))
+        ).pack(anchor="w", padx=24, pady=(10, 4))
 
-        self.mapping_frame = ctk.CTkFrame(self)
-        self.mapping_frame.pack(fill="x", padx=10, pady=5)
+        # --- Devices Section (camera + microphone selection) ---
+        self._build_devices()
+
+        # --- Settings Section ---
+        self.settings_frame = ctk.CTkFrame(
+            self,
+            fg_color=self._CARD_BG,
+            border_width=1,
+            border_color=self._CARD_BORDER,
+            corner_radius=12,
+        )
+        self.settings_frame.pack(fill="x", padx=24, pady=(8, 8))
+
+        ctk.CTkLabel(
+            self.settings_frame,
+            text="Configurações",
+            font=ctk.CTkFont(size=16, weight="bold"),
+            text_color=self._SECTION_TITLE_COLOR,
+            anchor="w",
+        ).pack(anchor="w", padx=16, pady=(14, 4))
+
+        self._settings_widgets: dict[str, ctk.CTkEntry] = {}
+        self._build_settings()
+
+        # --- Gesture→Action Mapping Section ---
+        self.mapping_frame = ctk.CTkFrame(
+            self,
+            fg_color=self._CARD_BG,
+            border_width=1,
+            border_color=self._CARD_BORDER,
+            corner_radius=12,
+        )
+        self.mapping_frame.pack(fill="x", padx=24, pady=(8, 16))
+
+        ctk.CTkLabel(
+            self.mapping_frame,
+            text="Mapeamento Gesto → Ação",
+            font=ctk.CTkFont(size=16, weight="bold"),
+            text_color=self._SECTION_TITLE_COLOR,
+            anchor="w",
+        ).pack(anchor="w", padx=16, pady=(14, 4))
 
         self._mapping_entries: list[dict] = []
         self._load_mapping()
 
         # Add new binding row
         add_row = ctk.CTkFrame(self.mapping_frame, fg_color="transparent")
-        add_row.pack(fill="x", padx=10, pady=(5, 10))
+        add_row.pack(fill="x", padx=14, pady=(6, 14))
 
         self.new_gesture = ctk.CTkEntry(add_row, placeholder_text="Nome do gesto", width=180)
         self.new_gesture.pack(side="left", padx=(0, 5))
@@ -45,25 +108,13 @@ class GestureMapPage(ctk.CTkScrollableFrame):
         self.new_action.pack(side="left", padx=(5, 5))
 
         ctk.CTkButton(
-            add_row, text="Adicionar", width=60, command=self._add_binding
+            add_row,
+            text="Adicionar",
+            width=60,
+            corner_radius=6,
+            command=self._add_binding,
+            **self._ADD_BTN,
         ).pack(side="left", padx=5)
-
-        # --- Settings Section ---
-        ctk.CTkLabel(
-            self,
-            text="Configurações",
-            font=ctk.CTkFont(size=20, weight="bold"),
-            anchor="w",
-        ).pack(anchor="w", padx=10, pady=(20, 5))
-
-        self.settings_frame = ctk.CTkFrame(self)
-        self.settings_frame.pack(fill="x", padx=10, pady=5)
-
-        self._settings_widgets: dict[str, ctk.CTkEntry] = {}
-        self._build_settings()
-
-        # --- Devices Section (camera + microphone selection) ---
-        self._build_devices()
 
     # --- Mapping ---
 
@@ -84,7 +135,7 @@ class GestureMapPage(ctk.CTkScrollableFrame):
     def _add_mapping_row(self, gesture: str, action: str):
         """Add a single mapping row to the UI."""
         row = ctk.CTkFrame(self.mapping_frame, fg_color="transparent")
-        row.pack(fill="x", padx=10, pady=2)
+        row.pack(fill="x", padx=14, pady=3)
 
         gesture_label = ctk.CTkLabel(row, text=gesture, width=180, anchor="w")
         gesture_label.pack(side="left")
@@ -98,9 +149,9 @@ class GestureMapPage(ctk.CTkScrollableFrame):
             row,
             text="×",
             width=30,
-            fg_color="red",
-            hover_color="darkred",
+            corner_radius=6,
             command=lambda g=gesture: self._remove_binding(g),
+            **self._REMOVE_BTN,
         )
         remove_btn.pack(side="right")
 
@@ -154,7 +205,7 @@ class GestureMapPage(ctk.CTkScrollableFrame):
 
         for label, key, default in settings:
             row = ctk.CTkFrame(self.settings_frame, fg_color="transparent")
-            row.pack(fill="x", padx=10, pady=3)
+            row.pack(fill="x", padx=14, pady=3)
 
             ctk.CTkLabel(row, text=label, width=200, anchor="w").pack(side="left")
 
@@ -167,8 +218,10 @@ class GestureMapPage(ctk.CTkScrollableFrame):
         ctk.CTkButton(
             self.settings_frame,
             text="Aplicar Configurações",
+            corner_radius=6,
             command=self._apply_settings,
-        ).pack(padx=10, pady=10)
+            **self._APPLY_BTN,
+        ).pack(padx=14, pady=10)
 
     def _apply_settings(self):
         """Apply settings (placeholder — will update config singleton later)."""
@@ -185,15 +238,22 @@ class GestureMapPage(ctk.CTkScrollableFrame):
         persists it and notifies the app (via ``on_settings_changed``) so the
         running recognition threads are restarted with the new device.
         """
-        ctk.CTkLabel(
+        self.devices_frame = ctk.CTkFrame(
             self,
-            text="Dispositivos",
-            font=ctk.CTkFont(size=20, weight="bold"),
-            anchor="w",
-        ).pack(anchor="w", padx=10, pady=(20, 5))
+            fg_color=self._CARD_BG,
+            border_width=1,
+            border_color=self._CARD_BORDER,
+            corner_radius=12,
+        )
+        self.devices_frame.pack(fill="x", padx=24, pady=(8, 8))
 
-        self.devices_frame = ctk.CTkFrame(self)
-        self.devices_frame.pack(fill="x", padx=10, pady=5)
+        ctk.CTkLabel(
+            self.devices_frame,
+            text="Dispositivos",
+            font=ctk.CTkFont(size=16, weight="bold"),
+            text_color=self._SECTION_TITLE_COLOR,
+            anchor="w",
+        ).pack(anchor="w", padx=16, pady=(14, 4))
 
         settings = SetupWizard.load_settings()
         current_camera = settings.get("camera_index", 0)
@@ -201,7 +261,7 @@ class GestureMapPage(ctk.CTkScrollableFrame):
 
         # --- Camera selector ---
         cam_row = ctk.CTkFrame(self.devices_frame, fg_color="transparent")
-        cam_row.pack(fill="x", padx=10, pady=3)
+        cam_row.pack(fill="x", padx=14, pady=3)
         ctk.CTkLabel(cam_row, text="Câmera", width=200, anchor="w").pack(
             side="left"
         )
@@ -232,7 +292,7 @@ class GestureMapPage(ctk.CTkScrollableFrame):
 
         # --- Microphone selector ---
         mic_row = ctk.CTkFrame(self.devices_frame, fg_color="transparent")
-        mic_row.pack(fill="x", padx=10, pady=3)
+        mic_row.pack(fill="x", padx=14, pady=3)
         ctk.CTkLabel(mic_row, text="Microfone", width=200, anchor="w").pack(
             side="left"
         )
