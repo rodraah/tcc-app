@@ -1,6 +1,7 @@
 __pycache__
 
 config/app_state.json
+.browser-profile
 
 # Modelos de IA
 *.task

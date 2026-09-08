@@ -2,6 +2,14 @@
   "schema": 1,
   "gesto_para_acao": {
     "Closed_Fist": "minimizar",
-    "Pinça": "lupa"
+    "Pinça": "lupa",
+    "Open_Palm": "mostrar_area_trabalho",
+    "Pointing_Up": "alternar_janela",
+    "Thumb_Up": "maximizar",
+    "Thumb_Down": "fechar_janela",
+    "Victory": "captura_tela",
+    "ILoveYou": "bloquear_tela",
+    "Dois_Dedos": "copiar",
+    "Sinal_L": "colar"
   }
 }

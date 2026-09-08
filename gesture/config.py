@@ -52,7 +52,15 @@ class Config:
     MAPA_PADRAO: dict[str, str] = field(
         default_factory=lambda: {
             "Closed_Fist": "minimizar",
-            "Pinca": "lupa"
+            "Open_Palm": "mostrar_area_trabalho",
+            "Pointing_Up": "alternar_janela",
+            "Thumb_Up": "maximizar",
+            "Thumb_Down": "fechar_janela",
+            "Victory": "captura_tela",
+            "ILoveYou": "bloquear_tela",
+            "Pinça": "lupa",
+            "Dois_Dedos": "copiar",
+            "Sinal_L": "colar",
         }
     )
 

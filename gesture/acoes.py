@@ -33,6 +33,22 @@ from gesture.config import config
 import gesture.utils as utils
 
 # ---------------------------------------------------------------------------
+# Constantes VK de letras (A-Z) — o modulo win32con nao as define como
+# constantes nomeadas; usamos os valores hex padrao do Windows SDK.
+# ---------------------------------------------------------------------------
+VK_A = 0x41
+VK_C = 0x43
+VK_D = 0x44
+VK_E = 0x45
+VK_I = 0x49
+VK_L = 0x4C
+VK_S = 0x53
+VK_V = 0x56
+VK_X = 0x58
+VK_Y = 0x59
+VK_Z = 0x5A
+
+# ---------------------------------------------------------------------------
 # 1. Registro de acoes (padrao decorator)
 # ---------------------------------------------------------------------------
 REGISTRO_ACOES: dict[str, Callable[[], None]] = {}
@@ -86,6 +102,116 @@ def abrir_lupa() -> None:
         utils.combo_tecla([win32con.VK_LWIN, win32con.VK_ESCAPE])
     else:
         os.startfile("magnify.exe")
+
+# ---------------------------------------------------------------------------
+# 1.1 Controle de janelas
+# ---------------------------------------------------------------------------
+@registrar_acao("maximizar")
+def maximizar_janela_ativa() -> None:
+    """Alterna entre maximizar e restaurar a janela ativa."""
+    janela_ativa = utils.get_janela_ativa()
+    utils.maximizar_janela(janela_ativa)
+
+
+@registrar_acao("fechar_janela")
+def fechar_janela_ativa() -> None:
+    """Fecha a janela ativa via WM_CLOSE."""
+    janela_ativa = utils.get_janela_ativa()
+    utils.fechar_janela(janela_ativa)
+
+
+@registrar_acao("alternar_janela")
+def alternar_janela() -> None:
+    """Simula Alt+Tab para alternar entre janelas."""
+    utils.combo_tecla([win32con.VK_MENU, win32con.VK_TAB])
+
+
+@registrar_acao("mostrar_area_trabalho")
+def mostrar_area_trabalho() -> None:
+    """Simula Win+D para mostrar a area de trabalho."""
+    utils.combo_tecla([win32con.VK_LWIN, VK_D])
+
+
+@registrar_acao("tela_cheia")
+def tela_cheia() -> None:
+    """Simula F11 para entrar/sair do modo tela cheia."""
+    utils.combo_tecla([win32con.VK_F11])
+
+# ---------------------------------------------------------------------------
+# 1.2 Atalhos do sistema
+# ---------------------------------------------------------------------------
+@registrar_acao("captura_tela")
+def captura_tela() -> None:
+    """Simula Win+Shift+S para abrir a ferramenta de captura."""
+    utils.combo_tecla([win32con.VK_LWIN, win32con.VK_SHIFT, VK_S])
+
+
+@registrar_acao("bloquear_tela")
+def bloquear_tela() -> None:
+    """Simula Win+L para bloquear a tela."""
+    utils.combo_tecla([win32con.VK_LWIN, VK_L])
+
+
+@registrar_acao("abrir_explorador")
+def abrir_explorador() -> None:
+    """Simula Win+E para abrir o Explorador de Arquivos."""
+    utils.combo_tecla([win32con.VK_LWIN, VK_E])
+
+
+@registrar_acao("abrir_configuracoes")
+def abrir_configuracoes() -> None:
+    """Simula Win+I para abrir Configuracoes do Windows."""
+    utils.combo_tecla([win32con.VK_LWIN, VK_I])
+
+
+@registrar_acao("abrir_calculadora")
+def abrir_calculadora() -> None:
+    """Abre a Calculadora do Windows via calc.exe."""
+    os.startfile("calc.exe")
+
+
+@registrar_acao("abrir_gerenciador_tarefas")
+def abrir_gerenciador_tarefas() -> None:
+    """Simula Ctrl+Shift+Esc para abrir o Gerenciador de Tarefas."""
+    utils.combo_tecla([win32con.VK_CONTROL, win32con.VK_SHIFT, win32con.VK_ESCAPE])
+
+# ---------------------------------------------------------------------------
+# 1.3 Edicao de texto
+# ---------------------------------------------------------------------------
+@registrar_acao("copiar")
+def copiar() -> None:
+    """Simula Ctrl+C para copiar."""
+    utils.combo_tecla([win32con.VK_CONTROL, VK_C])
+
+
+@registrar_acao("colar")
+def colar() -> None:
+    """Simula Ctrl+V para colar."""
+    utils.combo_tecla([win32con.VK_CONTROL, VK_V])
+
+
+@registrar_acao("recortar")
+def recortar() -> None:
+    """Simula Ctrl+X para recortar."""
+    utils.combo_tecla([win32con.VK_CONTROL, VK_X])
+
+
+@registrar_acao("desfazer")
+def desfazer() -> None:
+    """Simula Ctrl+Z para desfazer."""
+    utils.combo_tecla([win32con.VK_CONTROL, VK_Z])
+
+
+@registrar_acao("refazer")
+def refazer() -> None:
+    """Simula Ctrl+Y para refazer."""
+    utils.combo_tecla([win32con.VK_CONTROL, VK_Y])
+
+
+@registrar_acao("selecionar_tudo")
+def selecionar_tudo() -> None:
+    """Simula Ctrl+A para selecionar tudo."""
+    utils.combo_tecla([win32con.VK_CONTROL, VK_A])
 
 # ---------------------------------------------------------------------------
 # 2. Mapeamento gesto -> acao (persistido em JSON)

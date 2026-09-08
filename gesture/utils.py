@@ -52,3 +52,25 @@ def minimizar_janela(janela:int) -> bool:
         win32gui.ShowWindow(janela, win32con.SW_MINIMIZE)
         return True
     return False
+
+def maximizar_janela(janela: int) -> bool:
+    """Alterna entre maximizar e restaurar a janela (toggle).
+
+    Usa IsZoomed(hwnd) para decidir: se maximizada → SW_RESTORE,
+    caso contrario → SW_MAXIMIZE.
+    Guarda: hwnd 0 ou invalido → no-op (retorna False)."""
+    if janela and win32gui.IsWindow(janela):
+        if win32gui.IsZoomed(janela):
+            win32gui.ShowWindow(janela, win32con.SW_RESTORE)
+        else:
+            win32gui.ShowWindow(janela, win32con.SW_MAXIMIZE)
+        return True
+    return False
+
+
+def fechar_janela(janela: int) -> bool:
+    """Envia WM_CLOSE para a janela (fecha elegantemente, respeitando unsaved changes)."""
+    if janela and win32gui.IsWindow(janela):
+        win32gui.PostMessage(janela, win32con.WM_CLOSE, 0, 0)
+        return True
+    return False
