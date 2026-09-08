@@ -62,14 +62,19 @@ class StatusBar(ctk.CTkFrame):
 
         self.columnconfigure(1, weight=1)
 
-    def update_gesture(self, name: str, confidence: float = 0.0, origin: str = ""):
+    def update_gesture(
+        self, name: str, confidence: float = 0.0, origin: str = "", action: str = ""
+    ):
         """Update the gesture display."""
         display = name if name else "Nenhum gesto"
         self.gesture_label.configure(text=display)
 
         if confidence > 0:
             suffix = f" ({origin})" if origin else ""
-            self.confidence_label.configure(text=f"{confidence:.2f}{suffix}")
+            action_suffix = f" → {action}" if action else ""
+            self.confidence_label.configure(
+                text=f"{confidence:.2f}{suffix}{action_suffix}"
+            )
         else:
             self.confidence_label.configure(text="")
 

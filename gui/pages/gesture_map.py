@@ -104,7 +104,9 @@ class GestureMapPage(ctk.CTkScrollableFrame):
 
         ctk.CTkLabel(add_row, text="→").pack(side="left")
 
-        self.new_action = ctk.CTkEntry(add_row, placeholder_text="Nome da ação", width=180)
+        self.new_action = ctk.CTkOptionMenu(
+            add_row, values=self._available_actions(), width=180
+        )
         self.new_action.pack(side="left", padx=(5, 5))
 
         ctk.CTkButton(
@@ -115,6 +117,15 @@ class GestureMapPage(ctk.CTkScrollableFrame):
             command=self._add_binding,
             **self._ADD_BTN,
         ).pack(side="left", padx=5)
+
+        # Page-level "apply all changes" button (settings + mapping)
+        ctk.CTkButton(
+            self,
+            text="Aplicar Configurações",
+            corner_radius=6,
+            command=self._apply_settings,
+            **self._APPLY_BTN,
+        ).pack(padx=24, pady=(8, 16))
 
     # --- Mapping ---
 
@@ -142,8 +153,29 @@ class GestureMapPage(ctk.CTkScrollableFrame):
 
         ctk.CTkLabel(row, text="→").pack(side="left", padx=5)
 
-        action_label = ctk.CTkLabel(row, text=action, width=180, anchor="w")
-        action_label.pack(side="left")
+        available = self._available_actions()
+        if available:
+            action_menu = ctk.CTkOptionMenu(
+                row,
+                values=available,
+                width=180,
+                command=lambda choice, g=gesture: self._on_action_change(g, choice),
+            )
+            # Select the current action if it is still registered; otherwise
+            # fall back to the first available action.
+            action_menu.set(action if action in available else available[0])
+            action_menu.pack(side="left")
+            self._mapping_entries.append(
+                {"gesture": gesture, "action_menu": action_menu, "row": row}
+            )
+        else:
+            # Degraded mode: no registered actions available (gesture deps
+            # missing) — show the action name as a plain label instead.
+            action_label = ctk.CTkLabel(row, text=action, width=180, anchor="w")
+            action_label.pack(side="left")
+            self._mapping_entries.append(
+                {"gesture": gesture, "action": action, "row": row}
+            )
 
         remove_btn = ctk.CTkButton(
             row,
@@ -155,9 +187,26 @@ class GestureMapPage(ctk.CTkScrollableFrame):
         )
         remove_btn.pack(side="right")
 
-        self._mapping_entries.append(
-            {"gesture": gesture, "action": action, "row": row}
-        )
+    def _available_actions(self) -> list[str]:
+        """Registered action names for the comboboxes.
+
+        Lazy import: pulls in the gesture package only when the page is built
+        (keeps the GUI smoke tests hermetic).  Falls back to an empty list if
+        the gesture deps are unavailable.
+        """
+        try:
+            from gesture.acoes import listar_acoes
+            return listar_acoes()
+        except Exception:
+            return []
+
+    def _on_action_change(self, gesture: str, action: str):
+        """Persist the mapping when the user picks a different action.
+
+        ``gesture``/``action`` are kept for future use (e.g. logging); the
+        current selection is read from the comboboxes by ``_save_mapping``.
+        """
+        self._save_mapping()
 
     def _add_binding(self):
         """Add a new gesture→action binding."""
@@ -167,7 +216,10 @@ class GestureMapPage(ctk.CTkScrollableFrame):
             return
         self._add_mapping_row(gesture, action)
         self.new_gesture.delete(0, "end")
-        self.new_action.delete(0, "end")
+        # Reset the action combobox to the first available action (if any).
+        available = self._available_actions()
+        if available:
+            self.new_action.set(available[0])
         self._save_mapping()
 
     def _remove_binding(self, gesture: str):
@@ -185,7 +237,12 @@ class GestureMapPage(ctk.CTkScrollableFrame):
 
     def _save_mapping(self):
         """Persist the current mapping to JSON."""
-        mapping = {e["gesture"]: e["action"] for e in self._mapping_entries}
+        mapping = {
+            e["gesture"]: (
+                e["action_menu"].get() if "action_menu" in e else e["action"]
+            )
+            for e in self._mapping_entries
+        }
         # Save in nested format with schema version
         data = {"schema": 1, "gesto_para_acao": mapping}
         with open(MAPPING_PATH, "w", encoding="utf-8") as f:
@@ -214,14 +271,6 @@ class GestureMapPage(ctk.CTkScrollableFrame):
             entry.pack(side="left", padx=(10, 0))
 
             self._settings_widgets[key] = entry
-
-        ctk.CTkButton(
-            self.settings_frame,
-            text="Aplicar Configurações",
-            corner_radius=6,
-            command=self._apply_settings,
-            **self._APPLY_BTN,
-        ).pack(padx=14, pady=10)
 
     def _apply_settings(self):
         """Apply settings (placeholder — will update config singleton later)."""

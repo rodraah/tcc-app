@@ -84,7 +84,15 @@ class CameraPage(ctk.CTkFrame):
             font=ctk.CTkFont(size=11),
             text_color=self._SECONDARY_COLOR,
         )
-        self.gesture_origin.grid(row=2, column=0, padx=16, pady=(2, 14), sticky="w")
+        self.gesture_origin.grid(row=2, column=0, padx=16, pady=(2, 2), sticky="w")
+        self.gesture_action = ctk.CTkLabel(
+            self.gesture_frame,
+            text="",
+            font=ctk.CTkFont(size=14, weight="bold"),
+            text_color=("#2E86C1", "#5DADE2"),
+            anchor="w",
+        )
+        self.gesture_action.grid(row=3, column=0, padx=16, pady=(2, 14), sticky="w")
 
         # Voice card
         self.voice_frame = ctk.CTkFrame(
@@ -140,13 +148,19 @@ class CameraPage(ctk.CTkFrame):
 
     # --- Public update methods (called from main thread via after()) ---
 
-    def update_gesture(self, name: str, confidence: float = 0.0, origin: str = ""):
+    def update_gesture(
+        self, name: str, confidence: float = 0.0, origin: str = "", action: str = ""
+    ):
         """Update the gesture display."""
         self.gesture_name.configure(text=name if name else "--")
         if confidence > 0 and origin:
             self.gesture_origin.configure(text=f"{confidence:.2f} ({origin})")
         else:
             self.gesture_origin.configure(text="")
+        if action:
+            self.gesture_action.configure(text=f"→ {action}")
+        else:
+            self.gesture_action.configure(text="")
 
     def update_voice(self, status: str, command: str = ""):
         """Update the voice status display."""

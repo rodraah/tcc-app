@@ -60,8 +60,6 @@ class HotkeyListener:
             if self._app.winfo_viewable():
                 self._app.withdraw()
             else:
-                self._app.deiconify()
-                self._app.lift()
-                self._app.focus_force()
+                self._app.show_and_start()
 
         self._app.after(0, _do_toggle)

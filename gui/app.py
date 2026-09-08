@@ -101,6 +101,20 @@ class App(ctk.CTk):
         self.pages[name].grid(row=0, column=1, sticky="nsew")
         self.sidebar.set_active(self.PAGE_LABELS[name])
 
+    # --- Public show-and-start (called from hotkey toggle) ---
+
+    def show_and_start(self):
+        """Show the window and start recognition if not already running.
+
+        Designed to be called via ``app.after(0, ...)`` from the hotkey
+        thread so it always executes on the main thread.
+        """
+        self.deiconify()
+        self.lift()
+        self.focus_force()
+        if not self.running:
+            self._handle_start()
+
     # --- Start/stop handling ---
 
     def _handle_start(self):
@@ -194,8 +208,8 @@ class App(ctk.CTk):
     def _poll_gesture_status(self) -> None:
         """Pull the latest gesture info and update the UI."""
         try:
-            name, confidence, origin = self._gesture_queue.get_nowait()
-            self.update_gesture_status(name, confidence, origin)
+            name, confidence, origin, action = self._gesture_queue.get_nowait()
+            self.update_gesture_status(name, confidence, origin, action)
         except queue.Empty:
             pass
         if self.running:
@@ -269,11 +283,11 @@ class App(ctk.CTk):
     # --- Public update methods ---
 
     def update_gesture_status(
-        self, name: str, confidence: float = 0.0, origin: str = ""
+        self, name: str, confidence: float = 0.0, origin: str = "", action: str = ""
     ):
         """Update the gesture display in the status bar and camera page."""
-        self.status_bar.update_gesture(name, confidence, origin)
-        self.pages["camera"].update_gesture(name, confidence, origin)
+        self.status_bar.update_gesture(name, confidence, origin, action)
+        self.pages["camera"].update_gesture(name, confidence, origin, action)
 
     def update_voice_status(self, status: str, command: str = ""):
         """Update the voice status display on the camera page."""

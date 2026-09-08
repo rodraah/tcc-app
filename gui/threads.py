@@ -25,7 +25,7 @@ class GestureThread:
     Communicates with the GUI via queues:
 
     - ``frame_queue``     — BGR numpy frames for display (maxsize=1)
-    - ``gesture_queue``   — ``(name, confidence, origin)`` tuples (maxsize=1)
+    - ``gesture_queue``   — ``(name, confidence, origin, action)`` tuples (maxsize=1)
     - ``log_queue``       — ``(message, module)`` tuples (maxsize=50)
     - ``action_queue``    — action name strings that fired (maxsize=5)
     """
@@ -256,9 +256,19 @@ class GestureThread:
                 except queue.Full:
                     pass
 
+                # Mapped action that WILL fire if the gesture is held
+                acao_mapeada = (
+                    disparador.mapa.get(gesto_mapeado) if gesto_mapeado else ""
+                )
+
                 try:
                     self.gesture_queue.put_nowait(
-                        (gesto_mapeado or "", gesto_confianca, gesto_origem),
+                        (
+                            gesto_mapeado or "",
+                            gesto_confianca,
+                            gesto_origem,
+                            acao_mapeada or "",
+                        ),
                     )
                 except queue.Full:
                     pass
