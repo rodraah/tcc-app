@@ -18,21 +18,43 @@ class CameraPage(ctk.CTkFrame):
     _PLACEHOLDER_COLOR = ("gray50", "gray55")
     _ACTIVE_TEXT_COLOR = ("gray15", "gray85")
 
-    def __init__(self, master, **kwargs):
+    def __init__(
+        self,
+        master,
+        on_camera_enabled=None,
+        on_voice_enabled=None,
+        **kwargs,
+    ):
         super().__init__(master, fg_color="transparent", **kwargs)
+        self.on_camera_enabled = on_camera_enabled
+        self.on_voice_enabled = on_voice_enabled
+        self._camera_enabled = ctk.BooleanVar(value=True)
+        self._voice_enabled = ctk.BooleanVar(value=True)
+
         # Vertical distribution: the video row absorbs the extra space while
         # the cards keep their natural height.
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
 
-        # --- Header ---
-        header = ctk.CTkLabel(
-            self,
+        # --- Header (title + enable switch) ---
+        header = ctk.CTkFrame(self, fg_color="transparent")
+        header.grid(row=0, column=0, padx=24, pady=(10, 4), sticky="ew")
+        header.grid_columnconfigure(0, weight=1)
+        ctk.CTkLabel(
+            header,
             text="Câmera e Reconhecimento",
             font=ctk.CTkFont(size=23, weight="bold"),
             anchor="w",
+        ).grid(row=0, column=0, sticky="w")
+        self.camera_switch = ctk.CTkSwitch(
+            header,
+            text="Ativar",
+            variable=self._camera_enabled,
+            command=self._emit_camera_enabled,
+            onvalue=True,
+            offvalue=False,
         )
-        header.grid(row=0, column=0, padx=24, pady=(10, 4), sticky="w")
+        self.camera_switch.grid(row=0, column=1, sticky="e")
 
         # --- Video feed (inside a padded, rounded container) ---
         video_container = ctk.CTkFrame(
@@ -104,13 +126,27 @@ class CameraPage(ctk.CTkFrame):
         )
         self.voice_frame.grid(row=0, column=1, padx=(8, 0), sticky="nsew")
         self.voice_frame.grid_columnconfigure(0, weight=1)
+
+        voice_header = ctk.CTkFrame(self.voice_frame, fg_color="transparent")
+        voice_header.grid(row=0, column=0, padx=16, pady=(14, 2), sticky="ew")
+        voice_header.grid_columnconfigure(0, weight=1)
         ctk.CTkLabel(
-            self.voice_frame,
+            voice_header,
             text="Voz",
             font=ctk.CTkFont(size=12, weight="bold"),
             text_color=self._TITLE_COLOR,
             anchor="w",
-        ).grid(row=0, column=0, padx=16, pady=(14, 2), sticky="w")
+        ).grid(row=0, column=0, sticky="w")
+        self.voice_switch = ctk.CTkSwitch(
+            voice_header,
+            text="Ativar",
+            variable=self._voice_enabled,
+            command=self._emit_voice_enabled,
+            onvalue=True,
+            offvalue=False,
+        )
+        self.voice_switch.grid(row=0, column=1, sticky="e")
+
         self.voice_status = ctk.CTkLabel(
             self.voice_frame,
             text="Não conectado",
@@ -145,6 +181,22 @@ class CameraPage(ctk.CTkFrame):
             anchor="w",
         )
         self.voice_transcript.grid(row=0, column=0, padx=10, pady=5, sticky="ew")
+
+    @property
+    def camera_enabled(self) -> bool:
+        return bool(self._camera_enabled.get())
+
+    @property
+    def voice_enabled(self) -> bool:
+        return bool(self._voice_enabled.get())
+
+    def _emit_camera_enabled(self):
+        if self.on_camera_enabled:
+            self.on_camera_enabled(self.camera_enabled)
+
+    def _emit_voice_enabled(self):
+        if self.on_voice_enabled:
+            self.on_voice_enabled(self.voice_enabled)
 
     # --- Public update methods (called from main thread via after()) ---
 

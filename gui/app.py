@@ -31,6 +31,11 @@ class App(ctk.CTk):
         self.on_stop = on_stop
         self.on_quit = on_quit
         self.on_settings_changed = None  # wired by main.py to restart threads
+        # Optional per-modality hooks (wired by main.py)
+        self.on_start_camera = None
+        self.on_stop_camera = None
+        self.on_start_voice = None
+        self.on_stop_voice = None
 
         self.running = False
         self._current_page: str | None = None
@@ -66,7 +71,11 @@ class App(ctk.CTk):
 
         # --- Pages (created once, switched via grid_forget/grid) ---
         self.pages: dict[str, ctk.CTkBaseClass] = {
-            "camera": CameraPage(self),
+            "camera": CameraPage(
+                self,
+                on_camera_enabled=self._handle_camera_enabled,
+                on_voice_enabled=self._handle_voice_enabled,
+            ),
             "map": GestureMapPage(
                 self, on_settings_changed=self._on_settings_changed
             ),
@@ -118,10 +127,15 @@ class App(ctk.CTk):
     # --- Start/stop handling ---
 
     def _handle_start(self):
-        """Start gesture recognition (invoked by the Start button)."""
+        """Start recognition for modalities that are currently enabled."""
+        cam = self.pages["camera"]
         self.running = True
         self.status_bar.set_running(True)
-        self.pages["camera"].start_feed()
+        if cam.camera_enabled:
+            cam.start_feed()
+        if not cam.voice_enabled:
+            cam.update_voice("Desativado")
+            cam.update_voice_transcript("")
         self._start_polling()
         if self.on_start:
             self.on_start()
@@ -134,6 +148,40 @@ class App(ctk.CTk):
         if self.on_stop:
             self.on_stop()
 
+    def _handle_camera_enabled(self, enabled: bool):
+        """Toggle camera/gesture while recognition is running."""
+        cam = self.pages["camera"]
+        if not self.running:
+            return
+        if enabled:
+            cam.start_feed()
+            if self.on_start_camera:
+                self.on_start_camera()
+        else:
+            cam.stop_feed()
+            cam.update_gesture("")
+            if self.on_stop_camera:
+                self.on_stop_camera()
+
+    def _handle_voice_enabled(self, enabled: bool):
+        """Toggle voice while recognition is running."""
+        cam = self.pages["camera"]
+        if not self.running:
+            if not enabled:
+                cam.update_voice("Desativado")
+                cam.update_voice_transcript("")
+            else:
+                cam.update_voice("Não conectado")
+            return
+        if enabled:
+            if self.on_start_voice:
+                self.on_start_voice()
+        else:
+            cam.update_voice("Desativado")
+            cam.update_voice_transcript("")
+            if self.on_stop_voice:
+                self.on_stop_voice()
+
     def quit_app(self):
         """Fully exit the application (tray Quit / shutdown path)."""
         self.running = False
@@ -142,14 +190,16 @@ class App(ctk.CTk):
             self.on_quit()
         self.destroy()
 
-    def _on_settings_changed(self, camera_index: int, mic_device_id):
-        """Forward a camera/mic change from the settings page to main.py.
+    def _on_settings_changed(
+        self, camera_index: int, mic_device_id, pause_threshold=None
+    ):
+        """Forward a settings change from the settings page to main.py.
 
         ``main.py`` wires ``self.on_settings_changed`` to a handler that
         stops and recreates the recognition threads with the new devices.
         """
         if self.on_settings_changed:
-            self.on_settings_changed(camera_index, mic_device_id)
+            self.on_settings_changed(camera_index, mic_device_id, pause_threshold)
 
     # --- Queue wiring & polling ---
 
@@ -286,19 +336,27 @@ class App(ctk.CTk):
         self, name: str, confidence: float = 0.0, origin: str = "", action: str = ""
     ):
         """Update the gesture display in the status bar and camera page."""
+        if not self.pages["camera"].camera_enabled:
+            return
         self.status_bar.update_gesture(name, confidence, origin, action)
         self.pages["camera"].update_gesture(name, confidence, origin, action)
 
     def update_voice_status(self, status: str, command: str = ""):
         """Update the voice status display on the camera page."""
+        if not self.pages["camera"].voice_enabled:
+            return
         self.pages["camera"].update_voice(status, command)
 
     def update_voice_transcript(self, text: str):
         """Update the recognized-speech transcript on the camera page."""
+        if not self.pages["camera"].voice_enabled:
+            return
         self.pages["camera"].update_voice_transcript(text)
 
     def push_video_frame(self, frame):
         """Push a BGR frame to the video feed."""
+        if not self.pages["camera"].camera_enabled:
+            return
         self.pages["camera"].push_frame(frame)
 
     def add_log_entry(self, message: str, module: str = "system"):

@@ -16,6 +16,9 @@ class Sidebar(ctk.CTkFrame):
     BUTTON_WIDTH = 120
     BUTTON_HEIGHT = 40
     PADDING = 8
+    # Frame must fit the button plus left/right padding, otherwise the
+    # right border is clipped by the main content column.
+    SIDEBAR_WIDTH = BUTTON_WIDTH + 2 * PADDING
 
     # Accent palette for the active item (light, dark)
     _ACCENT_FG = ("#2E86C1", "#1F6AA5")
@@ -32,7 +35,7 @@ class Sidebar(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(
             master,
-            width=self.BUTTON_WIDTH,
+            width=self.SIDEBAR_WIDTH,
             corner_radius=0,
             fg_color=("gray92", "gray16"),
             **kwargs,

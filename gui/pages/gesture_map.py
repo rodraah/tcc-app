@@ -372,6 +372,62 @@ class GestureMapPage(ctk.CTkScrollableFrame):
             ).pack(side="left", padx=(10, 0))
             self._mic_menu = None
 
+        # --- Pause threshold (same control as the first-launch wizard) ---
+        pause_row = ctk.CTkFrame(self.devices_frame, fg_color="transparent")
+        pause_row.pack(fill="x", padx=14, pady=(8, 3))
+        ctk.CTkLabel(
+            pause_row, text="Limiar de Pausa", width=200, anchor="w"
+        ).pack(side="left")
+
+        self._pause_threshold = float(settings.get("pause_threshold", 0.7))
+        self._pause_save_job = None
+
+        pause_controls = ctk.CTkFrame(pause_row, fg_color="transparent")
+        pause_controls.pack(side="left", padx=(10, 0), fill="x", expand=True)
+        pause_controls.grid_columnconfigure(0, weight=1)
+
+        self._pause_slider = ctk.CTkSlider(
+            pause_controls,
+            from_=0.1,
+            to=2.0,
+            number_of_steps=19,
+            command=self._on_pause_change,
+        )
+        self._pause_slider.set(self._pause_threshold)
+        self._pause_slider.grid(row=0, column=0, sticky="ew", padx=(0, 10))
+
+        self._pause_value_label = ctk.CTkLabel(
+            pause_controls,
+            text=f"{self._pause_threshold:.1f}s",
+            font=ctk.CTkFont(size=14, weight="bold"),
+            width=50,
+        )
+        self._pause_value_label.grid(row=0, column=1, sticky="e")
+
+        ctk.CTkLabel(
+            self.devices_frame,
+            text="Menor = mais responsivo · Maior = menos disparos por ruído",
+            font=ctk.CTkFont(size=11),
+            text_color=self._SECONDARY_COLOR,
+            anchor="w",
+        ).pack(anchor="w", padx=14, pady=(0, 14))
+
+    def _on_pause_change(self, value: float):
+        """Update the label while dragging; commit after a short debounce."""
+        self._pause_threshold = round(float(value), 1)
+        self._pause_value_label.configure(text=f"{self._pause_threshold:.1f}s")
+        if self._pause_save_job is not None:
+            try:
+                self.after_cancel(self._pause_save_job)
+            except Exception:
+                pass
+        self._pause_save_job = self.after(500, self._commit_pause)
+
+    def _commit_pause(self):
+        """Persist pause_threshold and restart voice with the new value."""
+        self._pause_save_job = None
+        self._save_devices(pause_threshold=self._pause_threshold)
+
     def _on_camera_change(self, choice: str):
         """Handle camera dropdown selection."""
         idx = int(choice.split()[-1])
@@ -386,22 +442,27 @@ class GestureMapPage(ctk.CTkScrollableFrame):
                 break
         self._save_devices(mic_device_id=mic_id)
 
-    def _save_devices(self, camera_index=None, mic_device_id=None):
-        """Persist the device selection and notify the app to restart threads.
+    def _save_devices(
+        self, camera_index=None, mic_device_id=None, pause_threshold=None
+    ):
+        """Persist device/voice settings and notify the app to restart threads.
 
         Only the provided keys are updated; the rest of the settings are
         preserved.  ``on_settings_changed`` is invoked with the full current
-        camera/mic values so ``main.py`` can recreate the recognition threads.
+        values so ``main.py`` can recreate the recognition threads.
         """
         settings = SetupWizard.load_settings()
         if camera_index is not None:
             settings["camera_index"] = camera_index
         if mic_device_id is not None:
             settings["mic_device_id"] = mic_device_id
+        if pause_threshold is not None:
+            settings["pause_threshold"] = pause_threshold
         SetupWizard.save_settings(settings)
 
         if self.on_settings_changed:
             self.on_settings_changed(
                 settings.get("camera_index", 0),
                 settings.get("mic_device_id"),
+                settings.get("pause_threshold"),
             )

@@ -112,13 +112,14 @@ def main() -> None:
     _wire_queues()
 
     # 6. Wire start/stop callbacks — these fire when the user clicks
-    #    Start / Stop in the status bar.
+    #    Start / Stop in the status bar, or toggles a modality switch.
     def _on_start() -> None:
+        cam = app.pages["camera"]
         gt = state["gesture_thread"]
         vt = state["voice_thread"]
-        if gt is not None:
+        if cam.camera_enabled and gt is not None:
             gt.start()
-        if vt is not None:
+        if cam.voice_enabled and vt is not None:
             vt.start()
             # Bridge voice log queue → app log queue (drained by _poll_log)
             _drain_voice_logs()
@@ -150,8 +151,53 @@ def main() -> None:
             target=_stop_worker, name="stop-worker", daemon=True
         ).start()
 
+    def _on_start_camera() -> None:
+        gt = state["gesture_thread"]
+        if gt is not None:
+            gt.start()
+
+    def _on_stop_camera() -> None:
+        gt = state["gesture_thread"]
+        if gt is None:
+            return
+
+        def _worker() -> None:
+            try:
+                gt.stop()
+            except Exception:
+                pass
+
+        threading.Thread(
+            target=_worker, name="stop-camera", daemon=True
+        ).start()
+
+    def _on_start_voice() -> None:
+        vt = state["voice_thread"]
+        if vt is not None:
+            vt.start()
+            _drain_voice_logs()
+
+    def _on_stop_voice() -> None:
+        vt = state["voice_thread"]
+        if vt is None:
+            return
+
+        def _worker() -> None:
+            try:
+                vt.stop()
+            except Exception:
+                pass
+
+        threading.Thread(
+            target=_worker, name="stop-voice", daemon=True
+        ).start()
+
     app.on_start = _on_start
     app.on_stop = _on_stop
+    app.on_start_camera = _on_start_camera
+    app.on_stop_camera = _on_stop_camera
+    app.on_start_voice = _on_start_voice
+    app.on_stop_voice = _on_stop_voice
 
     # Helper: forward voice log entries into the app's log queue
     # so the GUI's _poll_log can display them in the Log page.
@@ -176,9 +222,11 @@ def main() -> None:
         if app.running:
             app.after(100, _drain_voice_logs)
 
-    # Settings changed (camera/mic) — restart recognition threads.
-    def _on_settings_changed(camera_index, mic_device_id) -> None:
-        """Recreate the recognition threads with the new camera/mic.
+    # Settings changed (camera/mic/pause) — restart recognition threads.
+    def _on_settings_changed(
+        camera_index, mic_device_id, pause_threshold=None
+    ) -> None:
+        """Recreate the recognition threads with the new camera/mic/pause.
 
         The old threads are stopped on a background worker (blocking joins
         must not run on the main thread).  Once they are fully stopped — which
@@ -186,11 +234,15 @@ def main() -> None:
         threads are created, rewired and restarted on the main thread.
         """
         def _recreate() -> None:
-            _create_threads(
-                camera_index,
-                mic_device_id,
-                settings.get("pause_threshold"),
+            # Prefer the value just saved by the settings page; fall back to
+            # a fresh load so a stale startup snapshot is never reused.
+            current = SetupWizard.load_settings()
+            threshold = (
+                pause_threshold
+                if pause_threshold is not None
+                else current.get("pause_threshold")
             )
+            _create_threads(camera_index, mic_device_id, threshold)
             _wire_queues()
             if app.running:
                 _on_start()
