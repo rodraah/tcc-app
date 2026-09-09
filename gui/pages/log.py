@@ -5,6 +5,8 @@ from datetime import datetime
 
 import customtkinter as ctk
 
+from gui.friendly_log import humanize, normalize_module
+
 
 class LogPage(ctk.CTkFrame):
     """Page displaying a scrolling log of gestures and fired actions."""
@@ -85,7 +87,9 @@ class LogPage(ctk.CTkFrame):
     def add_entry(self, message: str, module: str = "sistema"):
         """Add a log entry. Thread-safe — can be called from any thread."""
         timestamp = datetime.now().strftime("%H:%M:%S")
-        entry = f"[{timestamp}] [{module}] {message}"
+        label = normalize_module(module)
+        text = humanize(message)
+        entry = f"[{timestamp}] [{label}] {text}"
         try:
             self._log_queue.put_nowait(entry)
         except queue.Full:
@@ -111,7 +115,8 @@ class LogPage(ctk.CTkFrame):
         if line_count > self._max_lines:
             self.log_text.delete("1.0", f"{line_count - self._max_lines}.0")
 
-        self.log_text.see("end")
+        if not self._paused:
+            self.log_text.see("end")
         self.log_text.configure(state="disabled")
 
     def _toggle_pause(self):

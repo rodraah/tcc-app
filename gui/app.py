@@ -286,7 +286,7 @@ class App(ctk.CTk):
         """
         try:
             action_name = self._action_queue.get_nowait()
-            self.add_log_entry(f"Ação disparada: {action_name}", "gesto")
+            self.add_log_entry(f"Ação: {action_name}", "gesto")
             self._handle_stop()  # stop recognition (camera + mic off)
             self.withdraw()  # auto-hide to tray
         except queue.Empty:

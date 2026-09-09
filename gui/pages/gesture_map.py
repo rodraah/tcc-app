@@ -250,33 +250,89 @@ class GestureMapPage(ctk.CTkScrollableFrame):
 
     # --- Settings ---
 
-    def _build_settings(self):
-        """Build the settings editor fields."""
-        settings = [
-            ("Duração do Hold (s)", "DURACAO_HOLD_SEGUNDOS", "3.0"),
-            ("Confiança Mínima", "CONFIANCA_MINIMA_GESTO_PRONTO", "0.6"),
-            ("Tolerância de Gap (frames)", "TOLERANCIA_GAP_FRAMES", "3"),
-            ("Limiar da Pinça", "LIMIAR_PINCA", "0.04"),
-            ("Índice da Câmera", "CAMERA_INDEX", "0"),
-        ]
+    # Editable gesture tunables (synced with gesture.config + app_state.json).
+    # Camera index lives under Dispositivos — not duplicated here.
+    _GESTURE_SETTINGS = (
+        ("Duração do Hold (s)", "DURACAO_HOLD_SEGUNDOS", float, 0.5, 10.0),
+        ("Confiança Mínima", "CONFIANCA_MINIMA_GESTO_PRONTO", float, 0.0, 1.0),
+        ("Tolerância de Gap (frames)", "TOLERANCIA_GAP_FRAMES", int, 0, 30),
+        ("Limiar da Pinça", "LIMIAR_PINCA", float, 0.01, 0.2),
+    )
 
-        for label, key, default in settings:
+    def _build_settings(self):
+        """Build the settings editor fields from the live config singleton."""
+        from gesture.config import config
+
+        for label, key, _caster, _lo, _hi in self._GESTURE_SETTINGS:
             row = ctk.CTkFrame(self.settings_frame, fg_color="transparent")
             row.pack(fill="x", padx=14, pady=3)
 
             ctk.CTkLabel(row, text=label, width=200, anchor="w").pack(side="left")
 
             entry = ctk.CTkEntry(row, width=100)
-            entry.insert(0, default)
+            value = getattr(config, key)
+            entry.insert(0, str(value))
             entry.pack(side="left", padx=(10, 0))
 
             self._settings_widgets[key] = entry
 
+        ctk.CTkLabel(
+            self.settings_frame,
+            text="Alterações valem na hora (hold/confiança/pinça).",
+            font=ctk.CTkFont(size=11),
+            text_color=self._SECONDARY_COLOR,
+            anchor="w",
+        ).pack(anchor="w", padx=14, pady=(4, 14))
+
     def _apply_settings(self):
-        """Apply settings (placeholder — will update config singleton later)."""
-        for key, entry in self._settings_widgets.items():
-            value = entry.get()
-            print(f"[Configurações] {key} = {value}")  # TODO: update config singleton
+        """Validate fields, update the config singleton and persist to disk."""
+        import tkinter.messagebox as mb
+
+        from gesture.config import PERSISTED_FIELDS, config
+
+        parsed: dict = {}
+        for label, key, caster, lo, hi in self._GESTURE_SETTINGS:
+            raw = self._settings_widgets[key].get().strip().replace(",", ".")
+            try:
+                value = caster(raw)
+            except (TypeError, ValueError):
+                mb.showerror(
+                    "Valor inválido",
+                    f'"{label}" precisa ser um número válido.',
+                    parent=self.winfo_toplevel(),
+                )
+                return
+            if value < lo or value > hi:
+                mb.showerror(
+                    "Valor fora da faixa",
+                    f'"{label}" deve estar entre {lo} e {hi}.',
+                    parent=self.winfo_toplevel(),
+                )
+                return
+            parsed[key] = value
+
+        for key, value in parsed.items():
+            setattr(config, key, value)
+
+        settings = SetupWizard.load_settings()
+        for key in PERSISTED_FIELDS:
+            settings[key] = getattr(config, key)
+        SetupWizard.save_settings(settings)
+
+        # Refresh entry text with normalized values
+        for key, value in parsed.items():
+            entry = self._settings_widgets[key]
+            entry.delete(0, "end")
+            entry.insert(0, str(value))
+
+        root = self.winfo_toplevel()
+        if hasattr(root, "add_log_entry"):
+            root.add_log_entry("Configurações de gesto aplicadas.", "sistema")
+        mb.showinfo(
+            "Configurações",
+            "Configurações de gesto aplicadas.",
+            parent=root,
+        )
 
     # --- Devices (camera + microphone) ---
 
@@ -454,6 +510,12 @@ class GestureMapPage(ctk.CTkScrollableFrame):
         settings = SetupWizard.load_settings()
         if camera_index is not None:
             settings["camera_index"] = camera_index
+            try:
+                from gesture.config import config
+
+                config.CAMERA_INDEX = int(camera_index)
+            except Exception:
+                pass
         if mic_device_id is not None:
             settings["mic_device_id"] = mic_device_id
         if pause_threshold is not None:

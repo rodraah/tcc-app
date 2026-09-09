@@ -50,6 +50,18 @@ def main() -> None:
     settings = SetupWizard.load_settings()
     hotkey_combo: str = settings.get("hotkey", "F9")
 
+    # Apply gesture tunables (hold, confidence, pinch, …) onto the singleton
+    # before recognition threads start.
+    try:
+        from gesture.config import apply_persisted
+
+        apply_persisted(settings)
+    except Exception as exc:
+        print(
+            f"[main] Aviso: não foi possível aplicar configs de gesto: {exc}",
+            file=sys.stderr,
+        )
+
     # 4. Create background recognition threads.
     #    Lazy import so that missing gesture/voice deps don't crash the app
     #    at import time — the thread classes themselves handle ImportError.

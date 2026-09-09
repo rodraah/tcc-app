@@ -67,3 +67,22 @@ class Config:
 
 # Instancia singleton importada pelos modulos: `from gesture.config import config`
 config = Config()
+
+# Keys persisted in app_state.json and editable in the settings page.
+PERSISTED_FIELDS: dict[str, type] = {
+    "DURACAO_HOLD_SEGUNDOS": float,
+    "CONFIANCA_MINIMA_GESTO_PRONTO": float,
+    "TOLERANCIA_GAP_FRAMES": int,
+    "LIMIAR_PINCA": float,
+}
+
+
+def apply_persisted(settings: dict) -> None:
+    """Copy known gesture tunables from a settings dict onto the singleton."""
+    for key, caster in PERSISTED_FIELDS.items():
+        if key not in settings:
+            continue
+        try:
+            setattr(config, key, caster(settings[key]))
+        except (TypeError, ValueError):
+            continue

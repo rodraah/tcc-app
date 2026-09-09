@@ -16,7 +16,6 @@ from __future__ import annotations
 import queue
 import threading
 import time
-import traceback
 
 
 class GestureThread:
@@ -118,7 +117,9 @@ class GestureThread:
                 desenhar_texto_gesto,
             )
         except ImportError as exc:
-            self._put_log(f"Dependencias de gestos indisponiveis: {exc}")
+            self._put_log(
+                "Reconhecimento de gestos indisponível (bibliotecas ausentes)."
+            )
             self._running = False
             return
 
@@ -166,7 +167,9 @@ class GestureThread:
             # --- Open webcam ---
             cap = cv2.VideoCapture(self._camera_index)
             if not cap.isOpened():
-                self._put_log("Nao foi possivel acessar a webcam.")
+                self._put_log(
+                    "Câmera não encontrada. Verifique se está conectada e livre."
+                )
                 recognizer.close()
                 self._running = False
                 return
@@ -238,7 +241,7 @@ class GestureThread:
                     except queue.Full:
                         pass
                     self._put_log(
-                        f"Ação disparada: {acao_executada}", "gesture",
+                        f"Ação: {acao_executada}", "gesto",
                     )
 
                 if fim_feedback > time.time() and feedback_acao:
@@ -274,8 +277,9 @@ class GestureThread:
                     pass
 
         except Exception as exc:
-            tb = traceback.format_exc()
-            self._put_log(f"Erro na thread de gestos: {exc}\n{tb}")
+            self._put_log(
+                f"Erro no reconhecimento de gestos: {exc}"
+            )
         finally:
             if cap is not None:
                 cap.release()
@@ -355,7 +359,10 @@ class VoiceThread:
             from voice.assistant import VoiceAssistant
             from voice.models import Callbacks
         except ImportError as exc:
-            self._put_log(f"Modulo de voz indisponivel: {exc}", "system")
+            self._put_log(
+                "Reconhecimento de voz indisponível (bibliotecas ausentes).",
+                "sistema",
+            )
             self._put_error(
                 "Voz indisponível",
                 "O módulo de reconhecimento de voz não pôde ser carregado.\n\n"
@@ -376,7 +383,7 @@ class VoiceThread:
         def _on_intent(intent, raw_text: str) -> None:
             try:
                 self.log_queue.put_nowait(
-                    (f"Voz: '{raw_text}' -> {intent.name}", "voice"),
+                    (f"Voz: '{raw_text}' -> {intent.name}", "voz"),
                 )
             except queue.Full:
                 pass
@@ -389,7 +396,7 @@ class VoiceThread:
         def _on_error(exc: Exception, context: str) -> None:
             try:
                 self.log_queue.put_nowait(
-                    (f"Erro de voz ({context}): {exc}", "system"),
+                    ("Erro no reconhecimento de voz.", "sistema"),
                 )
             except queue.Full:
                 pass
@@ -426,14 +433,20 @@ class VoiceThread:
         except RuntimeError as exc:
             # The previous assistant may still be shutting down in the
             # background (process-wide singleton guard still held).
-            self._put_log(f"Falha ao iniciar voz: {exc}", "system")
+            self._put_log(
+                "Não foi possível iniciar a voz. Aguarde e tente de novo.",
+                "sistema",
+            )
             self._put_error(
                 "Voz ainda desligando",
                 "O reconhecimento de voz ainda está sendo desligado.\n\n"
                 "Aguarde um instante e clique em Iniciar novamente.",
             )
         except Exception as exc:
-            self._put_log(f"Falha ao iniciar voz: {exc}", "system")
+            self._put_log(
+                "Não foi possível iniciar a voz. Verifique o microfone.",
+                "sistema",
+            )
             self._put_error(
                 "Falha ao iniciar voz",
                 f"Não foi possível iniciar o reconhecimento de voz:\n{exc}\n\n"

@@ -298,7 +298,7 @@ class HoldToConfirm:
             if gesto == self.nome_gesto:
                 # Gesto mantido: zera o gap e checa se o hold foi cumprido.
                 self._gap_atual = 0
-                if now - self._inicio_hold >= self.duracao_hold:
+                if now - self._inicio_hold >= config.DURACAO_HOLD_SEGUNDOS:
                     self._segurando = False
                     self._aguardando_soltura = True  # OCIOSO com re-arm bloqueado
                     return self.nome_acao
@@ -306,7 +306,7 @@ class HoldToConfirm:
 
             # Gesto ausente ou alterado: conta como gap (flicker nao reseta).
             self._gap_atual += 1
-            if self._gap_atual > self.tolerancia_gap_frames:
+            if self._gap_atual > config.TOLERANCIA_GAP_FRAMES:
                 # Perda sustentada: reseta e rearma.
                 self._segurando = False
                 self._aguardando_soltura = False
