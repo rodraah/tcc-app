@@ -18,13 +18,14 @@ Usage::
 import json
 import queue
 import threading
-from pathlib import Path
 
 import customtkinter as ctk
 from PIL import Image
 
-# Resolve config directory relative to project root
-_CONFIG_DIR = Path(__file__).resolve().parent.parent.parent / "config"
+from app_paths import CONFIG_DIR
+
+# Resolve config directory relative to project root (exe folder when frozen)
+_CONFIG_DIR = CONFIG_DIR
 _APP_STATE_PATH = _CONFIG_DIR / "app_state.json"
 
 _DEFAULTS = {

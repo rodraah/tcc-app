@@ -15,8 +15,7 @@ Este modulo e puramente config: NAO importa mediapipe, opencv nem win32gui.
 from dataclasses import dataclass, field
 from pathlib import Path
 
-
-_PROJECT_ROOT = Path(__file__).resolve().parent.parent  # TCC-App root
+from app_paths import MAPEAMENTO_PATH, MODELS_DIR
 
 
 @dataclass
@@ -24,7 +23,7 @@ class Config:
     """Fonte unica de verdade para as constantes configuraveis do projeto."""
 
     # Modelo do MediaPipe (GestureRecognizer)
-    MODEL_PATH: str = str(_PROJECT_ROOT / "models" / "gesture_recognizer.task")
+    MODEL_PATH: str = str(MODELS_DIR / "gesture_recognizer.task")
 
     # Camera
     CAMERA_INDEX: int = 0
@@ -48,7 +47,8 @@ class Config:
     DURACAO_FEEDBACK_SEGUNDOS: float = 3.0 # tempo de feedback visual de acao disparada (em segundos)
 
     # Mapeamento gesto -> acao persistido em JSON
-    CAMINHO_MAPEAMENTO: Path = _PROJECT_ROOT / "mapeamento.json"
+    CAMINHO_MAPEAMENTO: Path = MAPEAMENTO_PATH
+
     MAPA_PADRAO: dict[str, str] = field(
         default_factory=lambda: {
             "Closed_Fist": "minimizar",

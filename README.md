@@ -12,33 +12,37 @@ Trabalho de Conclusão de Curso de Ciência da Computação que desenvolve um ap
 
 ## Pré-requisitos
 
-- Windows
-- Python 3.10 ou superior
+- Windows 10/11
 - Webcam e microfone
 
-## Instalação
+## Uso (plug and play)
 
-Instale as dependências:
+1. Baixe o zip da pasta `dist/TCC-App` (gerada pelo build, ou release do projeto).
+2. Extraia em qualquer pasta.
+3. Abra `TCC-App.exe`.
 
-```bash
+Na primeira execução, o assistente escolhe câmera, microfone e atalho. O pacote já inclui MediaPipe, Vosk e Chromium (Playwright) para comandos de voz no navegador. Whisper (se usado) baixa o modelo na primeira vez (precisa de internet).
+
+## Build do executável (desenvolvedor)
+
+Requer **Python 3.10–3.12** (3.14 quebra o PyAudio no Windows).
+
+```powershell
+.\scripts\build_exe.ps1
+```
+
+Gera `dist\TCC-App\` (exe + modelos + config). Zippe essa pasta para distribuir.
+
+## Desenvolvimento (código-fonte)
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-```
-
-Baixe os modelos do MediaPipe para a pasta `models/`:
-
-```bash
 python scripts/download_models.py
-```
-
-## Execução
-
-Inicie o aplicativo com:
-
-```bash
+python scripts/download_vosk_model.py
 python main.py
 ```
-
-Na primeira execução, o assistente de configuração é aberto para selecionar a câmera, o microfone e o atalho global. O aplicativo é direcionado ao Windows.
 
 ## Estrutura do projeto
 

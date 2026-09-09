@@ -6,10 +6,14 @@ import queue
 import sys
 import threading
 
+from app_paths import configure_playwright_browsers
 from gui.app import App
 from gui.hotkeys import HotkeyListener
 from gui.tray import TrayIcon
 from gui.widgets.wizard import SetupWizard
+
+# Before any voice/browser code imports Playwright.
+configure_playwright_browsers()
 
 
 def main() -> None:

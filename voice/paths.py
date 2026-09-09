@@ -2,14 +2,15 @@
 
 All paths are resolved relative to the project root (the directory
 containing ``voice/``, ``config/``, ``models/``, etc.) — never from the
-current working directory.
+current working directory.  When frozen (PyInstaller), the root is the
+folder that contains the .exe.
 """
 
-from pathlib import Path
-
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-CONFIG_DIR = PROJECT_ROOT / "config"
-DEFAULT_CONFIG = CONFIG_DIR / "commands.yaml"
-MODELS_DIR = PROJECT_ROOT / "models"
-LOGS_DIR = PROJECT_ROOT / "logs"
-BROWSER_PROFILE_DIR = PROJECT_ROOT / ".browser-profile"
+from app_paths import (  # noqa: F401 — re-export
+    BROWSER_PROFILE_DIR,
+    CONFIG_DIR,
+    DEFAULT_CONFIG,
+    LOGS_DIR,
+    MODELS_DIR,
+    PROJECT_ROOT,
+)

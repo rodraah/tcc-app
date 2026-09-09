@@ -127,8 +127,11 @@ class BrowserSession:
                 self.navigate(url)
             return
 
+        from app_paths import configure_playwright_browsers
         from playwright.sync_api import sync_playwright
 
+        # Frozen builds ship Chromium under ms-playwright/ next to the exe.
+        configure_playwright_browsers()
         self._playwright = sync_playwright().start()
 
         if self.cdp_url:

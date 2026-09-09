@@ -1,14 +1,14 @@
 """Gesture→action mapping editor + settings editor."""
 
 import json
-from pathlib import Path
 
 import customtkinter as ctk
 
+from app_paths import MAPEAMENTO_PATH
 from gui.widgets.wizard import SetupWizard, _probe_cameras, _probe_mics
 
 # Path to the gesture→action mapping file
-MAPPING_PATH = Path(__file__).resolve().parent.parent.parent / "mapeamento.json"
+MAPPING_PATH = MAPEAMENTO_PATH
 
 
 class GestureMapPage(ctk.CTkScrollableFrame):
