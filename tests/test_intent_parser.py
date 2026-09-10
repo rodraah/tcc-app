@@ -161,6 +161,9 @@ def test_hotkeys_and_keys():
     assert intent.params["keys"] == ["ctrl", "c"]
     assert parser.parse("enter").name == "press_key"
     assert parser.parse("enter").params["key"] == "enter"
+    assert parser.parse("pule uma linha").name == "press_key"
+    assert parser.parse("pule uma linha").params["key"] == "enter"
+    assert parser.parse("nova linha").params["key"] == "enter"
     assert parser.parse("colar").params["keys"] == ["ctrl", "v"]
 
 
@@ -294,6 +297,45 @@ def test_dialog_cancel():
     assert intent.params["choice"] == "cancel"
 
 
+def test_save_notepad_downloads():
+    parser = IntentParser()
+    phrases = (
+        "salvar em downloads",
+        "salvar no download",
+        "salvar arquivo em download",
+        "salvar arquivo no download",
+        "salvar no diretorio de download",
+    )
+    for phrase in phrases:
+        intent = parser.parse(phrase)
+        assert intent is not None, phrase
+        assert intent.name == "save_notepad", phrase
+        assert intent.params["location"] == "downloads", phrase
+
+
+def test_save_notepad_named():
+    parser = IntentParser()
+    intent = parser.parse("salvar em downloads como lista de compras")
+    assert intent is not None
+    assert intent.name == "save_notepad"
+    assert intent.params["location"] == "downloads"
+    assert intent.params["name"] == "lista de compras"
+
+
+def test_save_notepad_desktop():
+    parser = IntentParser()
+    phrases = (
+        "salvar na area de trabalho",
+        "salvar no desktop",
+        "salvar arquivo na area de trabalho",
+    )
+    for phrase in phrases:
+        intent = parser.parse(phrase)
+        assert intent is not None, phrase
+        assert intent.name == "save_notepad", phrase
+        assert intent.params["location"] == "desktop", phrase
+
+
 def test_scroll_not_cancelled_by_para():
     """'para' em 'role para baixo' não deve virar cancel."""
     parser = IntentParser()
@@ -412,6 +454,9 @@ if __name__ == "__main__":
     test_dialog_save()
     test_dialog_discard()
     test_dialog_cancel()
+    test_save_notepad_downloads()
+    test_save_notepad_named()
+    test_save_notepad_desktop()
     test_scroll_not_cancelled_by_para()
     test_open_folder()
     test_windows_search()

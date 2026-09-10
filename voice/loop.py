@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import threading
 import time
+from pathlib import Path
 from typing import TYPE_CHECKING, Optional
 
 from voice.logger import log_transcript, setup_logging
@@ -181,6 +182,17 @@ class Loop:
             if result:
                 self._logger.info(f"Arquivo salvo: {result}")
                 self._executor.speak(f"Salvo em {result}")
+        elif intent.name == "save_notepad" and result:
+            self._logger.info(f"Arquivo salvo: {result}")
+            self._executor.speak(f"Salvo em {result}")
+        elif intent.name == "open_last_file" and result:
+            self._executor.speak(f"Abrindo {Path(result).name}")
+        elif intent.name == "read_last_file" and result:
+            self._executor.speak(str(result))
+        elif intent.name == "create_folder" and result:
+            self._executor.speak(f"Pasta criada em {result}")
+        elif intent.name == "list_folder" and result:
+            self._executor.speak(str(result))
         elif intent.name == "lock_pc" and intent.params.get("confirmed"):
             self.awaiting_lock = False
         elif intent.name == "help" and result:

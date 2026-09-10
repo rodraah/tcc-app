@@ -148,6 +148,83 @@ dialog_choices:
 save:
   default_dir: ~/Documents/VoiceAssistant
   filename_pattern: "nota_{timestamp}.txt"
+  locations:
+    downloads: ~/Downloads
+    download: ~/Downloads
+    desktop: ~/Desktop
+    area de trabalho: ~/Desktop
+    documentos: ~/Documents
+    documento: ~/Documents
+    docs: ~/Documents
+    projeto: "{project}"
+    pasta do projeto: "{project}"
+
+# Frases → chave em save.locations (match antes do hotkey "salvar")
+# Sufixo opcional: " como <nome>" (ex.: salvar em downloads como lista de compras)
+save_location_phrases:
+  salvar em downloads: downloads
+  salvar no downloads: downloads
+  salvar em download: downloads
+  salvar no download: downloads
+  salvar arquivo em downloads: downloads
+  salvar arquivo no downloads: downloads
+  salvar arquivo em download: downloads
+  salvar arquivo no download: downloads
+  salvar no diretorio de downloads: downloads
+  salvar no diretorio de download: downloads
+  salvar na pasta downloads: downloads
+  salvar na pasta download: downloads
+  salvar na area de trabalho: desktop
+  salvar no desktop: desktop
+  salvar na desktop: desktop
+  salvar arquivo na area de trabalho: desktop
+  salvar arquivo no desktop: desktop
+  salvar arquivo na desktop: desktop
+  salvar em documentos: documentos
+  salvar no documentos: documentos
+  salvar em documento: documentos
+  salvar nos documentos: documentos
+  salvar arquivo em documentos: documentos
+  salvar arquivo nos documentos: documentos
+  salvar na pasta documentos: documentos
+  salvar no projeto: projeto
+  salvar no pasta do projeto: projeto
+  salvar na pasta do projeto: projeto
+  salvar em projeto: projeto
+  salvar arquivo no projeto: projeto
+  salvar arquivo na pasta do projeto: projeto
+
+open_last_file_phrases:
+  - abrir ultima nota
+  - abrir o ultimo arquivo
+  - abrir ultimo arquivo
+  - abrir o que acabei de salvar
+  - abrir o que salvei
+  - abrir ultimo salvo
+
+read_last_file_phrases:
+  - ler ultima nota
+  - ler o ultimo arquivo
+  - ler ultimo arquivo
+  - ler o que salvei
+  - ler ultima salvacao
+  - ler o arquivo salvo
+
+list_folder_prefixes:
+  - o que tem em
+  - o que tem no
+  - o que tem na
+  - listar arquivos em
+  - listar arquivos no
+  - listar arquivos na
+  - listar pasta
+  - listar
+
+create_folder_prefixes:
+  - criar pasta
+  - criar uma pasta
+  - cria pasta
+  - cria uma pasta
 
 browser:
   # auto | chrome | msedge | chromium — auto escolhe Edge/Chrome instalado.
@@ -346,6 +423,12 @@ hotkeys:
 
 press_keys:
   enter: enter
+  pule uma linha: enter
+  pular uma linha: enter
+  pule linha: enter
+  pular linha: enter
+  nova linha: enter
+  proxima linha: enter
   escape: escape
   esc: escape
   tab: tab

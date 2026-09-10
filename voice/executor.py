@@ -19,7 +19,14 @@ from voice.actions.browser import (
     browser_zoom_handler,
 )
 from voice.actions.close_app import close_app_handler
-from voice.actions.dialog import dialog_choice_handler
+from voice.actions.dialog import (
+    create_folder_handler,
+    dialog_choice_handler,
+    list_folder_handler,
+    open_last_file_handler,
+    read_last_file_handler,
+    save_notepad_handler,
+)
 from voice.actions.open_app import open_app_handler
 from voice.actions.system import (
     focus_app_handler,
@@ -61,6 +68,11 @@ class Executor:
             "open_app": self._open_app,
             "close_app": self._close_app,
             "dialog_choice": self._dialog_choice,
+            "save_notepad": self._save_notepad,
+            "open_last_file": self._open_last_file,
+            "read_last_file": self._read_last_file,
+            "create_folder": self._create_folder,
+            "list_folder": self._list_folder,
             "open_url": self._open_url,
             "type_text": type_text_handler,
             "browser_open": self._browser_open,
@@ -123,6 +135,31 @@ class Executor:
         if saved_path:
             self.logger.info(f"Salvo em: {saved_path}")
         return saved_path
+
+    def _save_notepad(self, intent: Intent) -> str:
+        saved_path = save_notepad_handler(intent, self.save_config)
+        self.logger.info(f"Salvo em: {saved_path}")
+        return saved_path
+
+    def _open_last_file(self, intent: Intent) -> str:
+        path = open_last_file_handler(intent)
+        self.logger.info(f"Aberto: {path}")
+        return path
+
+    def _read_last_file(self, intent: Intent) -> str:
+        text = read_last_file_handler(intent)
+        self.logger.info("Lendo último arquivo salvo")
+        return text
+
+    def _create_folder(self, intent: Intent) -> str:
+        path = create_folder_handler(intent, self.save_config)
+        self.logger.info(f"Pasta criada: {path}")
+        return path
+
+    def _list_folder(self, intent: Intent) -> str:
+        summary = list_folder_handler(intent, self.save_config)
+        self.logger.info(summary)
+        return summary
 
     def _open_url(self, intent: Intent) -> None:
         url = intent.params.get("url")

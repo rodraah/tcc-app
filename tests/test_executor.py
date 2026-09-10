@@ -46,6 +46,11 @@ def test_handlers_cover_roadmap_intents():
         "browser_youtube",
         "open_folder",
         "windows_search",
+        "save_notepad",
+        "open_last_file",
+        "read_last_file",
+        "create_folder",
+        "list_folder",
     }
     assert required <= set(ex._handlers)
 

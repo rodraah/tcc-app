@@ -45,6 +45,12 @@ def test_salvar_dialog_vs_hotkey():
     assert parser.parse("salvar").name == "hotkey"
 
 
+def test_salvar_em_local_nao_e_hotkey():
+    parser = IntentParser()
+    assert parser.parse("salvar em downloads").name == "save_notepad"
+    assert parser.parse("salvar na area de trabalho").name == "save_notepad"
+
+
 def test_lock_confirm_flow():
     parser = IntentParser()
     assert parser.parse("bloquear pc").params["confirmed"] is False
@@ -155,6 +161,7 @@ if __name__ == "__main__":
     test_colar_still_works()
     test_nova_aba_not_abrir()
     test_salvar_dialog_vs_hotkey()
+    test_salvar_em_local_nao_e_hotkey()
     test_lock_confirm_flow()
     test_cooldown_exempt_in_config()
     test_performance_audio_defaults()

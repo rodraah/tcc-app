@@ -94,6 +94,25 @@ class IntentParser:
         self.folder_prefixes = self.config.get(
             "folder_prefixes", ["abrir pasta", "abre pasta"]
         )
+        self.save_location_phrases: dict[str, str] = self.config.get(
+            "save_location_phrases", {}
+        )
+        self.open_last_file_phrases: list[str] = self.config.get(
+            "open_last_file_phrases", []
+        )
+        self.read_last_file_phrases: list[str] = self.config.get(
+            "read_last_file_phrases", []
+        )
+        self.list_folder_prefixes: list[str] = self.config.get(
+            "list_folder_prefixes", []
+        )
+        self.create_folder_prefixes: list[str] = self.config.get(
+            "create_folder_prefixes",
+            ["criar pasta", "criar uma pasta"],
+        )
+        self.save_locations: dict[str, str] = (
+            self.config.get("save") or {}
+        ).get("locations", {}) or {}
         self.windows_search_prefixes = self.config.get(
             "windows_search_prefixes",
             ["pesquisar no windows", "buscar no windows"],
@@ -586,6 +605,68 @@ class IntentParser:
             return remainder or None
         return None
 
+    def _resolve_save_location(self, text: str) -> str | None:
+        """Mapeia alias falado (downloads, documentos…) → chave em save.locations."""
+        if not text or not self.save_locations:
+            return None
+        candidate = text.strip()
+        for alias in sorted(self.save_locations, key=len, reverse=True):
+            if candidate == alias or candidate.startswith(alias + " "):
+                return alias
+            if fuzz.ratio(candidate, alias) >= self.fuzzy_threshold:
+                return alias
+        return None
+
+    def _match_save_notepad(self, text: str) -> Intent | None:
+        if not self.save_location_phrases:
+            return None
+        for phrase, location in sorted(
+            self.save_location_phrases.items(), key=lambda x: len(x[0]), reverse=True
+        ):
+            if text == phrase:
+                return Intent("save_notepad", {"location": location})
+            named = phrase + " como "
+            if text.startswith(named):
+                name = text[len(named) :].strip()
+                if name:
+                    return Intent(
+                        "save_notepad", {"location": location, "name": name}
+                    )
+        return None
+
+    def _match_list_folder(self, text: str) -> Intent | None:
+        if not self.list_folder_prefixes or not self.save_locations:
+            return None
+        remainder = self._match_prefix_remainder(text, self.list_folder_prefixes)
+        if not remainder:
+            return None
+        location = self._resolve_save_location(remainder)
+        if not location:
+            return None
+        return Intent("list_folder", {"location": location})
+
+    def _match_create_folder(self, text: str) -> Intent | None:
+        if not self.create_folder_prefixes or not self.save_locations:
+            return None
+        for prefix in sorted(self.create_folder_prefixes, key=len, reverse=True):
+            if not (text == prefix or text.startswith(prefix + " ")):
+                continue
+            rest = text[len(prefix) :].strip()
+            if not rest:
+                return None
+            m = re.search(r"^(.+?)\s+(?:em|no|na)\s+(.+)$", rest)
+            if not m:
+                return None
+            name = m.group(1).strip()
+            loc_text = m.group(2).strip()
+            location = self._resolve_save_location(loc_text)
+            if name and location:
+                return Intent(
+                    "create_folder", {"name": name, "location": location}
+                )
+            return None
+        return None
+
     def _match_open_folder(self, text: str) -> str | None:
         if not self.folders:
             return None
@@ -684,6 +765,8 @@ class IntentParser:
             "minimizar maximizar",
             "pesquisar e clicar em links",
             "volume e area de trabalho",
+            "salvar e abrir notas",
+            "criar pasta e listar arquivos",
             "ajuda e repetir",
         ]
         return "Comandos: " + "; ".join(parts)
@@ -718,6 +801,25 @@ class IntentParser:
 
         if self._match_phrase_list(command, self.lock_phrases):
             return Intent("lock_pc", {"confirmed": False})
+
+        # Antes de show_desktop: "salvar na area de trabalho" contém "area de trabalho".
+        save_intent = self._match_save_notepad(command)
+        if save_intent:
+            return save_intent
+
+        if self._match_phrase_list(command, self.open_last_file_phrases):
+            return Intent("open_last_file")
+
+        if self._match_phrase_list(command, self.read_last_file_phrases):
+            return Intent("read_last_file")
+
+        create = self._match_create_folder(command)
+        if create:
+            return create
+
+        listing = self._match_list_folder(command)
+        if listing:
+            return listing
 
         if self._match_phrase_list(command, self.show_desktop_phrases):
             return Intent("show_desktop")
