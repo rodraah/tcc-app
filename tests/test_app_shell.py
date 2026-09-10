@@ -60,6 +60,9 @@ class _FakeWidget:
     def after(self, ms, func=None, *args):
         return None
 
+    def after_cancel(self, job):
+        pass
+
 
 class _FakeCtk(_FakeWidget):
     """Stand-in for the CTk root window."""
@@ -121,6 +124,13 @@ def _install_fake_modules():
         "set": lambda self, v: None,
     })
     ctk.CTkOptionMenu = type("CTkOptionMenu", (_FakeWidget,), {})
+    ctk.CTkProgressBar = type("CTkProgressBar", (_FakeWidget,), {
+        "set": lambda self, v: None,
+    })
+    ctk.CTkSwitch = type("CTkSwitch", (_FakeWidget,), {})
+    ctk.BooleanVar = lambda value=False: types.SimpleNamespace(
+        get=lambda: value, set=lambda v: None
+    )
     ctk.CTkFont = _FakeFont
     ctk.CTkImage = _FakeImage
     sys.modules["customtkinter"] = ctk
@@ -215,11 +225,12 @@ class TestAppShell(unittest.TestCase):
         sig = inspect.signature(App.update_gesture_status)
         self.assertEqual(
             list(sig.parameters),
-            ["self", "name", "confidence", "origin", "action"],
+            ["self", "name", "confidence", "origin", "action", "hold"],
         )
         self.assertEqual(sig.parameters["confidence"].default, 0.0)
         self.assertEqual(sig.parameters["origin"].default, "")
         self.assertEqual(sig.parameters["action"].default, "")
+        self.assertEqual(sig.parameters["hold"].default, 0.0)
 
         sig = inspect.signature(App.update_voice_status)
         self.assertEqual(list(sig.parameters), ["self", "status", "command"])
@@ -234,9 +245,10 @@ class TestAppShell(unittest.TestCase):
         sig = inspect.signature(CameraPage.update_gesture)
         self.assertEqual(
             list(sig.parameters),
-            ["self", "name", "confidence", "origin", "action"],
+            ["self", "name", "confidence", "origin", "action", "hold"],
         )
         self.assertEqual(sig.parameters["action"].default, "")
+        self.assertEqual(sig.parameters["hold"].default, 0.0)
 
         sig = inspect.signature(StatusBar.update_gesture)
         self.assertEqual(

@@ -328,6 +328,17 @@ class HoldToConfirm:
             self._gap_atual = 0
         return None
 
+    def progresso(self, now: float | None = None) -> float:
+        """Fracão 0..1 do hold em curso (0 se ocioso / aguardando soltura)."""
+        if not self._segurando:
+            return 0.0
+        if now is None:
+            now = time.monotonic()
+        dur = config.DURACAO_HOLD_SEGUNDOS
+        if dur <= 0:
+            return 1.0
+        return min(1.0, max(0.0, (now - self._inicio_hold) / dur))
+
 
 class DisparadorAcoes:
     """Dono do estado de disparo. Instanciado 1x em gestos.py; alimentado 1x por frame."""
@@ -381,3 +392,9 @@ class DisparadorAcoes:
                 executar_acao(acao)
                 return acao
         return None
+
+    def progresso_hold(self, now: float | None = None) -> float:
+        """Maior progresso de hold entre os gatilhos ativos (0..1)."""
+        if not self._gatilhos:
+            return 0.0
+        return max(g.progresso(now) for g in self._gatilhos)

@@ -4,6 +4,7 @@ import queue
 
 import customtkinter as ctk
 
+from gui.friendly_log import humanize_voice_status
 from gui.pages.camera import CameraPage
 from gui.pages.gesture_map import GestureMapPage
 from gui.pages.log import LogPage
@@ -127,26 +128,79 @@ class App(ctk.CTk):
     # --- Start/stop handling ---
 
     def _handle_start(self):
-        """Start recognition for modalities that are currently enabled."""
+        """Start recognition for modalities that are currently enabled.
+
+        Shows a loading state on the status bar immediately.  ``on_start``
+        (wired by ``main.py``) must finish the heavy work off the main
+        thread and call ``status_bar.set_running(True)`` when ready.
+        """
         cam = self.pages["camera"]
         self.running = True
-        self.status_bar.set_running(True)
+        self.status_bar.set_starting()
+        self._drain_queue(self._voice_status_queue)
+        self._drain_queue(self._transcript_queue)
         if cam.camera_enabled:
             cam.start_feed()
         if not cam.voice_enabled:
             cam.update_voice("Desativado")
             cam.update_voice_transcript("")
+        else:
+            cam.update_voice("Iniciando...")
         self._start_polling()
         if self.on_start:
             self.on_start()
 
+    def finish_start(self):
+        """Leave the loading state after background start work completes."""
+        if self.running:
+            self.status_bar.set_running(True)
+        else:
+            self.status_bar.set_running(False)
+
     def _handle_stop(self):
-        """Stop gesture recognition (invoked by the Stop button)."""
+        """Stop gesture recognition (invoked by the Stop button).
+
+        Shows a loading state while ``on_stop`` joins threads in the
+        background; ``finish_stop`` restores the idle UI when done.
+        """
+        cam = self.pages["camera"]
         self.running = False
-        self.status_bar.set_running(False)
-        self.pages["camera"].stop_feed()
+        self.status_bar.set_stopping()
+        cam.stop_feed()
+        if cam.voice_enabled:
+            cam.update_voice("Parando...")
+        else:
+            cam.update_voice("Desativado")
+        cam.set_listening(False)
+        cam.update_voice_transcript("")
+        cam.update_gesture("")
+        self.status_bar.update_gesture("")
+        self._drain_queue(self._voice_status_queue)
+        self._drain_queue(self._transcript_queue)
+        self._drain_queue(self._gesture_queue)
         if self.on_stop:
             self.on_stop()
+        else:
+            self.finish_stop()
+
+    def finish_stop(self):
+        """Leave the stopping state after background stop work completes."""
+        cam = self.pages["camera"]
+        self.status_bar.set_running(False)
+        if cam.voice_enabled:
+            cam.update_voice("Não conectado")
+        else:
+            cam.update_voice("Desativado")
+        cam.set_listening(False)
+
+    @staticmethod
+    def _drain_queue(q: queue.Queue) -> None:
+        """Drop every pending item so a late status cannot resurface."""
+        try:
+            while True:
+                q.get_nowait()
+        except queue.Empty:
+            pass
 
     def _handle_camera_enabled(self, enabled: bool):
         """Toggle camera/gesture while recognition is running."""
@@ -179,6 +233,7 @@ class App(ctk.CTk):
         else:
             cam.update_voice("Desativado")
             cam.update_voice_transcript("")
+            cam.set_listening(False)
             if self.on_stop_voice:
                 self.on_stop_voice()
 
@@ -258,8 +313,13 @@ class App(ctk.CTk):
     def _poll_gesture_status(self) -> None:
         """Pull the latest gesture info and update the UI."""
         try:
-            name, confidence, origin, action = self._gesture_queue.get_nowait()
-            self.update_gesture_status(name, confidence, origin, action)
+            item = self._gesture_queue.get_nowait()
+            if len(item) >= 5:
+                name, confidence, origin, action, hold = item[:5]
+            else:
+                name, confidence, origin, action = item[:4]
+                hold = 0.0
+            self.update_gesture_status(name, confidence, origin, action, hold)
         except queue.Empty:
             pass
         if self.running:
@@ -333,19 +393,33 @@ class App(ctk.CTk):
     # --- Public update methods ---
 
     def update_gesture_status(
-        self, name: str, confidence: float = 0.0, origin: str = "", action: str = ""
+        self,
+        name: str,
+        confidence: float = 0.0,
+        origin: str = "",
+        action: str = "",
+        hold: float = 0.0,
     ):
         """Update the gesture display in the status bar and camera page."""
         if not self.pages["camera"].camera_enabled:
             return
         self.status_bar.update_gesture(name, confidence, origin, action)
-        self.pages["camera"].update_gesture(name, confidence, origin, action)
+        self.pages["camera"].update_gesture(
+            name, confidence, origin, action, hold
+        )
 
     def update_voice_status(self, status: str, command: str = ""):
         """Update the voice status display on the camera page."""
         if not self.pages["camera"].voice_enabled:
             return
-        self.pages["camera"].update_voice(status, command)
+        label = humanize_voice_status(status, command)
+        # engine_switched folds the engine name into the label itself.
+        detail = (
+            ""
+            if (status or "").strip().lower() == "engine_switched"
+            else command
+        )
+        self.pages["camera"].update_voice(label, detail)
 
     def update_voice_transcript(self, text: str):
         """Update the recognized-speech transcript on the camera page."""

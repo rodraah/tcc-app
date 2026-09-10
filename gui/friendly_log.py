@@ -59,6 +59,22 @@ def normalize_module(module: str) -> str:
     return _MODULE_ALIASES.get((module or "sistema").strip().lower(), module or "sistema")
 
 
+_VOICE_STATUS = {
+    "started": "Ouvindo",
+    "stopped": "Parado",
+    "shutdown": "Desligado",
+    "interrupted": "Interrompido",
+}
+
+
+def humanize_voice_status(status: str, detail: str | None = None) -> str:
+    """Map raw voice-module status codes to short Portuguese UI labels."""
+    key = (status or "").strip().lower()
+    if key == "engine_switched":
+        return f"Motor: {detail}" if detail else "Motor alternado"
+    return _VOICE_STATUS.get(key, status)
+
+
 def humanize(message: str) -> str:
     """Return a short Portuguese log line; drop stack traces."""
     if not message:

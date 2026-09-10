@@ -78,11 +78,21 @@ class StatusBar(ctk.CTkFrame):
         else:
             self.confidence_label.configure(text="")
 
+    def set_starting(self):
+        """Disable both buttons and show a loading label while start finishes."""
+        self.start_btn.configure(state="disabled", text="Carregando...")
+        self.stop_btn.configure(state="disabled", text="Parar")
+
+    def set_stopping(self):
+        """Disable both buttons while stop finishes in the background."""
+        self.start_btn.configure(state="disabled", text="Iniciar")
+        self.stop_btn.configure(state="disabled", text="Parando...")
+
     def set_running(self, running: bool):
         """Enable/disable buttons based on running state."""
         if running:
-            self.start_btn.configure(state="disabled")
-            self.stop_btn.configure(state="normal")
+            self.start_btn.configure(state="disabled", text="Iniciar")
+            self.stop_btn.configure(state="normal", text="Parar")
         else:
-            self.start_btn.configure(state="normal")
-            self.stop_btn.configure(state="disabled")
+            self.start_btn.configure(state="normal", text="Iniciar")
+            self.stop_btn.configure(state="disabled", text="Parar")

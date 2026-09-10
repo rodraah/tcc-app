@@ -107,6 +107,14 @@ class CameraPage(ctk.CTkFrame):
             text_color=self._SECONDARY_COLOR,
         )
         self.gesture_origin.grid(row=2, column=0, padx=16, pady=(2, 2), sticky="w")
+        self.hold_bar = ctk.CTkProgressBar(
+            self.gesture_frame,
+            height=8,
+            corner_radius=4,
+            progress_color=("#2E86C1", "#5DADE2"),
+        )
+        self.hold_bar.grid(row=3, column=0, padx=16, pady=(4, 2), sticky="ew")
+        self.hold_bar.set(0)
         self.gesture_action = ctk.CTkLabel(
             self.gesture_frame,
             text="",
@@ -114,7 +122,7 @@ class CameraPage(ctk.CTkFrame):
             text_color=("#2E86C1", "#5DADE2"),
             anchor="w",
         )
-        self.gesture_action.grid(row=3, column=0, padx=16, pady=(2, 14), sticky="w")
+        self.gesture_action.grid(row=4, column=0, padx=16, pady=(2, 14), sticky="w")
 
         # Voice card
         self.voice_frame = ctk.CTkFrame(
@@ -129,14 +137,22 @@ class CameraPage(ctk.CTkFrame):
 
         voice_header = ctk.CTkFrame(self.voice_frame, fg_color="transparent")
         voice_header.grid(row=0, column=0, padx=16, pady=(14, 2), sticky="ew")
-        voice_header.grid_columnconfigure(0, weight=1)
+        voice_header.grid_columnconfigure(1, weight=1)
+        self.listen_dot = ctk.CTkLabel(
+            voice_header,
+            text="●",
+            width=18,
+            font=ctk.CTkFont(size=14),
+            text_color=self._PLACEHOLDER_COLOR,
+        )
+        self.listen_dot.grid(row=0, column=0, sticky="w")
         ctk.CTkLabel(
             voice_header,
             text="Voz",
             font=ctk.CTkFont(size=12, weight="bold"),
             text_color=self._TITLE_COLOR,
             anchor="w",
-        ).grid(row=0, column=0, sticky="w")
+        ).grid(row=0, column=1, padx=(4, 0), sticky="w")
         self.voice_switch = ctk.CTkSwitch(
             voice_header,
             text="Ativar",
@@ -145,7 +161,7 @@ class CameraPage(ctk.CTkFrame):
             onvalue=True,
             offvalue=False,
         )
-        self.voice_switch.grid(row=0, column=1, sticky="e")
+        self.voice_switch.grid(row=0, column=2, sticky="e")
 
         self.voice_status = ctk.CTkLabel(
             self.voice_frame,
@@ -182,6 +198,10 @@ class CameraPage(ctk.CTkFrame):
         )
         self.voice_transcript.grid(row=0, column=0, padx=10, pady=5, sticky="ew")
 
+        self._listening = False
+        self._pulse_on = False
+        self._pulse_job = None
+
     @property
     def camera_enabled(self) -> bool:
         return bool(self._camera_enabled.get())
@@ -201,23 +221,60 @@ class CameraPage(ctk.CTkFrame):
     # --- Public update methods (called from main thread via after()) ---
 
     def update_gesture(
-        self, name: str, confidence: float = 0.0, origin: str = "", action: str = ""
+        self,
+        name: str,
+        confidence: float = 0.0,
+        origin: str = "",
+        action: str = "",
+        hold: float = 0.0,
     ):
-        """Update the gesture display."""
+        """Update the gesture display and hold-to-confirm progress bar."""
         self.gesture_name.configure(text=name if name else "--")
         if confidence > 0 and origin:
             self.gesture_origin.configure(text=f"{confidence:.2f} ({origin})")
         else:
             self.gesture_origin.configure(text="")
+        self.hold_bar.set(max(0.0, min(1.0, float(hold or 0.0))))
         if action:
             self.gesture_action.configure(text=f"→ {action}")
         else:
             self.gesture_action.configure(text="")
 
     def update_voice(self, status: str, command: str = ""):
-        """Update the voice status display."""
+        """Update the voice status display and listening pulse."""
         self.voice_status.configure(text=status)
         self.voice_command.configure(text=command)
+        # Pulse while actively listening (Portuguese label or raw code).
+        key = (status or "").strip().lower()
+        self.set_listening(key in ("ouvindo", "started"))
+
+    def set_listening(self, active: bool):
+        """Start/stop the green pulse on the voice card listening dot."""
+        if active == self._listening:
+            return
+        self._listening = active
+        if active:
+            self._pulse_on = False
+            self._pulse()
+            return
+        if self._pulse_job is not None:
+            try:
+                self.after_cancel(self._pulse_job)
+            except Exception:
+                pass
+            self._pulse_job = None
+        self.listen_dot.configure(text_color=self._PLACEHOLDER_COLOR)
+
+    def _pulse(self):
+        """Toggle the listening-dot color; reschedules while listening."""
+        if not self._listening:
+            return
+        self._pulse_on = not self._pulse_on
+        color = (
+            ("#2e8b57", "#2f9e63") if self._pulse_on else ("#90c9a8", "#4a7a5c")
+        )
+        self.listen_dot.configure(text_color=color)
+        self._pulse_job = self.after(500, self._pulse)
 
     def update_voice_transcript(self, text: str):
         """Update the recognized-speech transcript display."""

@@ -50,6 +50,7 @@ from gesture.acoes import (
     VK_X,
     VK_Y,
     VK_Z,
+    HoldToConfirm,
     carregar_mapeamento,
     executar_acao,
 )
@@ -257,6 +258,26 @@ class TestCarregarMapeamento(unittest.TestCase):
             )
             resultado = carregar_mapeamento(caminho)
             self.assertEqual(resultado, {})
+
+
+class TestHoldProgresso(unittest.TestCase):
+    """HoldToConfirm.progresso reports 0..1 while the gesture is held."""
+
+    def test_ocioso_e_zero(self):
+        hold = HoldToConfirm("Open_Palm", "minimizar", duracao_hold=2.0)
+        self.assertEqual(hold.progresso(now=0.0), 0.0)
+
+    def test_metade_do_hold(self):
+        hold = HoldToConfirm("Open_Palm", "minimizar", duracao_hold=2.0)
+        with patch.object(config, "DURACAO_HOLD_SEGUNDOS", 2.0):
+            hold.update("Open_Palm", now=10.0)
+            self.assertAlmostEqual(hold.progresso(now=11.0), 0.5)
+
+    def test_completa_em_um(self):
+        hold = HoldToConfirm("Open_Palm", "minimizar", duracao_hold=2.0)
+        with patch.object(config, "DURACAO_HOLD_SEGUNDOS", 2.0):
+            hold.update("Open_Palm", now=10.0)
+            self.assertAlmostEqual(hold.progresso(now=12.0), 1.0)
 
 
 if __name__ == "__main__":

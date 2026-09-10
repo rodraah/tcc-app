@@ -126,15 +126,35 @@ def main() -> None:
     # 6. Wire start/stop callbacks — these fire when the user clicks
     #    Start / Stop in the status bar, or toggles a modality switch.
     def _on_start() -> None:
+        """Kick off recognition off the main thread.
+
+        ``VoiceThread.start()`` constructs the assistant (mic + STT) and
+        would freeze the UI if called here.  Mirror ``_on_stop``: spawn a
+        worker, then flip the status bar out of loading on the main thread.
+        """
         cam = app.pages["camera"]
         gt = state["gesture_thread"]
         vt = state["voice_thread"]
-        if cam.camera_enabled and gt is not None:
-            gt.start()
-        if cam.voice_enabled and vt is not None:
-            vt.start()
-            # Bridge voice log queue → app log queue (drained by _poll_log)
-            _drain_voice_logs()
+        start_camera = cam.camera_enabled and gt is not None
+        start_voice = cam.voice_enabled and vt is not None
+
+        def _worker() -> None:
+            try:
+                if start_camera:
+                    gt.start()
+                if start_voice:
+                    vt.start()
+            finally:
+                def _done() -> None:
+                    app.finish_start()
+                    if app.running and start_voice:
+                        _drain_voice_logs()
+
+                app.after(0, _done)
+
+        threading.Thread(
+            target=_worker, name="start-worker", daemon=True
+        ).start()
 
     def _stop_worker() -> None:
         """Stop both recognition threads (runs on a daemon thread).
@@ -159,8 +179,14 @@ def main() -> None:
                 pass
 
     def _on_stop() -> None:
+        def _worker() -> None:
+            try:
+                _stop_worker()
+            finally:
+                app.after(0, app.finish_stop)
+
         threading.Thread(
-            target=_stop_worker, name="stop-worker", daemon=True
+            target=_worker, name="stop-worker", daemon=True
         ).start()
 
     def _on_start_camera() -> None:
@@ -185,9 +211,24 @@ def main() -> None:
 
     def _on_start_voice() -> None:
         vt = state["voice_thread"]
-        if vt is not None:
-            vt.start()
-            _drain_voice_logs()
+        if vt is None:
+            return
+        cam = app.pages["camera"]
+        cam.update_voice("Iniciando...")
+
+        def _worker() -> None:
+            try:
+                vt.start()
+            finally:
+                def _done() -> None:
+                    if app.running and cam.voice_enabled:
+                        _drain_voice_logs()
+
+                app.after(0, _done)
+
+        threading.Thread(
+            target=_worker, name="start-voice", daemon=True
+        ).start()
 
     def _on_stop_voice() -> None:
         vt = state["voice_thread"]

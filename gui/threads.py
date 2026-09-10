@@ -24,7 +24,7 @@ class GestureThread:
     Communicates with the GUI via queues:
 
     - ``frame_queue``     — BGR numpy frames for display (maxsize=1)
-    - ``gesture_queue``   — ``(name, confidence, origin, action)`` tuples (maxsize=1)
+    - ``gesture_queue``   — ``(name, confidence, origin, action, hold)`` (maxsize=1)
     - ``log_queue``       — ``(message, module)`` tuples (maxsize=50)
     - ``action_queue``    — action name strings that fired (maxsize=5)
     """
@@ -263,6 +263,7 @@ class GestureThread:
                 acao_mapeada = (
                     disparador.mapa.get(gesto_mapeado) if gesto_mapeado else ""
                 )
+                hold_progress = disparador.progresso_hold()
 
                 try:
                     self.gesture_queue.put_nowait(
@@ -271,6 +272,7 @@ class GestureThread:
                             gesto_confianca,
                             gesto_origem,
                             acao_mapeada or "",
+                            hold_progress,
                         ),
                     )
                 except queue.Full:
