@@ -79,7 +79,8 @@ def save_content_to_file(
     path = directory / filename
     path.write_text(content, encoding="utf-8")
     resolved = path.resolve()
-    remember_saved_path(resolved)
+    limit = int(config.get("recent_limit", 10))
+    remember_saved_path(resolved, limit=limit)
     return resolved
 
 

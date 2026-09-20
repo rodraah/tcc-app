@@ -148,6 +148,7 @@ dialog_choices:
 save:
   default_dir: ~/Documents/VoiceAssistant
   filename_pattern: "nota_{timestamp}.txt"
+  recent_limit: 10
   locations:
     downloads: ~/Downloads
     download: ~/Downloads
@@ -209,6 +210,59 @@ read_last_file_phrases:
   - ler o que salvei
   - ler ultima salvacao
   - ler o arquivo salvo
+
+reveal_last_file_phrases:
+  - mostrar onde esta o ultimo arquivo
+  - mostrar no explorer
+  - mostrar ultimo arquivo no explorer
+  - onde esta o ultimo arquivo
+  - revelar ultimo arquivo
+
+delete_last_file_phrases:
+  - apagar ultimo arquivo
+  - apagar o ultimo arquivo
+  - excluir ultimo arquivo
+  - excluir o ultimo arquivo
+  - deletar ultimo arquivo
+  - jogar ultimo arquivo no lixo
+
+list_recent_phrases:
+  - arquivos recentes
+  - listar recentes
+  - listar arquivos recentes
+  - o que salvei recentemente
+
+delete_confirm_phrases:
+  - confirmar
+  - confirma
+  - sim apagar
+  - sim excluir
+
+open_named_file_prefixes:
+  - abrir
+  - abre
+  - abra
+
+read_named_file_prefixes:
+  - ler
+  - leia
+  - le
+
+delete_named_file_prefixes:
+  - apagar
+  - apaga
+  - excluir
+  - exclui
+  - deletar
+  - deleta
+
+search_files_prefixes:
+  - procurar arquivo
+  - buscar arquivo
+  - achar arquivo
+  - procurar
+  - buscar
+  - achar
 
 list_folder_prefixes:
   - o que tem em

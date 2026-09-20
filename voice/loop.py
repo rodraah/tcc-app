@@ -49,6 +49,8 @@ class Loop:
         self.last_command_time: float = 0.0
         self.awaiting_dialog: bool = False
         self.awaiting_lock: bool = False
+        self.awaiting_delete: bool = False
+        self.pending_delete_path: Path | None = None
         self._last_engine: str | None = None  # engine-switch detection (W2)
 
     # ------------------------------------------------------------------
@@ -106,6 +108,8 @@ class Loop:
         # --- Parse -------------------------------------------------------
         if self.awaiting_lock:
             intent = self._parser.parse_lock_confirm(text)
+        elif self.awaiting_delete:
+            intent = self._parser.parse_delete_confirm(text)
         else:
             intent = self._parser.parse(
                 text,
@@ -122,6 +126,8 @@ class Loop:
                 self._logger.info("Diga: salvar, nao salvar ou cancelar.")
             elif self.awaiting_lock:
                 self._logger.info("Diga: confirmar ou cancelar.")
+            elif self.awaiting_delete:
+                self._logger.info("Diga: confirmar ou cancelar.")
             else:
                 self._logger.info(
                     "Comando ignorado (sem wake word ou intent desconhecida)."
@@ -137,6 +143,7 @@ class Loop:
         if (
             not self.awaiting_dialog
             and not self.awaiting_lock
+            and not self.awaiting_delete
             and not exempt
             and now - self.last_command_time < self.cooldown
         ):
@@ -152,6 +159,35 @@ class Loop:
             self._logger.info("Aguardando confirmação para bloquear o PC.")
             self.last_command_time = now
             return intent
+
+        # --- Delete confirmation gate -------------------------------------
+        if intent.name == "delete_file" and not intent.params.get("confirmed"):
+            from voice.actions.files import resolve_delete_target
+
+            try:
+                path = resolve_delete_target(
+                    intent.params, self._executor.save_config
+                )
+            except Exception as exc:
+                self._executor.speak(f"Erro: {exc}")
+                self._logger.error(f"Erro ao resolver arquivo para apagar: {exc}")
+                self.last_command_time = now
+                return intent
+            self.pending_delete_path = path
+            self.awaiting_delete = True
+            self._executor.speak(
+                f"Confirme: diga confirmar para apagar {path.name}."
+            )
+            self._logger.info(f"Aguardando confirmação para apagar: {path}")
+            self.last_command_time = now
+            return intent
+
+        if (
+            intent.name == "delete_file"
+            and intent.params.get("confirmed")
+            and self.pending_delete_path is not None
+        ):
+            intent.params["path"] = str(self.pending_delete_path)
 
         # --- Execute ------------------------------------------------------
         t_exec0 = time.perf_counter()
@@ -172,6 +208,8 @@ class Loop:
         if intent.name == "cancel":
             self.awaiting_dialog = False
             self.awaiting_lock = False
+            self.awaiting_delete = False
+            self.pending_delete_path = None
         elif intent.name == "close_app" and result:
             self.awaiting_dialog = True
             self._logger.info(
@@ -187,11 +225,26 @@ class Loop:
             self._executor.speak(f"Salvo em {result}")
         elif intent.name == "open_last_file" and result:
             self._executor.speak(f"Abrindo {Path(result).name}")
+        elif intent.name == "open_file" and result:
+            self._executor.speak(f"Abrindo {Path(result).name}")
         elif intent.name == "read_last_file" and result:
             self._executor.speak(str(result))
+        elif intent.name == "read_file" and result:
+            self._executor.speak(str(result))
+        elif intent.name == "reveal_last_file" and result:
+            self._executor.speak(f"Mostrando {Path(result).name}")
+        elif intent.name == "delete_file" and intent.params.get("confirmed"):
+            self.awaiting_delete = False
+            self.pending_delete_path = None
+            if result:
+                self._executor.speak(f"Apaguei {Path(result).name}")
         elif intent.name == "create_folder" and result:
             self._executor.speak(f"Pasta criada em {result}")
         elif intent.name == "list_folder" and result:
+            self._executor.speak(str(result))
+        elif intent.name == "search_files" and result:
+            self._executor.speak(str(result))
+        elif intent.name == "list_recent_files" and result:
             self._executor.speak(str(result))
         elif intent.name == "lock_pc" and intent.params.get("confirmed"):
             self.awaiting_lock = False

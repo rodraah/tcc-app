@@ -49,8 +49,14 @@ def test_handlers_cover_roadmap_intents():
         "save_notepad",
         "open_last_file",
         "read_last_file",
+        "reveal_last_file",
+        "open_file",
+        "read_file",
+        "delete_file",
         "create_folder",
         "list_folder",
+        "search_files",
+        "list_recent_files",
     }
     assert required <= set(ex._handlers)
 

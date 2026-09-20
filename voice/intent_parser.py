@@ -103,12 +103,48 @@ class IntentParser:
         self.read_last_file_phrases: list[str] = self.config.get(
             "read_last_file_phrases", []
         )
+        self.reveal_last_file_phrases: list[str] = self.config.get(
+            "reveal_last_file_phrases", []
+        )
+        self.delete_last_file_phrases: list[str] = self.config.get(
+            "delete_last_file_phrases", []
+        )
+        self.list_recent_phrases: list[str] = self.config.get(
+            "list_recent_phrases", []
+        )
+        self.delete_confirm_phrases: list[str] = self.config.get(
+            "delete_confirm_phrases",
+            self.config.get("lock_confirm_phrases", ["confirmar", "confirma"]),
+        )
         self.list_folder_prefixes: list[str] = self.config.get(
             "list_folder_prefixes", []
         )
         self.create_folder_prefixes: list[str] = self.config.get(
             "create_folder_prefixes",
             ["criar pasta", "criar uma pasta"],
+        )
+        self.open_named_file_prefixes: list[str] = self.config.get(
+            "open_named_file_prefixes",
+            ["abrir", "abre", "abra"],
+        )
+        self.read_named_file_prefixes: list[str] = self.config.get(
+            "read_named_file_prefixes",
+            ["ler", "leia", "le"],
+        )
+        self.delete_named_file_prefixes: list[str] = self.config.get(
+            "delete_named_file_prefixes",
+            ["apagar", "apaga", "excluir", "exclui", "deletar", "deleta"],
+        )
+        self.search_files_prefixes: list[str] = self.config.get(
+            "search_files_prefixes",
+            [
+                "procurar arquivo",
+                "buscar arquivo",
+                "achar arquivo",
+                "procurar",
+                "buscar",
+                "achar",
+            ],
         )
         self.save_locations: dict[str, str] = (
             self.config.get("save") or {}
@@ -634,8 +670,46 @@ class IntentParser:
                     )
         return None
 
+    def _match_name_in_location(
+        self, text: str, prefixes: list[str]
+    ) -> tuple[str, str] | None:
+        """Extrai (nome, location) de '<prefixo> <nome> em|no|na <local>'."""
+        if not prefixes or not self.save_locations:
+            return None
+        for prefix in sorted(prefixes, key=len, reverse=True):
+            if not (text == prefix or text.startswith(prefix + " ")):
+                continue
+            rest = text[len(prefix) :].strip()
+            if not rest:
+                return None
+            m = re.search(r"^(.+?)\s+(?:em|no|na)\s+(.+)$", rest)
+            if not m:
+                return None
+            name = m.group(1).strip()
+            loc_text = m.group(2).strip()
+            if name in ("pasta", "a pasta", "o pasta", "ultima nota", "ultimo arquivo"):
+                return None
+            location = self._resolve_save_location(loc_text)
+            if name and location:
+                return name, location
+            return None
+        return None
+
     def _match_list_folder(self, text: str) -> Intent | None:
-        if not self.list_folder_prefixes or not self.save_locations:
+        if not self.save_locations:
+            return None
+        filtered = re.match(
+            r"^listar\s+(pastas|textos|txt|arquivos txt)\s+(?:em|no|na)\s+(.+)$",
+            text,
+        )
+        if filtered:
+            kind_raw = filtered.group(1)
+            kind = "dirs" if kind_raw == "pastas" else "txt"
+            location = self._resolve_save_location(filtered.group(2).strip())
+            if location:
+                return Intent("list_folder", {"location": location, "kind": kind})
+            return None
+        if not self.list_folder_prefixes:
             return None
         remainder = self._match_prefix_remainder(text, self.list_folder_prefixes)
         if not remainder:
@@ -643,7 +717,38 @@ class IntentParser:
         location = self._resolve_save_location(remainder)
         if not location:
             return None
-        return Intent("list_folder", {"location": location})
+        return Intent("list_folder", {"location": location, "kind": "all"})
+
+    def _match_search_files(self, text: str) -> Intent | None:
+        parsed = self._match_name_in_location(text, self.search_files_prefixes)
+        if not parsed:
+            return None
+        query, location = parsed
+        return Intent("search_files", {"query": query, "location": location})
+
+    def _match_open_named_file(self, text: str) -> Intent | None:
+        parsed = self._match_name_in_location(text, self.open_named_file_prefixes)
+        if not parsed:
+            return None
+        name, location = parsed
+        return Intent("open_file", {"name": name, "location": location})
+
+    def _match_read_named_file(self, text: str) -> Intent | None:
+        parsed = self._match_name_in_location(text, self.read_named_file_prefixes)
+        if not parsed:
+            return None
+        name, location = parsed
+        return Intent("read_file", {"name": name, "location": location})
+
+    def _match_delete_named_file(self, text: str) -> Intent | None:
+        parsed = self._match_name_in_location(text, self.delete_named_file_prefixes)
+        if not parsed:
+            return None
+        name, location = parsed
+        return Intent(
+            "delete_file",
+            {"name": name, "location": location, "confirmed": False},
+        )
 
     def _match_create_folder(self, text: str) -> Intent | None:
         if not self.create_folder_prefixes or not self.save_locations:
@@ -757,6 +862,16 @@ class IntentParser:
             return Intent("cancel")
         return None
 
+    def parse_delete_confirm(self, text: str) -> Intent | None:
+        normalized = self.normalize(text)
+        if not normalized:
+            return None
+        if self._match_phrase_list(normalized, self.delete_confirm_phrases):
+            return Intent("delete_file", {"confirmed": True})
+        if self._match_phrase_list(normalized, self.cancel_phrases):
+            return Intent("cancel")
+        return None
+
     def help_summary(self) -> str:
         parts = [
             "Abrir e fechar apps",
@@ -765,8 +880,8 @@ class IntentParser:
             "minimizar maximizar",
             "pesquisar e clicar em links",
             "volume e area de trabalho",
-            "salvar e abrir notas",
-            "criar pasta e listar arquivos",
+            "salvar abrir ler e apagar notas",
+            "criar pasta listar e procurar arquivos",
             "ajuda e repetir",
         ]
         return "Comandos: " + "; ".join(parts)
@@ -813,6 +928,15 @@ class IntentParser:
         if self._match_phrase_list(command, self.read_last_file_phrases):
             return Intent("read_last_file")
 
+        if self._match_phrase_list(command, self.reveal_last_file_phrases):
+            return Intent("reveal_last_file")
+
+        if self._match_phrase_list(command, self.list_recent_phrases):
+            return Intent("list_recent_files")
+
+        if self._match_phrase_list(command, self.delete_last_file_phrases):
+            return Intent("delete_file", {"confirmed": False})
+
         create = self._match_create_folder(command)
         if create:
             return create
@@ -820,6 +944,22 @@ class IntentParser:
         listing = self._match_list_folder(command)
         if listing:
             return listing
+
+        search_files = self._match_search_files(command)
+        if search_files:
+            return search_files
+
+        delete_named = self._match_delete_named_file(command)
+        if delete_named:
+            return delete_named
+
+        open_named = self._match_open_named_file(command)
+        if open_named:
+            return open_named
+
+        read_named = self._match_read_named_file(command)
+        if read_named:
+            return read_named
 
         if self._match_phrase_list(command, self.show_desktop_phrases):
             return Intent("show_desktop")

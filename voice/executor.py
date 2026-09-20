@@ -21,11 +21,17 @@ from voice.actions.browser import (
 from voice.actions.close_app import close_app_handler
 from voice.actions.dialog import (
     create_folder_handler,
+    delete_file_handler,
     dialog_choice_handler,
     list_folder_handler,
+    list_recent_files_handler,
+    open_file_handler,
     open_last_file_handler,
+    read_file_handler,
     read_last_file_handler,
+    reveal_last_file_handler,
     save_notepad_handler,
+    search_files_handler,
 )
 from voice.actions.open_app import open_app_handler
 from voice.actions.system import (
@@ -71,8 +77,14 @@ class Executor:
             "save_notepad": self._save_notepad,
             "open_last_file": self._open_last_file,
             "read_last_file": self._read_last_file,
+            "reveal_last_file": self._reveal_last_file,
+            "open_file": self._open_file,
+            "read_file": self._read_file,
+            "delete_file": self._delete_file,
             "create_folder": self._create_folder,
             "list_folder": self._list_folder,
+            "search_files": self._search_files,
+            "list_recent_files": self._list_recent_files,
             "open_url": self._open_url,
             "type_text": type_text_handler,
             "browser_open": self._browser_open,
@@ -151,6 +163,26 @@ class Executor:
         self.logger.info("Lendo último arquivo salvo")
         return text
 
+    def _reveal_last_file(self, intent: Intent) -> str:
+        path = reveal_last_file_handler(intent)
+        self.logger.info(f"Explorer: {path}")
+        return path
+
+    def _open_file(self, intent: Intent) -> str:
+        path = open_file_handler(intent, self.save_config)
+        self.logger.info(f"Aberto: {path}")
+        return path
+
+    def _read_file(self, intent: Intent) -> str:
+        text = read_file_handler(intent, self.save_config)
+        self.logger.info("Lendo arquivo")
+        return text
+
+    def _delete_file(self, intent: Intent) -> str:
+        path = delete_file_handler(intent, self.save_config)
+        self.logger.info(f"Enviado à lixeira: {path}")
+        return path
+
     def _create_folder(self, intent: Intent) -> str:
         path = create_folder_handler(intent, self.save_config)
         self.logger.info(f"Pasta criada: {path}")
@@ -158,6 +190,16 @@ class Executor:
 
     def _list_folder(self, intent: Intent) -> str:
         summary = list_folder_handler(intent, self.save_config)
+        self.logger.info(summary)
+        return summary
+
+    def _search_files(self, intent: Intent) -> str:
+        summary = search_files_handler(intent, self.save_config)
+        self.logger.info(summary)
+        return summary
+
+    def _list_recent_files(self, intent: Intent) -> str:
+        summary = list_recent_files_handler(intent, self.save_config)
         self.logger.info(summary)
         return summary
 
