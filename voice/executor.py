@@ -52,6 +52,7 @@ from voice.actions.type_text import type_text_handler
 from voice.browser_session import BrowserSession
 from voice.logger import setup_logging
 from voice.models import Intent
+from voice.tts import configure as configure_tts
 from voice.tts import speak_async
 
 
@@ -66,6 +67,7 @@ class Executor:
         self.close_config = self.config.get("app_close", {})
         self.save_config = self.config.get("save", {})
         self.tts_enabled = self.config.get("tts", {}).get("enabled", True)
+        configure_tts(self.config.get("tts", {}))
         self.browser_session = BrowserSession(self.config)
         self.last_intent: Intent | None = None
         self._last_window_app: str | None = None

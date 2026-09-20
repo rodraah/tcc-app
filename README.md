@@ -5,7 +5,7 @@ Trabalho de Conclusão de Curso de Ciência da Computação que desenvolve um ap
 ## Funcionalidades
 
 - Reconhecimento de gestos por câmera (MediaPipe com fallback para regras geométricas sobre os landmarks da mão) que executam ações no Windows, como controle de janelas, atalhos do sistema e edição de texto.
-- Assistente de voz: reconhece a fala, interpreta intenções e executa ações, como abrir aplicativos, digitar texto, controlar janelas e navegar no navegador.
+- Assistente de voz: reconhece a fala, interpreta intenções e executa ações, como abrir aplicativos, digitar texto, controlar janelas e navegar no navegador. Confirmações no fone usam a voz neural Francisca (edge-tts); sem internet, cai na voz SAPI do Windows.
 - Interface gráfica com prévia da câmera, status de gesto e voz, transcrição da fala, mapeamento gesto para ação configurável e log de ações.
 - Assistente de configuração na primeira execução (câmera, microfone, pausa de voz e atalho).
 - Ícone na bandeja do sistema e atalho global (F9) para mostrar ou ocultar a janela.
@@ -21,7 +21,7 @@ Trabalho de Conclusão de Curso de Ciência da Computação que desenvolve um ap
 2. Extraia em qualquer pasta.
 3. Abra `TCC-App.exe`.
 
-Na primeira execução, o assistente escolhe câmera, microfone e atalho. O pacote já inclui MediaPipe, Vosk e Chromium (Playwright) para comandos de voz no navegador. Whisper (se usado) baixa o modelo na primeira vez (precisa de internet).
+Na primeira execução, o assistente escolhe câmera, microfone e atalho. O pacote já inclui MediaPipe, Vosk e Chromium (Playwright) para comandos de voz no navegador. Whisper (se usado) baixa o modelo na primeira vez (precisa de internet). A voz neural Francisca também precisa de internet; offline o app usa a voz padrão do Windows.
 
 ## Build do executável (desenvolvedor)
 

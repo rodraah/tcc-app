@@ -36,6 +36,8 @@ hiddenimports = [
     *_cv_hidden,
     *_pw_hidden,
     "pyaudio",
+    "edge_tts",
+    "aiohttp",
     "sounddevice",
     "vosk",
     "faster_whisper",

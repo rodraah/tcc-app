@@ -1,12 +1,13 @@
 """Testes do TTS async (subprocess mockado)."""
 
 import sys
+import time
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from voice.tts import speak_async, _speak_sapi
+from voice.tts import speak_async, _speak, _speak_edge, _speak_sapi
 
 
 def test_speak_async_noop_when_disabled():
@@ -31,6 +32,31 @@ def test_speak_sapi_escapes_quotes():
         assert "it''s ok" in cmd[-1]
 
 
+def test_speak_falls_back_to_sapi_when_edge_fails():
+    with patch("voice.tts._speak_edge", return_value=False) as edge:
+        with patch("voice.tts._speak_sapi") as sapi:
+            _speak("ola")
+            edge.assert_called_once_with("ola")
+            sapi.assert_called_once_with("ola")
+
+
+def test_speak_skips_sapi_when_edge_works():
+    with patch("voice.tts._speak_edge", return_value=True):
+        with patch("voice.tts._speak_sapi") as sapi:
+            _speak("ola")
+            sapi.assert_not_called()
+
+
+def test_speak_edge_skips_during_cooldown():
+    import voice.tts as tts_mod
+
+    tts_mod._skip_edge_until = time.monotonic() + 60
+    try:
+        assert _speak_edge("x") is False
+    finally:
+        tts_mod._skip_edge_until = 0.0
+
+
 def test_shutdown_sets_flag_and_joins():
     """After tts.shutdown(), new speak_async calls are no-ops."""
     import voice.tts as tts_mod
@@ -53,5 +79,8 @@ if __name__ == "__main__":
     test_speak_async_noop_when_disabled()
     test_speak_async_starts_thread()
     test_speak_sapi_escapes_quotes()
+    test_speak_falls_back_to_sapi_when_edge_fails()
+    test_speak_skips_sapi_when_edge_works()
+    test_speak_edge_skips_during_cooldown()
     test_shutdown_sets_flag_and_joins()
     print("Todos os testes passaram.")
