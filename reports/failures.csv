@@ -1,0 +1,18 @@
+﻿Grupo,Frase/Intenção,Esperado,Obtido
+Arquivos/Notas,'ler o ultimo arquivo',read_last_file {},open_last_file {}
+Arquivos/Notas,'revelar ultimo arquivo',reveal_last_file {},read_last_file {}
+Arquivos/Notas,'excluir ultimo arquivo',delete_file {'confirmed': False},read_last_file {}
+Arquivos/Notas,'excluir o ultimo arquivo',delete_file {'confirmed': False},read_last_file {}
+Arquivos/Notas,'deletar ultimo arquivo',delete_file {'confirmed': False},read_last_file {}
+Arquivos/Notas,criar pasta novos arquivos em downloads,"create_folder {'location': 'downloads', 'name': 'novos arquivos'}",repeat_last {}
+Arquivos/Notas,criar uma pasta novos arquivos em downloads,"create_folder {'location': 'downloads', 'name': 'novos arquivos'}",repeat_last {}
+Arquivos/Notas,cria pasta novos arquivos em downloads,"create_folder {'location': 'downloads', 'name': 'novos arquivos'}",repeat_last {}
+Arquivos/Notas,cria uma pasta novos arquivos em downloads,"create_folder {'location': 'downloads', 'name': 'novos arquivos'}",repeat_last {}
+Navegador/YouTube,'pular 10 segundos',browser_youtube {'action': 'forward'},browser_youtube {'action': 'rewind'}
+Navegador/YouTube,'pular video',browser_youtube {'action': 'forward'},browser_youtube {'action': 'play_pause'}
+Navegador/YouTube,'play video',browser_youtube {'action': 'play_pause'},browser_youtube {'action': 'forward'}
+Sistema/A11y,abrir pasta area de trabalho,open_folder {'path': 'shell:Desktop'},show_desktop {}
+Sistema/A11y,abre pasta area de trabalho,open_folder {'path': 'shell:Desktop'},show_desktop {}
+Sistema/A11y,abrir a pasta area de trabalho,open_folder {'path': 'shell:Desktop'},show_desktop {}
+Ajuda/Controle,'pare',cancel {},None (sem intent)
+Ajuda/Controle,'para tudo',cancel {},None (sem intent)

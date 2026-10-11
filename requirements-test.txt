@@ -1,0 +1,2 @@
+# Dependências de teste do TCC-App (executadas em CI, sem hardware/rede)
+pytest>=7.0.0

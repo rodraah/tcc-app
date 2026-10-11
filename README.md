@@ -25,7 +25,7 @@ Na primeira execução, o assistente escolhe câmera, microfone e atalho. O paco
 
 ## Build do executável (desenvolvedor)
 
-Requer **Python 3.10–3.12** (3.14 quebra o PyAudio no Windows).
+Requer Python 3.10–3.13 (validado - 3.13.15 em 10/10/2026 — app real + suíte programável; 3.14 quebra o PyAudio no Windows).
 
 ```powershell
 .\scripts\build_exe.ps1

@@ -1,0 +1,4708 @@
+{
+  "environment": {
+    "data_hora": "2026-10-10 21:34:37",
+    "python": "3.13.15",
+    "so": "Windows-11-10.0.26300-SP0",
+    "commit": "0e52c14",
+    "comando": "python scripts/generate_test_report.py",
+    "diretorio": "C:\\Users\\raquino\\Documents\\TCC-App"
+  },
+  "summary": {
+    "total": 559,
+    "sucesso": 542,
+    "falha": 17,
+    "taxa": 96.96,
+    "handlers_required_ok": true,
+    "handlers_total": 47,
+    "handlers_exercised": 47
+  },
+  "groups": [
+    {
+      "grupo": "Janelas",
+      "testadas": 67,
+      "sucesso": 67,
+      "falha": 0,
+      "taxa": 100.0
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "testadas": 124,
+      "sucesso": 115,
+      "falha": 9,
+      "taxa": 92.74
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "testadas": 158,
+      "sucesso": 155,
+      "falha": 3,
+      "taxa": 98.1
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "testadas": 53,
+      "sucesso": 50,
+      "falha": 3,
+      "taxa": 94.34
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "testadas": 90,
+      "sucesso": 90,
+      "falha": 0,
+      "taxa": 100.0
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "testadas": 18,
+      "sucesso": 16,
+      "falha": 2,
+      "taxa": 88.89
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "testadas": 34,
+      "sucesso": 34,
+      "falha": 0,
+      "taxa": 100.0
+    },
+    {
+      "grupo": "Gestos",
+      "testadas": 15,
+      "sucesso": 15,
+      "falha": 0,
+      "taxa": 100.0
+    },
+    {
+      "grupo": "TOTAL",
+      "testadas": 559,
+      "sucesso": 542,
+      "falha": 17,
+      "taxa": 96.96
+    }
+  ],
+  "coverage": {
+    "handlers_required_ok": true,
+    "handlers_missing": [],
+    "handlers_total": 47,
+    "handlers_exercised": 47,
+    "handlers_unexercised": [],
+    "parser_cases": 450,
+    "executor_cases": 60,
+    "config_cases": 34,
+    "gesture_cases": 15,
+    "existing_suite": "269 passed, 3 failed, 2 skipped"
+  },
+  "failures": [
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'ler o ultimo arquivo'",
+      "esperado": "read_last_file {}",
+      "obtido": "open_last_file {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'revelar ultimo arquivo'",
+      "esperado": "reveal_last_file {}",
+      "obtido": "read_last_file {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'excluir ultimo arquivo'",
+      "esperado": "delete_file {'confirmed': False}",
+      "obtido": "read_last_file {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'excluir o ultimo arquivo'",
+      "esperado": "delete_file {'confirmed': False}",
+      "obtido": "read_last_file {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'deletar ultimo arquivo'",
+      "esperado": "delete_file {'confirmed': False}",
+      "obtido": "read_last_file {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "criar pasta novos arquivos em downloads",
+      "esperado": "create_folder {'location': 'downloads', 'name': 'novos arquivos'}",
+      "obtido": "repeat_last {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "criar uma pasta novos arquivos em downloads",
+      "esperado": "create_folder {'location': 'downloads', 'name': 'novos arquivos'}",
+      "obtido": "repeat_last {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "cria pasta novos arquivos em downloads",
+      "esperado": "create_folder {'location': 'downloads', 'name': 'novos arquivos'}",
+      "obtido": "repeat_last {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "cria uma pasta novos arquivos em downloads",
+      "esperado": "create_folder {'location': 'downloads', 'name': 'novos arquivos'}",
+      "obtido": "repeat_last {}",
+      "ok": false
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'pular 10 segundos'",
+      "esperado": "browser_youtube {'action': 'forward'}",
+      "obtido": "browser_youtube {'action': 'rewind'}",
+      "ok": false
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'pular video'",
+      "esperado": "browser_youtube {'action': 'forward'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": false
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'play video'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'forward'}",
+      "ok": false
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abrir pasta area de trabalho",
+      "esperado": "open_folder {'path': 'shell:Desktop'}",
+      "obtido": "show_desktop {}",
+      "ok": false
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abre pasta area de trabalho",
+      "esperado": "open_folder {'path': 'shell:Desktop'}",
+      "obtido": "show_desktop {}",
+      "ok": false
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abrir a pasta area de trabalho",
+      "esperado": "open_folder {'path': 'shell:Desktop'}",
+      "obtido": "show_desktop {}",
+      "ok": false
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'pare'",
+      "esperado": "cancel {}",
+      "obtido": "None (sem intent)",
+      "ok": false
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'para tudo'",
+      "esperado": "cancel {}",
+      "obtido": "None (sem intent)",
+      "ok": false
+    }
+  ],
+  "cases": [
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "'fechar janela'",
+      "esperado": "window_action {'action': 'close'}",
+      "obtido": "window_action {'action': 'close'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "'minimizar'",
+      "esperado": "window_action {'action': 'minimize'}",
+      "obtido": "window_action {'action': 'minimize'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "'maximizar'",
+      "esperado": "window_action {'action': 'maximize'}",
+      "obtido": "window_action {'action': 'maximize'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "'restaurar'",
+      "esperado": "window_action {'action': 'restore'}",
+      "obtido": "window_action {'action': 'restore'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "'janela seguinte'",
+      "esperado": "switch_window {'direction': 'next'}",
+      "obtido": "switch_window {'direction': 'next'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "'janela anterior'",
+      "esperado": "switch_window {'direction': 'prev'}",
+      "obtido": "switch_window {'direction': 'prev'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "'proxima janela'",
+      "esperado": "switch_window {'direction': 'next'}",
+      "obtido": "switch_window {'direction': 'next'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "'voltar janela'",
+      "esperado": "switch_window {'direction': 'prev'}",
+      "obtido": "switch_window {'direction': 'prev'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "focar notepad",
+      "esperado": "focus_app {'app': 'notepad', 'titles': ['bloco de notas', 'notepad']}",
+      "obtido": "focus_app {'app': 'notepad', 'titles': ['bloco de notas', 'notepad']}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "foca notepad",
+      "esperado": "focus_app {'app': 'notepad', 'titles': ['bloco de notas', 'notepad']}",
+      "obtido": "focus_app {'app': 'notepad', 'titles': ['bloco de notas', 'notepad']}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "foque notepad",
+      "esperado": "focus_app {'app': 'notepad', 'titles': ['bloco de notas', 'notepad']}",
+      "obtido": "focus_app {'app': 'notepad', 'titles': ['bloco de notas', 'notepad']}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "foco em notepad",
+      "esperado": "focus_app {'app': 'notepad', 'titles': ['bloco de notas', 'notepad']}",
+      "obtido": "focus_app {'app': 'notepad', 'titles': ['bloco de notas', 'notepad']}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "focar em notepad",
+      "esperado": "focus_app {'app': 'notepad', 'titles': ['bloco de notas', 'notepad']}",
+      "obtido": "focus_app {'app': 'notepad', 'titles': ['bloco de notas', 'notepad']}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar bloco de notas",
+      "esperado": "close_app {'app': 'notepad'}",
+      "obtido": "close_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha bloco de notas",
+      "esperado": "close_app {'app': 'notepad'}",
+      "obtido": "close_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar bloco de notas",
+      "esperado": "close_app {'app': 'notepad'}",
+      "obtido": "close_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar bloco",
+      "esperado": "close_app {'app': 'notepad'}",
+      "obtido": "close_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha bloco",
+      "esperado": "close_app {'app': 'notepad'}",
+      "obtido": "close_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar bloco",
+      "esperado": "close_app {'app': 'notepad'}",
+      "obtido": "close_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar notas",
+      "esperado": "close_app {'app': 'notepad'}",
+      "obtido": "close_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha notas",
+      "esperado": "close_app {'app': 'notepad'}",
+      "obtido": "close_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar notas",
+      "esperado": "close_app {'app': 'notepad'}",
+      "obtido": "close_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar notepad",
+      "esperado": "close_app {'app': 'notepad'}",
+      "obtido": "close_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha notepad",
+      "esperado": "close_app {'app': 'notepad'}",
+      "obtido": "close_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar notepad",
+      "esperado": "close_app {'app': 'notepad'}",
+      "obtido": "close_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar calculadora",
+      "esperado": "close_app {'app': 'calc'}",
+      "obtido": "close_app {'app': 'calc'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha calculadora",
+      "esperado": "close_app {'app': 'calc'}",
+      "obtido": "close_app {'app': 'calc'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar calculadora",
+      "esperado": "close_app {'app': 'calc'}",
+      "obtido": "close_app {'app': 'calc'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar calc",
+      "esperado": "close_app {'app': 'calc'}",
+      "obtido": "close_app {'app': 'calc'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha calc",
+      "esperado": "close_app {'app': 'calc'}",
+      "obtido": "close_app {'app': 'calc'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar calc",
+      "esperado": "close_app {'app': 'calc'}",
+      "obtido": "close_app {'app': 'calc'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar navegador",
+      "esperado": "close_app {'app': 'browser'}",
+      "obtido": "close_app {'app': 'browser'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha navegador",
+      "esperado": "close_app {'app': 'browser'}",
+      "obtido": "close_app {'app': 'browser'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar navegador",
+      "esperado": "close_app {'app': 'browser'}",
+      "obtido": "close_app {'app': 'browser'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar explorador",
+      "esperado": "close_app {'app': 'explorer'}",
+      "obtido": "close_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha explorador",
+      "esperado": "close_app {'app': 'explorer'}",
+      "obtido": "close_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar explorador",
+      "esperado": "close_app {'app': 'explorer'}",
+      "obtido": "close_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar explorer",
+      "esperado": "close_app {'app': 'explorer'}",
+      "obtido": "close_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha explorer",
+      "esperado": "close_app {'app': 'explorer'}",
+      "obtido": "close_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar explorer",
+      "esperado": "close_app {'app': 'explorer'}",
+      "obtido": "close_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar arquivos",
+      "esperado": "close_app {'app': 'explorer'}",
+      "obtido": "close_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha arquivos",
+      "esperado": "close_app {'app': 'explorer'}",
+      "obtido": "close_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar arquivos",
+      "esperado": "close_app {'app': 'explorer'}",
+      "obtido": "close_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar configuracoes",
+      "esperado": "close_app {'app': 'start ms-settings:'}",
+      "obtido": "close_app {'app': 'start ms-settings:'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha configuracoes",
+      "esperado": "close_app {'app': 'start ms-settings:'}",
+      "obtido": "close_app {'app': 'start ms-settings:'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar configuracoes",
+      "esperado": "close_app {'app': 'start ms-settings:'}",
+      "obtido": "close_app {'app': 'start ms-settings:'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar settings",
+      "esperado": "close_app {'app': 'start ms-settings:'}",
+      "obtido": "close_app {'app': 'start ms-settings:'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha settings",
+      "esperado": "close_app {'app': 'start ms-settings:'}",
+      "obtido": "close_app {'app': 'start ms-settings:'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar settings",
+      "esperado": "close_app {'app': 'start ms-settings:'}",
+      "obtido": "close_app {'app': 'start ms-settings:'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar prompt",
+      "esperado": "close_app {'app': 'cmd'}",
+      "obtido": "close_app {'app': 'cmd'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha prompt",
+      "esperado": "close_app {'app': 'cmd'}",
+      "obtido": "close_app {'app': 'cmd'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar prompt",
+      "esperado": "close_app {'app': 'cmd'}",
+      "obtido": "close_app {'app': 'cmd'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar terminal",
+      "esperado": "close_app {'app': 'cmd'}",
+      "obtido": "close_app {'app': 'cmd'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha terminal",
+      "esperado": "close_app {'app': 'cmd'}",
+      "obtido": "close_app {'app': 'cmd'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar terminal",
+      "esperado": "close_app {'app': 'cmd'}",
+      "obtido": "close_app {'app': 'cmd'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fechar paint",
+      "esperado": "close_app {'app': 'mspaint'}",
+      "obtido": "close_app {'app': 'mspaint'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "fecha paint",
+      "esperado": "close_app {'app': 'mspaint'}",
+      "obtido": "close_app {'app': 'mspaint'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "parser",
+      "nome": "encerrar paint",
+      "esperado": "close_app {'app': 'mspaint'}",
+      "obtido": "close_app {'app': 'mspaint'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar arquivo na area de trabalho'",
+      "esperado": "save_notepad {'location': 'desktop'}",
+      "obtido": "save_notepad {'location': 'desktop'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar arquivo na pasta do projeto'",
+      "esperado": "save_notepad {'location': 'projeto'}",
+      "obtido": "save_notepad {'location': 'projeto'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar no diretorio de downloads'",
+      "esperado": "save_notepad {'location': 'downloads'}",
+      "obtido": "save_notepad {'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar no diretorio de download'",
+      "esperado": "save_notepad {'location': 'downloads'}",
+      "obtido": "save_notepad {'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar arquivo nos documentos'",
+      "esperado": "save_notepad {'location': 'documentos'}",
+      "obtido": "save_notepad {'location': 'documentos'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar arquivo em documentos'",
+      "esperado": "save_notepad {'location': 'documentos'}",
+      "obtido": "save_notepad {'location': 'documentos'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar arquivo em downloads'",
+      "esperado": "save_notepad {'location': 'downloads'}",
+      "obtido": "save_notepad {'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar arquivo no downloads'",
+      "esperado": "save_notepad {'location': 'downloads'}",
+      "obtido": "save_notepad {'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar arquivo em download'",
+      "esperado": "save_notepad {'location': 'downloads'}",
+      "obtido": "save_notepad {'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar arquivo no download'",
+      "esperado": "save_notepad {'location': 'downloads'}",
+      "obtido": "save_notepad {'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar na area de trabalho'",
+      "esperado": "save_notepad {'location': 'desktop'}",
+      "obtido": "save_notepad {'location': 'desktop'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar na pasta documentos'",
+      "esperado": "save_notepad {'location': 'documentos'}",
+      "obtido": "save_notepad {'location': 'documentos'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar no pasta do projeto'",
+      "esperado": "save_notepad {'location': 'projeto'}",
+      "obtido": "save_notepad {'location': 'projeto'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar na pasta do projeto'",
+      "esperado": "save_notepad {'location': 'projeto'}",
+      "obtido": "save_notepad {'location': 'projeto'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar na pasta downloads'",
+      "esperado": "save_notepad {'location': 'downloads'}",
+      "obtido": "save_notepad {'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar arquivo no desktop'",
+      "esperado": "save_notepad {'location': 'desktop'}",
+      "obtido": "save_notepad {'location': 'desktop'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar arquivo na desktop'",
+      "esperado": "save_notepad {'location': 'desktop'}",
+      "obtido": "save_notepad {'location': 'desktop'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar arquivo no projeto'",
+      "esperado": "save_notepad {'location': 'projeto'}",
+      "obtido": "save_notepad {'location': 'projeto'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar na pasta download'",
+      "esperado": "save_notepad {'location': 'downloads'}",
+      "obtido": "save_notepad {'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar nos documentos'",
+      "esperado": "save_notepad {'location': 'documentos'}",
+      "obtido": "save_notepad {'location': 'documentos'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar em documentos'",
+      "esperado": "save_notepad {'location': 'documentos'}",
+      "obtido": "save_notepad {'location': 'documentos'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar no documentos'",
+      "esperado": "save_notepad {'location': 'documentos'}",
+      "obtido": "save_notepad {'location': 'documentos'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar em downloads'",
+      "esperado": "save_notepad {'location': 'downloads'}",
+      "obtido": "save_notepad {'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar no downloads'",
+      "esperado": "save_notepad {'location': 'downloads'}",
+      "obtido": "save_notepad {'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar em documento'",
+      "esperado": "save_notepad {'location': 'documentos'}",
+      "obtido": "save_notepad {'location': 'documentos'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar em download'",
+      "esperado": "save_notepad {'location': 'downloads'}",
+      "obtido": "save_notepad {'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar no download'",
+      "esperado": "save_notepad {'location': 'downloads'}",
+      "obtido": "save_notepad {'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar no desktop'",
+      "esperado": "save_notepad {'location': 'desktop'}",
+      "obtido": "save_notepad {'location': 'desktop'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar na desktop'",
+      "esperado": "save_notepad {'location': 'desktop'}",
+      "obtido": "save_notepad {'location': 'desktop'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar no projeto'",
+      "esperado": "save_notepad {'location': 'projeto'}",
+      "obtido": "save_notepad {'location': 'projeto'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'salvar em projeto'",
+      "esperado": "save_notepad {'location': 'projeto'}",
+      "obtido": "save_notepad {'location': 'projeto'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'abrir ultima nota'",
+      "esperado": "open_last_file {}",
+      "obtido": "open_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'abrir o ultimo arquivo'",
+      "esperado": "open_last_file {}",
+      "obtido": "open_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'abrir ultimo arquivo'",
+      "esperado": "open_last_file {}",
+      "obtido": "open_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'abrir o que acabei de salvar'",
+      "esperado": "open_last_file {}",
+      "obtido": "open_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'abrir o que salvei'",
+      "esperado": "open_last_file {}",
+      "obtido": "open_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'abrir ultimo salvo'",
+      "esperado": "open_last_file {}",
+      "obtido": "open_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'ler ultima nota'",
+      "esperado": "read_last_file {}",
+      "obtido": "read_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'ler o ultimo arquivo'",
+      "esperado": "read_last_file {}",
+      "obtido": "open_last_file {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'ler ultimo arquivo'",
+      "esperado": "read_last_file {}",
+      "obtido": "read_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'ler o que salvei'",
+      "esperado": "read_last_file {}",
+      "obtido": "read_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'ler ultima salvacao'",
+      "esperado": "read_last_file {}",
+      "obtido": "read_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'ler o arquivo salvo'",
+      "esperado": "read_last_file {}",
+      "obtido": "read_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'mostrar onde esta o ultimo arquivo'",
+      "esperado": "reveal_last_file {}",
+      "obtido": "reveal_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'mostrar no explorer'",
+      "esperado": "reveal_last_file {}",
+      "obtido": "reveal_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'mostrar ultimo arquivo no explorer'",
+      "esperado": "reveal_last_file {}",
+      "obtido": "reveal_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'onde esta o ultimo arquivo'",
+      "esperado": "reveal_last_file {}",
+      "obtido": "reveal_last_file {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'revelar ultimo arquivo'",
+      "esperado": "reveal_last_file {}",
+      "obtido": "read_last_file {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'apagar ultimo arquivo'",
+      "esperado": "delete_file {'confirmed': False}",
+      "obtido": "delete_file {'confirmed': False}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'apagar o ultimo arquivo'",
+      "esperado": "delete_file {'confirmed': False}",
+      "obtido": "delete_file {'confirmed': False}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'excluir ultimo arquivo'",
+      "esperado": "delete_file {'confirmed': False}",
+      "obtido": "read_last_file {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'excluir o ultimo arquivo'",
+      "esperado": "delete_file {'confirmed': False}",
+      "obtido": "read_last_file {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'deletar ultimo arquivo'",
+      "esperado": "delete_file {'confirmed': False}",
+      "obtido": "read_last_file {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'jogar ultimo arquivo no lixo'",
+      "esperado": "delete_file {'confirmed': False}",
+      "obtido": "delete_file {'confirmed': False}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'arquivos recentes'",
+      "esperado": "list_recent_files {}",
+      "obtido": "list_recent_files {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'listar recentes'",
+      "esperado": "list_recent_files {}",
+      "obtido": "list_recent_files {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'listar arquivos recentes'",
+      "esperado": "list_recent_files {}",
+      "obtido": "list_recent_files {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "'o que salvei recentemente'",
+      "esperado": "list_recent_files {}",
+      "obtido": "list_recent_files {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "abrir relatorio em downloads",
+      "esperado": "open_file {'location': 'downloads', 'name': 'relatorio'}",
+      "obtido": "open_file {'location': 'downloads', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "abrir relatorio em documentos",
+      "esperado": "open_file {'location': 'documentos', 'name': 'relatorio'}",
+      "obtido": "open_file {'location': 'documentos', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "abrir relatorio em desktop",
+      "esperado": "open_file {'location': 'desktop', 'name': 'relatorio'}",
+      "obtido": "open_file {'location': 'desktop', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "abre relatorio em downloads",
+      "esperado": "open_file {'location': 'downloads', 'name': 'relatorio'}",
+      "obtido": "open_file {'location': 'downloads', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "abre relatorio em documentos",
+      "esperado": "open_file {'location': 'documentos', 'name': 'relatorio'}",
+      "obtido": "open_file {'location': 'documentos', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "abre relatorio em desktop",
+      "esperado": "open_file {'location': 'desktop', 'name': 'relatorio'}",
+      "obtido": "open_file {'location': 'desktop', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "abra relatorio em downloads",
+      "esperado": "open_file {'location': 'downloads', 'name': 'relatorio'}",
+      "obtido": "open_file {'location': 'downloads', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "abra relatorio em documentos",
+      "esperado": "open_file {'location': 'documentos', 'name': 'relatorio'}",
+      "obtido": "open_file {'location': 'documentos', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "abra relatorio em desktop",
+      "esperado": "open_file {'location': 'desktop', 'name': 'relatorio'}",
+      "obtido": "open_file {'location': 'desktop', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "ler relatorio em downloads",
+      "esperado": "read_file {'location': 'downloads', 'name': 'relatorio'}",
+      "obtido": "read_file {'location': 'downloads', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "leia relatorio em downloads",
+      "esperado": "read_file {'location': 'downloads', 'name': 'relatorio'}",
+      "obtido": "read_file {'location': 'downloads', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "le relatorio em downloads",
+      "esperado": "read_file {'location': 'downloads', 'name': 'relatorio'}",
+      "obtido": "read_file {'location': 'downloads', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "apagar relatorio em downloads",
+      "esperado": "delete_file {'confirmed': False, 'location': 'downloads', 'name': 'relatorio'}",
+      "obtido": "delete_file {'confirmed': False, 'location': 'downloads', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "apaga relatorio em downloads",
+      "esperado": "delete_file {'confirmed': False, 'location': 'downloads', 'name': 'relatorio'}",
+      "obtido": "delete_file {'confirmed': False, 'location': 'downloads', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "excluir relatorio em downloads",
+      "esperado": "delete_file {'confirmed': False, 'location': 'downloads', 'name': 'relatorio'}",
+      "obtido": "delete_file {'confirmed': False, 'location': 'downloads', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "exclui relatorio em downloads",
+      "esperado": "delete_file {'confirmed': False, 'location': 'downloads', 'name': 'relatorio'}",
+      "obtido": "delete_file {'confirmed': False, 'location': 'downloads', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "deletar relatorio em downloads",
+      "esperado": "delete_file {'confirmed': False, 'location': 'downloads', 'name': 'relatorio'}",
+      "obtido": "delete_file {'confirmed': False, 'location': 'downloads', 'name': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "criar pasta novos arquivos em downloads",
+      "esperado": "create_folder {'location': 'downloads', 'name': 'novos arquivos'}",
+      "obtido": "repeat_last {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "criar uma pasta novos arquivos em downloads",
+      "esperado": "create_folder {'location': 'downloads', 'name': 'novos arquivos'}",
+      "obtido": "repeat_last {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "cria pasta novos arquivos em downloads",
+      "esperado": "create_folder {'location': 'downloads', 'name': 'novos arquivos'}",
+      "obtido": "repeat_last {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "cria uma pasta novos arquivos em downloads",
+      "esperado": "create_folder {'location': 'downloads', 'name': 'novos arquivos'}",
+      "obtido": "repeat_last {}",
+      "ok": false
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "o que tem em downloads",
+      "esperado": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "obtido": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "o que tem no downloads",
+      "esperado": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "obtido": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "o que tem na downloads",
+      "esperado": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "obtido": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "listar arquivos em downloads",
+      "esperado": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "obtido": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "listar arquivos no downloads",
+      "esperado": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "obtido": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "listar arquivos na downloads",
+      "esperado": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "obtido": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "listar pasta downloads",
+      "esperado": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "obtido": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "listar downloads",
+      "esperado": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "obtido": "list_folder {'kind': 'all', 'location': 'downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "listar textos em documentos",
+      "esperado": "list_folder {'kind': 'txt', 'location': 'documentos'}",
+      "obtido": "list_folder {'kind': 'txt', 'location': 'documentos'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "procurar arquivo relatorio em downloads",
+      "esperado": "search_files {'location': 'downloads', 'query': 'relatorio'}",
+      "obtido": "search_files {'location': 'downloads', 'query': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "buscar arquivo relatorio em downloads",
+      "esperado": "search_files {'location': 'downloads', 'query': 'relatorio'}",
+      "obtido": "search_files {'location': 'downloads', 'query': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "achar arquivo relatorio em downloads",
+      "esperado": "search_files {'location': 'downloads', 'query': 'relatorio'}",
+      "obtido": "search_files {'location': 'downloads', 'query': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "procurar relatorio em downloads",
+      "esperado": "search_files {'location': 'downloads', 'query': 'relatorio'}",
+      "obtido": "search_files {'location': 'downloads', 'query': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "buscar relatorio em downloads",
+      "esperado": "search_files {'location': 'downloads', 'query': 'relatorio'}",
+      "obtido": "search_files {'location': 'downloads', 'query': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "achar relatorio em downloads",
+      "esperado": "search_files {'location': 'downloads', 'query': 'relatorio'}",
+      "obtido": "search_files {'location': 'downloads', 'query': 'relatorio'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "dialog save (salvar)",
+      "esperado": "dialog_choice {'choice': 'save'}",
+      "obtido": "dialog_choice {'choice': 'save'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "dialog save (save)",
+      "esperado": "dialog_choice {'choice': 'save'}",
+      "obtido": "dialog_choice {'choice': 'save'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "dialog save (sim)",
+      "esperado": "dialog_choice {'choice': 'save'}",
+      "obtido": "dialog_choice {'choice': 'save'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "dialog discard (nao salvar)",
+      "esperado": "dialog_choice {'choice': 'discard'}",
+      "obtido": "dialog_choice {'choice': 'discard'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "dialog discard (nao)",
+      "esperado": "dialog_choice {'choice': 'discard'}",
+      "obtido": "dialog_choice {'choice': 'discard'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "dialog discard (descartar)",
+      "esperado": "dialog_choice {'choice': 'discard'}",
+      "obtido": "dialog_choice {'choice': 'discard'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "dialog cancel (cancelar)",
+      "esperado": "dialog_choice {'choice': 'cancel'}",
+      "obtido": "dialog_choice {'choice': 'cancel'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "dialog cancel (cancel)",
+      "esperado": "dialog_choice {'choice': 'cancel'}",
+      "obtido": "dialog_choice {'choice': 'cancel'}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "confirmar exclusão (confirmar)",
+      "esperado": "delete_file {'confirmed': True}",
+      "obtido": "delete_file {'confirmed': True}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "confirmar exclusão (confirma)",
+      "esperado": "delete_file {'confirmed': True}",
+      "obtido": "delete_file {'confirmed': True}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "confirmar exclusão (sim apagar)",
+      "esperado": "delete_file {'confirmed': True}",
+      "obtido": "delete_file {'confirmed': True}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "confirmar exclusão (sim excluir)",
+      "esperado": "delete_file {'confirmed': True}",
+      "obtido": "delete_file {'confirmed': True}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "cancelar exclusão (cancelar)",
+      "esperado": "cancel {}",
+      "obtido": "cancel {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "cancelar exclusão (cancela)",
+      "esperado": "cancel {}",
+      "obtido": "cancel {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "cancelar exclusão (pare)",
+      "esperado": "cancel {}",
+      "obtido": "cancel {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "cancelar exclusão (para tudo)",
+      "esperado": "cancel {}",
+      "obtido": "cancel {}",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "parser",
+      "nome": "cancelar exclusão (esquece)",
+      "esperado": "cancel {}",
+      "obtido": "cancel {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'voltar 10 segundos'",
+      "esperado": "browser_youtube {'action': 'rewind'}",
+      "obtido": "browser_youtube {'action': 'rewind'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'pular 10 segundos'",
+      "esperado": "browser_youtube {'action': 'forward'}",
+      "obtido": "browser_youtube {'action': 'rewind'}",
+      "ok": false
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'reproduzir video'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'retroceder video'",
+      "esperado": "browser_youtube {'action': 'rewind'}",
+      "obtido": "browser_youtube {'action': 'rewind'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'continuar video'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'despausar video'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'pausar o video'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'avancar video'",
+      "esperado": "browser_youtube {'action': 'forward'}",
+      "obtido": "browser_youtube {'action': 'forward'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'pausar video'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'voltar video'",
+      "esperado": "browser_youtube {'action': 'rewind'}",
+      "obtido": "browser_youtube {'action': 'rewind'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'pular video'",
+      "esperado": "browser_youtube {'action': 'forward'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": false
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'play video'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'forward'}",
+      "ok": false
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'mudo video'",
+      "esperado": "browser_youtube {'action': 'mute'}",
+      "obtido": "browser_youtube {'action': 'mute'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'tela cheia'",
+      "esperado": "browser_youtube {'action': 'fullscreen'}",
+      "obtido": "browser_youtube {'action': 'fullscreen'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'fullscreen'",
+      "esperado": "browser_youtube {'action': 'fullscreen'}",
+      "obtido": "browser_youtube {'action': 'fullscreen'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'volume do video'",
+      "esperado": "browser_youtube {'action': 'volume_up'}",
+      "obtido": "browser_youtube {'action': 'volume_up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'aumentar som'",
+      "esperado": "browser_youtube {'action': 'volume_up'}",
+      "obtido": "browser_youtube {'action': 'volume_up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'diminuir som'",
+      "esperado": "browser_youtube {'action': 'volume_down'}",
+      "obtido": "browser_youtube {'action': 'volume_down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'abaixar som'",
+      "esperado": "browser_youtube {'action': 'volume_down'}",
+      "obtido": "browser_youtube {'action': 'volume_down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'reproduzir'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'retroceder'",
+      "esperado": "browser_youtube {'action': 'rewind'}",
+      "obtido": "browser_youtube {'action': 'rewind'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'tirar mudo'",
+      "esperado": "browser_youtube {'action': 'mute'}",
+      "obtido": "browser_youtube {'action': 'mute'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'tela cheia'",
+      "esperado": "browser_youtube {'action': 'fullscreen'}",
+      "obtido": "browser_youtube {'action': 'fullscreen'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'despausar'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'continuar'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'som menos'",
+      "esperado": "browser_youtube {'action': 'volume_down'}",
+      "obtido": "browser_youtube {'action': 'volume_down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'silenciar'",
+      "esperado": "browser_youtube {'action': 'mute'}",
+      "obtido": "browser_youtube {'action': 'mute'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'som mais'",
+      "esperado": "browser_youtube {'action': 'volume_up'}",
+      "obtido": "browser_youtube {'action': 'volume_up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'avancar'",
+      "esperado": "browser_youtube {'action': 'forward'}",
+      "obtido": "browser_youtube {'action': 'forward'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'pausar'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'avance'",
+      "esperado": "browser_youtube {'action': 'forward'}",
+      "obtido": "browser_youtube {'action': 'forward'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'pause'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'pular'",
+      "esperado": "browser_youtube {'action': 'forward'}",
+      "obtido": "browser_youtube {'action': 'forward'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'play'",
+      "esperado": "browser_youtube {'action': 'play_pause'}",
+      "obtido": "browser_youtube {'action': 'play_pause'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "(youtube) 'mudo'",
+      "esperado": "browser_youtube {'action': 'mute'}",
+      "obtido": "browser_youtube {'action': 'mute'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'aba seguinte'",
+      "esperado": "browser_switch_tab {'direction': 'next'}",
+      "obtido": "browser_switch_tab {'direction': 'next'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'aba anterior'",
+      "esperado": "browser_switch_tab {'direction': 'prev'}",
+      "obtido": "browser_switch_tab {'direction': 'prev'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'proxima aba'",
+      "esperado": "browser_switch_tab {'direction': 'next'}",
+      "obtido": "browser_switch_tab {'direction': 'next'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'voltar aba'",
+      "esperado": "browser_switch_tab {'direction': 'prev'}",
+      "obtido": "browser_switch_tab {'direction': 'prev'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'atualizar a pagina'",
+      "esperado": "browser_refresh {}",
+      "obtido": "browser_refresh {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'atualizar pagina'",
+      "esperado": "browser_refresh {}",
+      "obtido": "browser_refresh {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'atualizar'",
+      "esperado": "browser_refresh {}",
+      "obtido": "browser_refresh {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'recarregar a pagina'",
+      "esperado": "browser_refresh {}",
+      "obtido": "browser_refresh {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'recarregar pagina'",
+      "esperado": "browser_refresh {}",
+      "obtido": "browser_refresh {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'recarregar'",
+      "esperado": "browser_refresh {}",
+      "obtido": "browser_refresh {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'refresh'",
+      "esperado": "browser_refresh {}",
+      "obtido": "browser_refresh {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'nova aba'",
+      "esperado": "browser_new_tab {}",
+      "obtido": "browser_new_tab {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'abrir aba'",
+      "esperado": "browser_new_tab {}",
+      "obtido": "browser_new_tab {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'fechar aba'",
+      "esperado": "browser_close_tab {}",
+      "obtido": "browser_close_tab {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'fecha aba'",
+      "esperado": "browser_close_tab {}",
+      "obtido": "browser_close_tab {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'aumentar zoom'",
+      "esperado": "browser_zoom {'direction': 'in'}",
+      "obtido": "browser_zoom {'direction': 'in'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'zoom mais'",
+      "esperado": "browser_zoom {'direction': 'in'}",
+      "obtido": "browser_zoom {'direction': 'in'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'aproximar'",
+      "esperado": "browser_zoom {'direction': 'in'}",
+      "obtido": "browser_zoom {'direction': 'in'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'diminuir zoom'",
+      "esperado": "browser_zoom {'direction': 'out'}",
+      "obtido": "browser_zoom {'direction': 'out'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'zoom menos'",
+      "esperado": "browser_zoom {'direction': 'out'}",
+      "obtido": "browser_zoom {'direction': 'out'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "'afastar'",
+      "esperado": "browser_zoom {'direction': 'out'}",
+      "obtido": "browser_zoom {'direction': 'out'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "role para baixo",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "role baixo",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "role para desce",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "role desce",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "role para descer",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "role descer",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "role para cima",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "role cima",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "role para sobe",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "role sobe",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "role para subir",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "role subir",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rola para baixo",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rola baixo",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rola para desce",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rola desce",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rola para descer",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rola descer",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rola para cima",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rola cima",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rola para sobe",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rola sobe",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rola para subir",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rola subir",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rolar para baixo",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rolar baixo",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rolar para desce",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rolar desce",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rolar para descer",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rolar descer",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rolar para cima",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rolar cima",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rolar para sobe",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rolar sobe",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rolar para subir",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "rolar subir",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "scroll para baixo",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "scroll baixo",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "scroll para desce",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "scroll desce",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "scroll para descer",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "scroll descer",
+      "esperado": "browser_scroll {'direction': 'down'}",
+      "obtido": "browser_scroll {'direction': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "scroll para cima",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "scroll cima",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "scroll para sobe",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "scroll sobe",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "scroll para subir",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "scroll subir",
+      "esperado": "browser_scroll {'direction': 'up'}",
+      "obtido": "browser_scroll {'direction': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "voltar",
+      "esperado": "browser_back {}",
+      "obtido": "browser_back {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "volte",
+      "esperado": "browser_back {}",
+      "obtido": "browser_back {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "retornar",
+      "esperado": "browser_back {}",
+      "obtido": "browser_back {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "retorne",
+      "esperado": "browser_back {}",
+      "obtido": "browser_back {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "avancar",
+      "esperado": "browser_forward {}",
+      "obtido": "browser_forward {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "avance",
+      "esperado": "browser_forward {}",
+      "obtido": "browser_forward {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "frente",
+      "esperado": "browser_forward {}",
+      "obtido": "browser_forward {}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "pesquisar inteligencia artificial",
+      "esperado": "browser_search {'query': 'inteligencia artificial'}",
+      "obtido": "browser_search {'query': 'inteligencia artificial'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "pesquisa inteligencia artificial",
+      "esperado": "browser_search {'query': 'inteligencia artificial'}",
+      "obtido": "browser_search {'query': 'inteligencia artificial'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "pesquise inteligencia artificial",
+      "esperado": "browser_search {'query': 'inteligencia artificial'}",
+      "obtido": "browser_search {'query': 'inteligencia artificial'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "buscar inteligencia artificial",
+      "esperado": "browser_search {'query': 'inteligencia artificial'}",
+      "obtido": "browser_search {'query': 'inteligencia artificial'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "busca inteligencia artificial",
+      "esperado": "browser_search {'query': 'inteligencia artificial'}",
+      "obtido": "browser_search {'query': 'inteligencia artificial'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "procure inteligencia artificial",
+      "esperado": "browser_search {'query': 'inteligencia artificial'}",
+      "obtido": "browser_search {'query': 'inteligencia artificial'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "procurar inteligencia artificial",
+      "esperado": "browser_search {'query': 'inteligencia artificial'}",
+      "obtido": "browser_search {'query': 'inteligencia artificial'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "clicar no primeiro link",
+      "esperado": "browser_click_link {'index': 0}",
+      "obtido": "browser_click_link {'index': 0}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "clicar no segundo link",
+      "esperado": "browser_click_link {'index': 1}",
+      "obtido": "browser_click_link {'index': 1}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "clique no terceiro resultado",
+      "esperado": "browser_click_link {'index': 2}",
+      "obtido": "browser_click_link {'index': 2}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "clicar no 4 link",
+      "esperado": "browser_click_link {'index': 3}",
+      "obtido": "browser_click_link {'index': 3}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "clicar em entrar",
+      "esperado": "browser_click_text {'text': 'entrar'}",
+      "obtido": "browser_click_text {'text': 'entrar'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "clique no botao enviar",
+      "esperado": "browser_click_role {'name': 'enviar', 'role': 'button'}",
+      "obtido": "browser_click_role {'name': 'enviar', 'role': 'button'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "clicar no campo nome",
+      "esperado": "browser_click_role {'name': 'nome', 'role': 'textbox'}",
+      "obtido": "browser_click_role {'name': 'nome', 'role': 'textbox'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "clicar na caixa de busca",
+      "esperado": "browser_click_role {'name': 'de busca', 'role': 'textbox'}",
+      "obtido": "browser_click_role {'name': 'de busca', 'role': 'textbox'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "encontrar na pagina termo",
+      "esperado": "browser_find {'text': 'termo'}",
+      "obtido": "browser_find {'text': 'termo'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "achar na pagina termo",
+      "esperado": "browser_find {'text': 'termo'}",
+      "obtido": "browser_find {'text': 'termo'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "buscar na pagina termo",
+      "esperado": "browser_find {'text': 'termo'}",
+      "obtido": "browser_find {'text': 'termo'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "procura na pagina termo",
+      "esperado": "browser_find {'text': 'termo'}",
+      "obtido": "browser_find {'text': 'termo'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "procurar na pagina termo",
+      "esperado": "browser_find {'text': 'termo'}",
+      "obtido": "browser_find {'text': 'termo'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "ir para github.com",
+      "esperado": "browser_goto {'url': 'github.com'}",
+      "obtido": "browser_goto {'url': 'github.com'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "vai para youtube.com",
+      "esperado": "browser_goto {'url': 'youtube.com'}",
+      "obtido": "browser_goto {'url': 'youtube.com'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "navegar para github.com",
+      "esperado": "browser_goto {'url': 'github.com'}",
+      "obtido": "browser_goto {'url': 'github.com'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "barra de endereco google.com",
+      "esperado": "browser_goto {'url': 'google.com'}",
+      "obtido": "browser_goto {'url': 'google.com'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "abrir google",
+      "esperado": "open_url {'url': 'https://www.google.com'}",
+      "obtido": "open_url {'url': 'https://www.google.com'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "abrir youtube",
+      "esperado": "open_url {'url': 'https://www.youtube.com'}",
+      "obtido": "open_url {'url': 'https://www.youtube.com'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "abrir navegador",
+      "esperado": "browser_open {'url': 'https://www.bing.com'}",
+      "obtido": "browser_open {'url': 'https://www.bing.com'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "abre o navegador",
+      "esperado": "browser_open {'url': 'https://www.bing.com'}",
+      "obtido": "browser_open {'url': 'https://www.bing.com'}",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "parser",
+      "nome": "iniciar navegador",
+      "esperado": "browser_open {'url': 'https://www.bing.com'}",
+      "obtido": "browser_open {'url': 'https://www.bing.com'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'aumentar volume'",
+      "esperado": "volume {'action': 'up'}",
+      "obtido": "volume {'action': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'diminuir volume'",
+      "esperado": "volume {'action': 'down'}",
+      "obtido": "volume {'action': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'abaixar volume'",
+      "esperado": "volume {'action': 'down'}",
+      "obtido": "volume {'action': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'baixar volume'",
+      "esperado": "volume {'action': 'down'}",
+      "obtido": "volume {'action': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'volume menos'",
+      "esperado": "volume {'action': 'down'}",
+      "obtido": "volume {'action': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'volume mais'",
+      "esperado": "volume {'action': 'up'}",
+      "obtido": "volume {'action': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'tirar mudo'",
+      "esperado": "volume {'action': 'unmute'}",
+      "obtido": "volume {'action': 'unmute'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'silenciar'",
+      "esperado": "volume {'action': 'mute'}",
+      "obtido": "volume {'action': 'mute'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'mudo'",
+      "esperado": "volume {'action': 'mute'}",
+      "obtido": "volume {'action': 'mute'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'mostrar area de trabalho'",
+      "esperado": "show_desktop {}",
+      "obtido": "show_desktop {}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'area de trabalho'",
+      "esperado": "show_desktop {}",
+      "obtido": "show_desktop {}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'mostrar desktop'",
+      "esperado": "show_desktop {}",
+      "obtido": "show_desktop {}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'bloquear computador'",
+      "esperado": "lock_pc {'confirmed': False}",
+      "obtido": "lock_pc {'confirmed': False}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'bloquear pc'",
+      "esperado": "lock_pc {'confirmed': False}",
+      "obtido": "lock_pc {'confirmed': False}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'bloquear windows'",
+      "esperado": "lock_pc {'confirmed': False}",
+      "obtido": "lock_pc {'confirmed': False}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "'travar computador'",
+      "esperado": "lock_pc {'confirmed': False}",
+      "obtido": "lock_pc {'confirmed': False}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "confirmar bloqueio (confirmar)",
+      "esperado": "lock_pc {'confirmed': True}",
+      "obtido": "lock_pc {'confirmed': True}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "confirmar bloqueio (confirma)",
+      "esperado": "lock_pc {'confirmed': True}",
+      "obtido": "lock_pc {'confirmed': True}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "confirmar bloqueio (sim bloquear)",
+      "esperado": "lock_pc {'confirmed': True}",
+      "obtido": "lock_pc {'confirmed': True}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "cancelar bloqueio (para tudo)",
+      "esperado": "cancel {}",
+      "obtido": "cancel {}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "executar regedit",
+      "esperado": "run_dialog {'command': 'regedit'}",
+      "obtido": "run_dialog {'command': 'regedit'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "rode regedit",
+      "esperado": "run_dialog {'command': 'regedit'}",
+      "obtido": "run_dialog {'command': 'regedit'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "rodar regedit",
+      "esperado": "run_dialog {'command': 'regedit'}",
+      "obtido": "run_dialog {'command': 'regedit'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "pesquisar no windows python",
+      "esperado": "windows_search {'query': 'python'}",
+      "obtido": "windows_search {'query': 'python'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "pesquisa no windows python",
+      "esperado": "windows_search {'query': 'python'}",
+      "obtido": "windows_search {'query': 'python'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "buscar no windows python",
+      "esperado": "windows_search {'query': 'python'}",
+      "obtido": "windows_search {'query': 'python'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "busca no windows python",
+      "esperado": "windows_search {'query': 'python'}",
+      "obtido": "windows_search {'query': 'python'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "pesquisar no sistema python",
+      "esperado": "windows_search {'query': 'python'}",
+      "obtido": "windows_search {'query': 'python'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "busca windows python",
+      "esperado": "windows_search {'query': 'python'}",
+      "obtido": "windows_search {'query': 'python'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abrir lupa",
+      "esperado": "open_a11y {'app': 'magnify'}",
+      "obtido": "open_a11y {'app': 'magnify'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abrir narrador",
+      "esperado": "open_a11y {'app': 'narrator'}",
+      "obtido": "open_a11y {'app': 'narrator'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abrir pasta downloads",
+      "esperado": "open_folder {'path': 'shell:Downloads'}",
+      "obtido": "open_folder {'path': 'shell:Downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abrir pasta documentos",
+      "esperado": "open_folder {'path': 'shell:Personal'}",
+      "obtido": "open_folder {'path': 'shell:Personal'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abrir pasta area de trabalho",
+      "esperado": "open_folder {'path': 'shell:Desktop'}",
+      "obtido": "show_desktop {}",
+      "ok": false
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abre pasta downloads",
+      "esperado": "open_folder {'path': 'shell:Downloads'}",
+      "obtido": "open_folder {'path': 'shell:Downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abre pasta documentos",
+      "esperado": "open_folder {'path': 'shell:Personal'}",
+      "obtido": "open_folder {'path': 'shell:Personal'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abre pasta area de trabalho",
+      "esperado": "open_folder {'path': 'shell:Desktop'}",
+      "obtido": "show_desktop {}",
+      "ok": false
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abrir a pasta downloads",
+      "esperado": "open_folder {'path': 'shell:Downloads'}",
+      "obtido": "open_folder {'path': 'shell:Downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abrir a pasta documentos",
+      "esperado": "open_folder {'path': 'shell:Personal'}",
+      "obtido": "open_folder {'path': 'shell:Personal'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abrir a pasta area de trabalho",
+      "esperado": "open_folder {'path': 'shell:Desktop'}",
+      "obtido": "show_desktop {}",
+      "ok": false
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abrir downloads",
+      "esperado": "open_folder {'path': 'shell:Downloads'}",
+      "obtido": "open_folder {'path': 'shell:Downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abre downloads",
+      "esperado": "open_folder {'path': 'shell:Downloads'}",
+      "obtido": "open_folder {'path': 'shell:Downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "parser",
+      "nome": "abra downloads",
+      "esperado": "open_folder {'path': 'shell:Downloads'}",
+      "obtido": "open_folder {'path': 'shell:Downloads'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'selecionar o texto'",
+      "esperado": "hotkey {'keys': ['ctrl', 'a']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'a']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'selecione o texto'",
+      "esperado": "hotkey {'keys': ['ctrl', 'a']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'a']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'selecionar tudo'",
+      "esperado": "hotkey {'keys': ['ctrl', 'a']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'a']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'selecionar todo'",
+      "esperado": "hotkey {'keys': ['ctrl', 'a']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'a']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'selecione tudo'",
+      "esperado": "hotkey {'keys': ['ctrl', 'a']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'a']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'seleciona tudo'",
+      "esperado": "hotkey {'keys': ['ctrl', 'a']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'a']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'selecione todo'",
+      "esperado": "hotkey {'keys': ['ctrl', 'a']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'a']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'marcar tudo'",
+      "esperado": "hotkey {'keys': ['ctrl', 'a']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'a']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'control a'",
+      "esperado": "hotkey {'keys': ['ctrl', 'a']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'a']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'recortar'",
+      "esperado": "hotkey {'keys': ['ctrl', 'x']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'x']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'desfazer'",
+      "esperado": "hotkey {'keys': ['ctrl', 'z']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'z']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'copiar'",
+      "esperado": "hotkey {'keys': ['ctrl', 'c']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'c']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'ctrl a'",
+      "esperado": "hotkey {'keys': ['ctrl', 'a']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'a']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'salvar'",
+      "esperado": "hotkey {'keys': ['ctrl', 's']}",
+      "obtido": "hotkey {'keys': ['ctrl', 's']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'colar'",
+      "esperado": "hotkey {'keys': ['ctrl', 'v']}",
+      "obtido": "hotkey {'keys': ['ctrl', 'v']}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'pular uma linha'",
+      "esperado": "press_key {'key': 'enter'}",
+      "obtido": "press_key {'key': 'enter'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'pule uma linha'",
+      "esperado": "press_key {'key': 'enter'}",
+      "obtido": "press_key {'key': 'enter'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'proxima linha'",
+      "esperado": "press_key {'key': 'enter'}",
+      "obtido": "press_key {'key': 'enter'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'seta esquerda'",
+      "esperado": "press_key {'key': 'left'}",
+      "obtido": "press_key {'key': 'left'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'seta direita'",
+      "esperado": "press_key {'key': 'right'}",
+      "obtido": "press_key {'key': 'right'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'pular linha'",
+      "esperado": "press_key {'key': 'enter'}",
+      "obtido": "press_key {'key': 'enter'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'pule linha'",
+      "esperado": "press_key {'key': 'enter'}",
+      "obtido": "press_key {'key': 'enter'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'nova linha'",
+      "esperado": "press_key {'key': 'enter'}",
+      "obtido": "press_key {'key': 'enter'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'seta baixo'",
+      "esperado": "press_key {'key': 'down'}",
+      "obtido": "press_key {'key': 'down'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'seta cima'",
+      "esperado": "press_key {'key': 'up'}",
+      "obtido": "press_key {'key': 'up'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'backspace'",
+      "esperado": "press_key {'key': 'backspace'}",
+      "obtido": "press_key {'key': 'backspace'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'excluir'",
+      "esperado": "press_key {'key': 'delete'}",
+      "obtido": "press_key {'key': 'delete'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'escape'",
+      "esperado": "press_key {'key': 'escape'}",
+      "obtido": "press_key {'key': 'escape'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'espaco'",
+      "esperado": "press_key {'key': 'space'}",
+      "obtido": "press_key {'key': 'space'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'delete'",
+      "esperado": "press_key {'key': 'delete'}",
+      "obtido": "press_key {'key': 'delete'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'apagar'",
+      "esperado": "press_key {'key': 'delete'}",
+      "obtido": "press_key {'key': 'delete'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'exclui'",
+      "esperado": "press_key {'key': 'delete'}",
+      "obtido": "press_key {'key': 'delete'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'enter'",
+      "esperado": "press_key {'key': 'enter'}",
+      "obtido": "press_key {'key': 'enter'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'apaga'",
+      "esperado": "press_key {'key': 'delete'}",
+      "obtido": "press_key {'key': 'delete'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'esc'",
+      "esperado": "press_key {'key': 'escape'}",
+      "obtido": "press_key {'key': 'escape'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "'tab'",
+      "esperado": "press_key {'key': 'tab'}",
+      "obtido": "press_key {'key': 'tab'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "digitar ola mundo",
+      "esperado": "type_text {'text': 'ola mundo'}",
+      "obtido": "type_text {'text': 'ola mundo'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "digita ola mundo",
+      "esperado": "type_text {'text': 'ola mundo'}",
+      "obtido": "type_text {'text': 'ola mundo'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "digite ola mundo",
+      "esperado": "type_text {'text': 'ola mundo'}",
+      "obtido": "type_text {'text': 'ola mundo'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "escrever ola mundo",
+      "esperado": "type_text {'text': 'ola mundo'}",
+      "obtido": "type_text {'text': 'ola mundo'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "escreva ola mundo",
+      "esperado": "type_text {'text': 'ola mundo'}",
+      "obtido": "type_text {'text': 'ola mundo'}",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'ajuda'",
+      "esperado": "help {}",
+      "obtido": "help {}",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'o que posso falar'",
+      "esperado": "help {}",
+      "obtido": "help {}",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'comandos'",
+      "esperado": "help {}",
+      "obtido": "help {}",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'o que posso dizer'",
+      "esperado": "help {}",
+      "obtido": "help {}",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'repetir'",
+      "esperado": "repeat_last {}",
+      "obtido": "repeat_last {}",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'de novo'",
+      "esperado": "repeat_last {}",
+      "obtido": "repeat_last {}",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'novamente'",
+      "esperado": "repeat_last {}",
+      "obtido": "repeat_last {}",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'cancelar'",
+      "esperado": "cancel {}",
+      "obtido": "cancel {}",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'cancela'",
+      "esperado": "cancel {}",
+      "obtido": "cancel {}",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'pare'",
+      "esperado": "cancel {}",
+      "obtido": "None (sem intent)",
+      "ok": false
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'para tudo'",
+      "esperado": "cancel {}",
+      "obtido": "None (sem intent)",
+      "ok": false
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "parser",
+      "nome": "'esquece'",
+      "esperado": "cancel {}",
+      "obtido": "cancel {}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir bloco de notas",
+      "esperado": "open_app {'app': 'notepad'}",
+      "obtido": "open_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o bloco de notas",
+      "esperado": "open_app {'app': 'notepad'}",
+      "obtido": "open_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar bloco de notas",
+      "esperado": "open_app {'app': 'notepad'}",
+      "obtido": "open_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir bloco",
+      "esperado": "open_app {'app': 'notepad'}",
+      "obtido": "open_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o bloco",
+      "esperado": "open_app {'app': 'notepad'}",
+      "obtido": "open_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar bloco",
+      "esperado": "open_app {'app': 'notepad'}",
+      "obtido": "open_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir notas",
+      "esperado": "open_app {'app': 'notepad'}",
+      "obtido": "open_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o notas",
+      "esperado": "open_app {'app': 'notepad'}",
+      "obtido": "open_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar notas",
+      "esperado": "open_app {'app': 'notepad'}",
+      "obtido": "open_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir notepad",
+      "esperado": "open_app {'app': 'notepad'}",
+      "obtido": "open_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o notepad",
+      "esperado": "open_app {'app': 'notepad'}",
+      "obtido": "open_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar notepad",
+      "esperado": "open_app {'app': 'notepad'}",
+      "obtido": "open_app {'app': 'notepad'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir calculadora",
+      "esperado": "open_app {'app': 'calc'}",
+      "obtido": "open_app {'app': 'calc'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o calculadora",
+      "esperado": "open_app {'app': 'calc'}",
+      "obtido": "open_app {'app': 'calc'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar calculadora",
+      "esperado": "open_app {'app': 'calc'}",
+      "obtido": "open_app {'app': 'calc'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir calc",
+      "esperado": "open_app {'app': 'calc'}",
+      "obtido": "open_app {'app': 'calc'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o calc",
+      "esperado": "open_app {'app': 'calc'}",
+      "obtido": "open_app {'app': 'calc'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar calc",
+      "esperado": "open_app {'app': 'calc'}",
+      "obtido": "open_app {'app': 'calc'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir navegador",
+      "esperado": "browser_open {'url': 'https://www.bing.com'}",
+      "obtido": "browser_open {'url': 'https://www.bing.com'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o navegador",
+      "esperado": "browser_open {'url': 'https://www.bing.com'}",
+      "obtido": "browser_open {'url': 'https://www.bing.com'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar navegador",
+      "esperado": "browser_open {'url': 'https://www.bing.com'}",
+      "obtido": "browser_open {'url': 'https://www.bing.com'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir explorador",
+      "esperado": "open_app {'app': 'explorer'}",
+      "obtido": "open_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o explorador",
+      "esperado": "open_app {'app': 'explorer'}",
+      "obtido": "open_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar explorador",
+      "esperado": "open_app {'app': 'explorer'}",
+      "obtido": "open_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir explorer",
+      "esperado": "open_app {'app': 'explorer'}",
+      "obtido": "open_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o explorer",
+      "esperado": "open_app {'app': 'explorer'}",
+      "obtido": "open_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar explorer",
+      "esperado": "open_app {'app': 'explorer'}",
+      "obtido": "open_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir arquivos",
+      "esperado": "open_app {'app': 'explorer'}",
+      "obtido": "open_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o arquivos",
+      "esperado": "open_app {'app': 'explorer'}",
+      "obtido": "open_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar arquivos",
+      "esperado": "open_app {'app': 'explorer'}",
+      "obtido": "open_app {'app': 'explorer'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir configuracoes",
+      "esperado": "open_app {'app': 'start ms-settings:'}",
+      "obtido": "open_app {'app': 'start ms-settings:'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o configuracoes",
+      "esperado": "open_app {'app': 'start ms-settings:'}",
+      "obtido": "open_app {'app': 'start ms-settings:'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar configuracoes",
+      "esperado": "open_app {'app': 'start ms-settings:'}",
+      "obtido": "open_app {'app': 'start ms-settings:'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir settings",
+      "esperado": "open_app {'app': 'start ms-settings:'}",
+      "obtido": "open_app {'app': 'start ms-settings:'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o settings",
+      "esperado": "open_app {'app': 'start ms-settings:'}",
+      "obtido": "open_app {'app': 'start ms-settings:'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar settings",
+      "esperado": "open_app {'app': 'start ms-settings:'}",
+      "obtido": "open_app {'app': 'start ms-settings:'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir prompt",
+      "esperado": "open_app {'app': 'cmd'}",
+      "obtido": "open_app {'app': 'cmd'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o prompt",
+      "esperado": "open_app {'app': 'cmd'}",
+      "obtido": "open_app {'app': 'cmd'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar prompt",
+      "esperado": "open_app {'app': 'cmd'}",
+      "obtido": "open_app {'app': 'cmd'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir terminal",
+      "esperado": "open_app {'app': 'cmd'}",
+      "obtido": "open_app {'app': 'cmd'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o terminal",
+      "esperado": "open_app {'app': 'cmd'}",
+      "obtido": "open_app {'app': 'cmd'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar terminal",
+      "esperado": "open_app {'app': 'cmd'}",
+      "obtido": "open_app {'app': 'cmd'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abrir paint",
+      "esperado": "open_app {'app': 'mspaint'}",
+      "obtido": "open_app {'app': 'mspaint'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "abre o paint",
+      "esperado": "open_app {'app': 'mspaint'}",
+      "obtido": "open_app {'app': 'mspaint'}",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "parser",
+      "nome": "iniciar paint",
+      "esperado": "open_app {'app': 'mspaint'}",
+      "obtido": "open_app {'app': 'mspaint'}",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "executor",
+      "nome": "open_app {'app': 'notepad'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "executor",
+      "nome": "close_app {'app': 'notepad'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "executor",
+      "nome": "dialog_choice {'choice': 'cancel'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "executor",
+      "nome": "dialog_choice {'choice': 'save'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "save_notepad {'location': 'downloads'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "save_notepad {'location': 'documentos', 'name': 'minha nota'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "open_last_file {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "read_last_file {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "reveal_last_file {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "open_file {'name': 'relatorio', 'location': 'downloads'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "read_file {'name': 'relatorio', 'location': 'downloads'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "delete_file {'confirmed': True, 'name': 'relatorio', 'location': 'downloads'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "create_folder {'name': 'novas fotos', 'location': 'downloads'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "list_folder {'location': 'downloads'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "search_files {'query': 'rela', 'location': 'downloads'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "list_recent_files {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "open_url {'url': 'https://www.google.com'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "executor",
+      "nome": "type_text {'text': 'ola mundo'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_open {'url': 'https://www.bing.com'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_search {'query': 'python'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_click_link {'index': 1}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_click_text {'text': 'entrar'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_back {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_forward {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_refresh {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_new_tab {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_close_tab {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_scroll {'direction': 'down'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_zoom {'direction': 'in'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_switch_tab {'direction': 'next'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_goto {'url': 'https://github.com'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_find {'text': 'termo'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_click_role {'role': 'button', 'name': 'enviar'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "browser_youtube {'action': 'play_pause'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "executor",
+      "nome": "hotkey {'keys': ['ctrl', 'c']}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "executor",
+      "nome": "press_key {'key': 'enter'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "executor",
+      "nome": "window_action {'action': 'minimize'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "executor",
+      "nome": "window_action {'action': 'maximize', 'app': 'notepad'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "executor",
+      "nome": "switch_window {'direction': 'next'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "executor",
+      "nome": "switch_window {'direction': 'prev'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "executor",
+      "nome": "focus_app {'app': 'notepad', 'titles': ['bloco de notas', 'notepad']}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "executor",
+      "nome": "volume {'action': 'up'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "executor",
+      "nome": "volume {'action': 'mute'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "executor",
+      "nome": "show_desktop {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "executor",
+      "nome": "lock_pc {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "executor",
+      "nome": "open_a11y {'app': 'magnify'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "executor",
+      "nome": "run_dialog {'command': 'regedit'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "executor",
+      "nome": "open_folder {'path': 'shell:Downloads'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "executor",
+      "nome": "windows_search {'query': 'python'}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "executor",
+      "nome": "help {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "executor",
+      "nome": "cancel {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "executor",
+      "nome": "repeat_last {}",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Ajuda/Controle",
+      "categoria": "executor",
+      "nome": "repeat_last (replay do último intent)",
+      "esperado": "sem exceção",
+      "obtido": "sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Navegador/YouTube",
+      "categoria": "executor",
+      "nome": "(erro esperado) open_url {}",
+      "esperado": "None sem exceção",
+      "obtido": "None sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "executor",
+      "nome": "(erro esperado) open_app {}",
+      "esperado": "None sem exceção",
+      "obtido": "None sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Digitação/Atalhos",
+      "categoria": "executor",
+      "nome": "(erro esperado) press_key {}",
+      "esperado": "None sem exceção",
+      "obtido": "None sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "executor",
+      "nome": "(erro esperado) run_dialog {}",
+      "esperado": "None sem exceção",
+      "obtido": "None sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Janelas",
+      "categoria": "executor",
+      "nome": "(erro esperado) window_action {'action': 'girar'}",
+      "esperado": "None sem exceção",
+      "obtido": "None sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Arquivos/Notas",
+      "categoria": "executor",
+      "nome": "(erro esperado) delete_file {'confirmed': False}",
+      "esperado": "None sem exceção",
+      "obtido": "None sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Sistema/A11y",
+      "categoria": "executor",
+      "nome": "(erro esperado) lock_pc {}",
+      "esperado": "None sem exceção",
+      "obtido": "None sem exceção",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "mapeamento.json schema == 1",
+      "esperado": "1",
+      "obtido": "1",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "mapeamento.json gestos == 10",
+      "esperado": "10",
+      "obtido": "10",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "gesto Closed_Fist → ação 'minimizar' válida",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "gesto Dois_Dedos → ação 'copiar' válida",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "gesto ILoveYou → ação 'bloquear_tela' válida",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "gesto Open_Palm → ação 'mostrar_area_trabalho' válida",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "gesto Pinça → ação 'lupa' válida",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "gesto Pointing_Up → ação 'alternar_janela' válida",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "gesto Sinal_L → ação 'colar' válida",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "gesto Thumb_Down → ação 'fechar_janela' válida",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "gesto Thumb_Up → ação 'maximizar' válida",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "gesto Victory → ação 'captura_tela' válida",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "carregar_mapeamento(mapeamento.json)",
+      "esperado": "igual",
+      "obtido": "igual",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "carregar_mapeamento(ausente) → MAPA_PADRAO",
+      "esperado": "igual",
+      "obtido": "igual",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "salvar_mapeamento → recarregar round-trip",
+      "esperado": "igual",
+      "obtido": "igual",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "gravação atômica (sem .part residual)",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "MAPA_PADRAO Closed_Fist → 'minimizar' no catálogo",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "MAPA_PADRAO Open_Palm → 'mostrar_area_trabalho' no catálogo",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "MAPA_PADRAO Pointing_Up → 'alternar_janela' no catálogo",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "MAPA_PADRAO Thumb_Up → 'maximizar' no catálogo",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "MAPA_PADRAO Thumb_Down → 'fechar_janela' no catálogo",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "MAPA_PADRAO Victory → 'captura_tela' no catálogo",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "MAPA_PADRAO ILoveYou → 'bloquear_tela' no catálogo",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "MAPA_PADRAO Pinça → 'lupa' no catálogo",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "MAPA_PADRAO Dois_Dedos → 'copiar' no catálogo",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "MAPA_PADRAO Sinal_L → 'colar' no catálogo",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "MAPA_PADRAO usa 'Pinça' (sem bug de acento)",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "catálogo de ações registradas",
+      "esperado": "19 ações",
+      "obtido": "19 ações",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "default config.DURACAO_HOLD_SEGUNDOS",
+      "esperado": "3.0",
+      "obtido": "3.0",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "default config.CONFIANCA_MINIMA_GESTO_PRONTO",
+      "esperado": "0.6",
+      "obtido": "0.6",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "default config.TOLERANCIA_GAP_FRAMES",
+      "esperado": "3",
+      "obtido": "3",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "default config.LIMIAR_PINCA",
+      "esperado": "0.04",
+      "obtido": "0.04",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "apply_persisted aplica valores válidos",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Config/Mapeamento",
+      "categoria": "config",
+      "nome": "apply_persisted ignora cast inválido",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "dedo_esticado (indicador aberto)",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "dedo_esticado (indicador fechado)",
+      "esperado": "False",
+      "obtido": "False",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "gesto customizado: Dois_Dedos",
+      "esperado": "Dois_Dedos",
+      "obtido": "Dois_Dedos",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "gesto customizado: Sinal_L",
+      "esperado": "Sinal_L",
+      "obtido": "Sinal_L",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "gesto customizado: Pinça (distância < LIMIAR_PINCA)",
+      "esperado": "Pinça",
+      "obtido": "Pinça",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "quase-pinça (distância ≥ LIMIAR_PINCA) → None",
+      "esperado": "None (sem intent)",
+      "obtido": "None (sem intent)",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "mão fechada → None",
+      "esperado": "None (sem intent)",
+      "obtido": "None (sem intent)",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "classificar_gesto_mao (MediaPipe confiável)",
+      "esperado": "('Closed_Fist', 'pronto')",
+      "obtido": "('Closed_Fist', 'pronto')",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "classificar_gesto_mao (confiança baixa → custom)",
+      "esperado": "('Dois_Dedos', 'customizado')",
+      "obtido": "('Dois_Dedos', 'customizado')",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "classificar_gesto_mao (categoria None → custom)",
+      "esperado": "('Sinal_L', 'customizado')",
+      "obtido": "('Sinal_L', 'customizado')",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "classificar_gesto_mao (sem gesto nenhum)",
+      "esperado": "(None, '')",
+      "obtido": "(None, '')",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "HoldToConfirm ciclo completo (hold → disparo → re-arm)",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "HoldToConfirm tolerância de gaps (reset ao exceder)",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "DisparadorAcoes.progresso_hold (0 < x < 1)",
+      "esperado": "True",
+      "obtido": "True",
+      "ok": true
+    },
+    {
+      "grupo": "Gestos",
+      "categoria": "gesture",
+      "nome": "DisparadorAcoes.progresso_hold sem gatilhos → 0",
+      "esperado": "0.0",
+      "obtido": "0.0",
+      "ok": true
+    }
+  ]
+}

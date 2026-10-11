@@ -1,0 +1,79 @@
+TCC-App — Log de execução do relatório de testes programáveis
+=============================================================
+
+Comando : python scripts/generate_test_report.py
+Data    : 2026-10-10
+Commit  : 0e52c14
+SO      : Windows-11-10.0.26300-SP0
+Python  : 3.13.15
+
+Contexto
+--------
+Após `git pull`, `scripts/generate_test_report.py` e `reports/` (untracked)
+foram perdidos. Script recriado e adaptado ao código atual (edge-tts,
+handler de arquivos/notas/dialog, HoldToConfirm com progresso).
+
+Resultado
+---------
+Total de casos : 559
+Sucesso        : 542
+Falha          : 17
+Taxa           : 96.96%
+
+Por grupo
+---------
+Janelas            67   67/0
+Arquivos/Notas    124  115/9
+Navegador/YouTube 158  155/3
+Sistema/A11y       53   50/3
+Digitação/Atalhos  90   90/0
+Ajuda/Controle     18   16/2
+Config/Mapeamento  34   34/0
+Gestos             15   15/0
+
+Por categoria
+-------------
+parser   450
+executor  60
+config    34
+gesture   15
+
+Handlers
+--------
+Exigidos pelo roadmap : 37
+Total no Executor     : 47
+Exercitados (mock)    : 47/47
+
+Falhas (bugs do parser — NÃO corrigir, apenas reportar)
+-------------------------------------------------------
+1.  'ler o ultimo arquivo'        esperado read_last_file   obtido open_last_file
+2.  'revelar ultimo arquivo'      esperado reveal_last_file obtido read_last_file
+3.  'excluir ultimo arquivo'      esperado delete_file      obtido read_last_file
+4.  'excluir o ultimo arquivo'    esperado delete_file      obtido read_last_file
+5.  'deletar ultimo arquivo'      esperado delete_file      obtido read_last_file
+6.  'criar pasta novos arquivos em downloads'      esperado create_folder obtido repeat_last
+7.  'criar uma pasta novos arquivos em downloads'  esperado create_folder obtido repeat_last
+8.  'cria pasta novos arquivos em downloads'       esperado create_folder obtido repeat_last
+9.  'cria uma pasta novos arquivos em downloads'   esperado create_folder obtido repeat_last
+10. 'pular 10 segundos'           esperado forward  obtido rewind
+11. 'pular video'                 esperado forward  obtido play_pause
+12. 'play video'                  esperado play_pause obtido forward
+13. 'abrir pasta area de trabalho'  esperado open_folder obtido show_desktop
+14. 'abre pasta area de trabalho'   esperado open_folder obtido show_desktop
+15. 'abrir a pasta area de trabalho' esperado open_folder obtido show_desktop
+16. 'pare'                        esperado cancel     obtido None
+17. 'para tudo'                   esperado cancel     obtido None
+
+Suíte pré-existente (pytest tests/ -q)
+--------------------------------------
+269 passed, 3 failed, 2 skipped
+(2 falhas test_inherits_ctk_toplevel pré-existentes + test_speak_async_starts_thread
+dependente de ordem; nenhuma causada pelo gerador.)
+
+Artefatos gerados
+-----------------
+reports/test_report.md
+reports/results.json
+reports/results_by_group.csv
+reports/failures.csv
+reports/execution_log.txt
