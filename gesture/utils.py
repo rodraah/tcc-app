@@ -1,5 +1,8 @@
 """ Utilidades gerais para o projeto. """
 
+import ctypes
+import time
+
 import win32api
 import win32gui
 import win32con
@@ -53,19 +56,70 @@ def minimizar_janela(janela:int) -> bool:
         return True
     return False
 
+def _esta_maximizada(janela: int) -> bool:
+    """Retorna True se a janela estiver maximizada. Nunca levanta excecao."""
+    try:
+        if not janela or not win32gui.IsWindow(janela):
+            return False
+    except Exception:
+        return False
+    # 1) Caminho preferencial: win32gui.IsZoomed (pode nao existir em algumas builds).
+    try:
+        if hasattr(win32gui, "IsZoomed"):
+            return bool(win32gui.IsZoomed(janela))
+    except Exception:
+        pass
+    # 2) Fallback via ctypes user32.IsZoomed.
+    try:
+        return ctypes.windll.user32.IsZoomed(janela) != 0
+    except Exception:
+        pass
+    # 3) Fallback via GetWindowPlacement (showCmd == SW_MAXIMIZE == 3).
+    try:
+        colocacao = win32gui.GetWindowPlacement(janela)
+        return colocacao[1] == 3
+    except Exception:
+        return False
+
+
 def maximizar_janela(janela: int) -> bool:
     """Alterna entre maximizar e restaurar a janela (toggle).
 
-    Usa IsZoomed(hwnd) para decidir: se maximizada → SW_RESTORE,
+    Usa _esta_maximizada(hwnd) para decidir: se maximizada → SW_RESTORE,
     caso contrario → SW_MAXIMIZE.
     Guarda: hwnd 0 ou invalido → no-op (retorna False)."""
-    if janela and win32gui.IsWindow(janela):
-        if win32gui.IsZoomed(janela):
-            win32gui.ShowWindow(janela, win32con.SW_RESTORE)
-        else:
-            win32gui.ShowWindow(janela, win32con.SW_MAXIMIZE)
+    if not janela or not win32gui.IsWindow(janela):
+        return False
+    if _esta_maximizada(janela):
+        win32gui.ShowWindow(janela, win32con.SW_RESTORE)
+    else:
+        win32gui.ShowWindow(janela, win32con.SW_MAXIMIZE)
+    return True
+
+
+def alternar_janela_nativa() -> bool:
+    """Alterna para a proxima janela (Alt+Tab + Enter). Retorna True em sucesso."""
+    try:
+        apertar_tecla(win32con.VK_MENU)
+        try:
+            apertar_tecla(win32con.VK_TAB)
+            soltar_tecla(win32con.VK_TAB)
+            time.sleep(0.15)
+            apertar_tecla(win32con.VK_RETURN)
+            soltar_tecla(win32con.VK_RETURN)
+        finally:
+            soltar_tecla(win32con.VK_MENU)
         return True
-    return False
+    except Exception:
+        return False
+
+
+def bloquear_tela_nativa() -> bool:
+    """Bloqueia a estacao de trabalho via LockWorkStation. Retorna True em sucesso."""
+    resultado = ctypes.windll.user32.LockWorkStation()
+    if not resultado:
+        raise OSError("Falha ao bloquear a tela (LockWorkStation retornou 0).")
+    return True
 
 
 def fechar_janela(janela: int) -> bool:

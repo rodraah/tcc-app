@@ -33,6 +33,7 @@ class GestureThread:
         self._camera_index = camera_index
         self._running = False
         self._thread: threading.Thread | None = None
+        self._lock = threading.Lock()
 
         # Queues for GUI communication (main thread reads via after() polling)
         self.frame_queue: queue.Queue = queue.Queue(maxsize=1)
@@ -46,22 +47,28 @@ class GestureThread:
     # ------------------------------------------------------------------
 
     def start(self) -> None:
-        """Start the gesture loop in a daemon thread."""
-        if self._running:
-            return
-        self._running = True
-        self._thread = threading.Thread(
-            target=self._loop,
-            name="gesture-thread",
-            daemon=True,
-        )
-        self._thread.start()
+        """Start the gesture loop in a daemon thread (idempotent, thread-safe)."""
+        with self._lock:
+            if self._running and self._thread is not None and self._thread.is_alive():
+                return
+            self._running = True
+            self._thread = threading.Thread(
+                target=self._loop,
+                name="gesture-thread",
+                daemon=True,
+            )
+            self._thread.start()
 
     def stop(self) -> None:
         """Signal the loop to stop and wait for the thread to finish."""
-        self._running = False
-        if self._thread is not None and self._thread.is_alive():
-            self._thread.join(timeout=5.0)
+        with self._lock:
+            th = self._thread
+            self._running = False
+        if th is not None and th.is_alive():
+            th.join(timeout=5.0)
+        with self._lock:
+            if self._thread is not None and not self._thread.is_alive():
+                self._thread = None
 
     @property
     def is_running(self) -> bool:
@@ -117,9 +124,6 @@ class GestureThread:
                 desenhar_texto_gesto,
             )
         except ImportError as exc:
-            self._put_log(
-                "Reconhecimento de gestos indisponível (bibliotecas ausentes)."
-            )
             self._running = False
             return
 
@@ -167,9 +171,6 @@ class GestureThread:
             # --- Open webcam ---
             cap = cv2.VideoCapture(self._camera_index)
             if not cap.isOpened():
-                self._put_log(
-                    "Câmera não encontrada. Verifique se está conectada e livre."
-                )
                 recognizer.close()
                 self._running = False
                 return
@@ -230,6 +231,8 @@ class GestureThread:
                     desenhar_texto_gesto(frame, texto, i)
 
                 # --- Dispatch action ---
+                # NOTE: sem _put_log("Ação") aqui — o App (poll_actions) e o
+                # unico dono desse log, evitando duplicacao.
                 acao_executada = disparador.alimentar(gesto_mapeado)
                 if acao_executada:
                     fim_feedback = (
@@ -240,9 +243,6 @@ class GestureThread:
                         self.action_queue.put_nowait(acao_executada)
                     except queue.Full:
                         pass
-                    self._put_log(
-                        f"Ação: {acao_executada}", "gesto",
-                    )
 
                 if fim_feedback > time.time() and feedback_acao:
                     desenhar_feedback_acao(frame, feedback_acao.upper())

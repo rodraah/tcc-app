@@ -191,8 +191,20 @@ def main() -> None:
 
     def _on_start_camera() -> None:
         gt = state["gesture_thread"]
-        if gt is not None:
-            gt.start()
+        if gt is None:
+            return
+        if app.running and gt.is_running:
+            return
+
+        def _worker() -> None:
+            try:
+                gt.start()
+            except Exception:
+                pass
+
+        threading.Thread(
+            target=_worker, name="start-camera", daemon=True
+        ).start()
 
     def _on_stop_camera() -> None:
         gt = state["gesture_thread"]

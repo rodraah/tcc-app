@@ -41,6 +41,7 @@ class App(ctk.CTk):
         self.running = False
         self._current_page: str | None = None
         self._errors_polling = False  # error poll loop runs once, forever
+        self._polling_active = False
 
         # --- Queues for background thread communication ---
         self._frame_queue: queue.Queue = queue.Queue(maxsize=1)
@@ -134,6 +135,8 @@ class App(ctk.CTk):
         (wired by ``main.py``) must finish the heavy work off the main
         thread and call ``status_bar.set_running(True)`` when ready.
         """
+        if self.running:
+            return
         cam = self.pages["camera"]
         self.running = True
         self.status_bar.set_starting()
@@ -175,6 +178,7 @@ class App(ctk.CTk):
         cam.update_voice_transcript("")
         cam.update_gesture("")
         self.status_bar.update_gesture("")
+        self._polling_active = False
         self._drain_queue(self._voice_status_queue)
         self._drain_queue(self._transcript_queue)
         self._drain_queue(self._gesture_queue)
@@ -285,6 +289,9 @@ class App(ctk.CTk):
 
     def _start_polling(self) -> None:
         """Start all ``after()``-based polling loops (runs on main thread)."""
+        if self._polling_active:
+            return
+        self._polling_active = True
         self._poll_frames()
         self._poll_gesture_status()
         self._poll_log()

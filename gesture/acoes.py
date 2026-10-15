@@ -122,8 +122,9 @@ def fechar_janela_ativa() -> None:
 
 @registrar_acao("alternar_janela")
 def alternar_janela() -> None:
-    """Simula Alt+Tab para alternar entre janelas."""
-    utils.combo_tecla([win32con.VK_MENU, win32con.VK_TAB])
+    """Alterna para a proxima janela via Alt+Tab nativo."""
+    if not utils.alternar_janela_nativa():
+        raise RuntimeError("Falha ao alternar janela.")
 
 
 @registrar_acao("mostrar_area_trabalho")
@@ -148,8 +149,8 @@ def captura_tela() -> None:
 
 @registrar_acao("bloquear_tela")
 def bloquear_tela() -> None:
-    """Simula Win+L para bloquear a tela."""
-    utils.combo_tecla([win32con.VK_LWIN, VK_L])
+    """Bloqueia a tela via LockWorkStation nativo."""
+    utils.bloquear_tela_nativa()
 
 
 @registrar_acao("abrir_explorador")
@@ -384,13 +385,13 @@ class DisparadorAcoes:
     def alimentar(self, gesto: str | None, now: float | None = None) -> str | None:
         """1x por frame. Para cada gatilho: se gesto e o dele, alimenta com
         gesto; senao None (gap). No disparo: chama executar_acao() e retorna
-        o nome da acao executada; senao None."""
+        o nome da acao somente se a execucao teve sucesso (ok); senao None."""
         for gatilho in self._gatilhos:
             entrada = gesto if gesto == gatilho.nome_gesto else None
             acao = gatilho.update(entrada, now)
             if acao is not None:
-                executar_acao(acao)
-                return acao
+                ok = executar_acao(acao)
+                return acao if ok else None
         return None
 
     def progresso_hold(self, now: float | None = None) -> float:
